@@ -1,1 +1,6 @@
 /* here you can put your own css to customize and override the theme */
+
+.page content {
+	margin: 0;
+	width: 100%;
+}
