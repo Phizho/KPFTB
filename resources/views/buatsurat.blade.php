@@ -1,0 +1,43 @@
+@extends('layout.conquer')
+
+@section('tempat_judul')
+<p style="text-align: center;">TAMBAH DATA SURAT KELUAR</p>
+@endsection
+
+@section('tempat_konten')
+
+<head>
+</head>
+
+<body>
+  <form method="POST" action="#" enctype="multipart/form-data">
+    <div class="form-group">
+      <label class="required">No Surat Keluar</label>
+      <input type="input" class="form-control" name="noSurat" required>
+      <br />
+      <label class="required">Perihal</label>
+      <input type="input" class="form-control" name="perihal" required>
+      <br />
+      <label class="required">Tanggal:</label>
+      <input type="date" class="form-control" name="Tanggal">
+      <br>
+      <label>Upload Lampiran</label>
+      <input type="file" name="uploadfile" accept=".pdf,.jpg">
+      <h5>Format file PDF/JPG</h5>
+      <br />
+      <label>Jenis surat keluar</label>
+      <select name="jenis">
+        <option value="1">Semua</option>
+        <option value="2">Surat Keluar Dekan</option>
+        <option value="3">Surat Keluar Wakil Dekan</option>
+        <option value="4">Surat Keluar Kaprodi Magister Bioteknologi</option>
+        <option value="5">Surat Kerja Sama</option>
+        <option value="6">Surat Keputusan Dekan</option>
+      </select>
+      <br><br>
+      <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit">
+    </div>
+  </form>
+
+</body>
+@endsection
