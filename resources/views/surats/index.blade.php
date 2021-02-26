@@ -49,15 +49,38 @@
         <th>Tanggal</th>
         <th>No. Surat Keluar Dekan</th>
         <th>Perihal</th>
-        <th>Lampiran</th>
+        <th>Jenis Surat</th>
+        <th>Lampiran</th>     
         <th>Tanggal Kirim</th>
         <th></th>
         <th></th>
-        <th></th>
+        <th></th> 
       </tr>
     </thead>
     <tbody>
-
+      @foreach($surat as $s)
+      <tr id='tr_{{$s->nomor_surat}}'>
+        <td id='td_{{$s->created_at}}'> 
+            {{$s->created_at}}
+        </td> 
+        <td> 
+            {{$s->nomor_surat}}
+        </td> 
+        <td> 
+            {{$s->perihal}}
+        </td> 
+        <td>
+            {{$s->jenis_surat}}
+          </td>
+        <td> @foreach($lamp as $l)
+            {{$l}}
+        @endforeach
+        </td>
+        <td> </td>
+        <td><a><img src="{{URL::asset('assets/img/icons8-edit-48.png')}}"></a> </td>
+        <td><a><img src="{{URL::asset('assets/img/icons8-delete-48.png')}}"></a> </td>
+        <td><a><img src="{{URL::asset('assets/img/icons8-pdf-40.png')}}"></a> </td>
+      @endforeach
     </tbody>
   </table>
 

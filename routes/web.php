@@ -20,3 +20,5 @@ Route::get('/', function () {
 Route::view('/main','main');
 
 Route::view('/buatsurat','buatsurat');
+
+Route::resource('surats','SuratController');
