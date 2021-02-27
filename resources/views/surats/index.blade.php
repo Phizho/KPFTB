@@ -38,7 +38,7 @@
     </div>
   </form>
 
-  <a href="/buatsurat">
+  <a href="/surats/create">
     <button class="btn btn-primary">Tambah Surat</button>
   </a>
   <br /><br>
@@ -58,23 +58,24 @@
       </tr>
     </thead>
     <tbody>
-      @foreach($surat as $s)
-      <tr id='tr_{{$s->nomor_surat}}'>
-        <td id='td_{{$s->created_at}}'> 
-            {{$s->created_at}}
+      @foreach($lamp as $l)
+      <tr id='tr_{{$l->nomor_surat}}'>
+        <td id='td_{{$l->created_at}}'> 
+            {{$l->created_at}}
         </td> 
         <td> 
-            {{$s->nomor_surat}}
+            {{$l->nomor_surat}}
         </td> 
         <td> 
-            {{$s->perihal}}
+            {{$l->perihal}}
         </td> 
         <td>
-            {{$s->jenis_surat}}
+            {{$l->jenis_surat}}
           </td>
-        <td> @foreach($lamp as $l)
-            {{$l}}
-        @endforeach
+        <td>
+            @for($i=1;$i<=$l->jumlah_lampiran; $i++)
+              <a>{{$i}}
+            @endfor
         </td>
         <td> </td>
         <td><a><img src="{{URL::asset('assets/img/icons8-edit-48.png')}}"></a> </td>

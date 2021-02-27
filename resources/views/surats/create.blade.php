@@ -15,7 +15,7 @@
       <label class="required">No Surat Keluar</label>
       <input type="input" class="form-control" name="noSurat" required>
       <br />
-      <label class="required">Perihal</label>
+      <label class="required">Perihal</label>~
       <input type="input" class="form-control" name="perihal" required>
       <br />
       <label class="required">Tanggal:</label>

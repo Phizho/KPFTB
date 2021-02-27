@@ -14,12 +14,14 @@ class SuratController extends Controller
      */
     public function index()
     {
-        $surat = DB::table('surats')->get();
-        $lamp  = DB::Table('surats as s')
-                ->join('lampirans as l', 'l.nomor_surat', '=', 's.nomor_surat' )
-                ->groupBy('l.nomor_surat')->count('*');
+        //$surat = DB::table('surats')->get();
+        $lamp = DB::table('lampirans')
+             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*'))
+             ->join('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
+             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at')
+             ->get();
 
-        return view('surats.index', compact('surat','lamp'));
+        return view('surats.index', compact('lamp'));
     }
 
     /**

@@ -17,8 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('/main','main');
-
-Route::view('/buatsurat','buatsurat');
-
 Route::resource('surats','SuratController');
