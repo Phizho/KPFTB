@@ -1,5 +1,9 @@
 @extends('layout.conquer')
 
+@section('tempat_titleatas')
+<title>Pembuatan Surat Keluar</title>
+@endsection
+
 @section('tempat_judul')
 <p style="text-align: center;">TAMBAH DATA SURAT KELUAR</p>
 @endsection

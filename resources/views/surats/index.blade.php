@@ -1,5 +1,9 @@
 @extends('layout.conquer')
 
+@section('tempat_titleatas')
+<title>Surat Keluar</title>
+@endsection
+
 @section('tempat_judul')
 <p style="text-align: center;">DAFTAR SURAT KELUAR</p>
 @endsection
