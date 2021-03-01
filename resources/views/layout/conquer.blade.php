@@ -52,7 +52,7 @@
 	</div>
 	<!-- BEGIN CONTAINER -->
 	<div class="page-container">
-		<!-- BEGIN CONTENT -->
+		<!-- BEGIN CONTENT -->	
 		<div class="page-content-wrapper">
 			<div class="page-content">
 				<!-- menyediakan rumah konten -->

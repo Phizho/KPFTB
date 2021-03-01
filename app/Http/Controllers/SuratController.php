@@ -31,7 +31,7 @@ class SuratController extends Controller
      */
     public function create()
     {
-        //
+        return view('surats.create');
     }
 
     /**

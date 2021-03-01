@@ -38,7 +38,7 @@
     </div>
   </form>
 
-  <a href="/surats/create">
+  <a href="{{ route('surats.create') }}">
     <button class="btn btn-primary">Tambah Surat</button>
   </a>
   <br /><br>
