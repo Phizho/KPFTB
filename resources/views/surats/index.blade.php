@@ -14,8 +14,9 @@
 </head>
 
 <body>
+  <button onclick=showSearch() class="btn btn-primary">Search</button>
   <form method="POST" action="#" enctype="multipart/form-data">
-    <div class="form-group">
+    <div class="form-group" id="search" style="display: none;">
       <div>Kriteria Pencarian</div>
       <label>Tanggal Awal:</label>
       <input type="date" class="form-control" name="TanggalA">
@@ -91,3 +92,14 @@
 
 </body>
 @endsection
+
+<script>
+function showSearch() {
+  var x = document.getElementById("search");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+} 
+</script>
