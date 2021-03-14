@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class SuratController extends Controller
 {
@@ -19,7 +19,7 @@ class SuratController extends Controller
              ->select(DB::raw('count(*) as jumlah_lampiran, surats.*'))
              ->join('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
              ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at')
-             ->get();
+             ->paginate(5);
 
         return view('surats.index', compact('lamp'));
     }

@@ -90,6 +90,9 @@
     </tbody>
   </table>
 
+  <p>Showing {{ $lamp->firstItem() }} to {{ $lamp->lastItem() }} items from {{ $lamp->total() }}</p>
+  <div style="text-align: right;">{{ $lamp->links() }}</div>
+
 </body>
 @endsection
 
