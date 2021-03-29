@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,9 +17,10 @@ class SuratController extends Controller
     {
         //$surat = DB::table('surats')->get();
         $lamp = DB::table('lampirans')
-             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*'))
-             ->join('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
-             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at')
+             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns'))
+             ->distinct()
+             ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
+             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at','lampirans.nomor_surat')
              ->paginate(5);
 
         return view('surats.index', compact('lamp'));
@@ -42,7 +44,15 @@ class SuratController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Surat;
+        $data->nomor_surat = $request->get('noSurat');
+        $data->perihal = $request->get('perihal');
+        $data->created_at = $request->get('Tanggal');
+        $data->jenis_surat = $request->get('jenis');
+
+        $data->save();
+
+        return redirect()->route('surats.index')->with('status','Surat berhasil dibuat!!');
     }
 
     /**

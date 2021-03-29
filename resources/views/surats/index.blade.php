@@ -8,6 +8,12 @@
 <p style="text-align: center;">DAFTAR SURAT KELUAR</p>
 @endsection
 
+@if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
+
 @section('tempat_konten')
 
 <head>
@@ -78,9 +84,11 @@
             {{$l->jenis_surat}}
           </td>
         <td>
+        @isset($l->ns)
             @for($i=1;$i<=$l->jumlah_lampiran; $i++)
             <a href='{{URL::asset("assets/pdf/$l->nomor_surat/$i.pdf")}}' download>{{$i}}</a>
             @endfor
+        @endisset
         </td>
         <td> </td>
         <td><a><img src="{{URL::asset('assets/img/icons8-edit-48.png')}}"></a> </td>

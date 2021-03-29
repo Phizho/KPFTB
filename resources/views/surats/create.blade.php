@@ -15,8 +15,9 @@
 </head>
 
 <body>
-  <form method="POST" action="#" enctype="multipart/form-data">
+  <form method="POST" action="{{ route('surats.store') }}" enctype="multipart/form-data">
     <div class="form-group">
+      @csrf
       <label class="required">No Surat Keluar</label>
       <input type="input" class="form-control" name="noSurat" required>
       <br />
