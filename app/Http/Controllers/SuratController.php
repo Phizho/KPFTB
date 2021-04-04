@@ -52,6 +52,15 @@ class SuratController extends Controller
         $data->jenis_surat = $request->get('jenis');
 
         $data->save();
+        $isi = $request->get('isiSurat');
+
+        $folderPath = public_path("assets/pdf/$data->nomor_surat");
+        $response = mkdir($folderPath);
+
+        $pdf = PDF::loadHTML("<h1>$isi</h1>");
+        $fileName = "$data->nomor_surat"."srtutm";
+        $pdf->save($folderPath. '/' . $fileName.'.pdf');
+        return $pdf->stream();
 
         return redirect()->route('surats.index')->with('status','Surat berhasil dibuat!!');
     }
@@ -100,11 +109,9 @@ class SuratController extends Controller
     {
         //
     }
-    public function generatePDF()
-    {
-        $data = ['title' => 'Ngik ngok'];
 
-        $pdf = PDF::loadHTML('<h1>Test</h1>', $data);
-        return $pdf->stream();
+    public function generatePDF($request)
+    {
+
     }
 }
