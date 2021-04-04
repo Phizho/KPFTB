@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class SuratController extends Controller
 {
@@ -98,5 +99,12 @@ class SuratController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function generatePDF()
+    {
+        $data = ['title' => 'Ngik ngok'];
+
+        $pdf = PDF::loadHTML('<h1>Test</h1>', $data);
+        return $pdf->stream();
     }
 }
