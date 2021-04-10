@@ -8,13 +8,13 @@
 <p style="text-align: center;">DAFTAR SURAT KELUAR</p>
 @endsection
 
+@section('tempat_konten')
+
 @if (session('status'))
-    <div class="alert alert-success">
+    <div class="alert alert-success" role="alert">
         {{ session('status') }}
     </div>
 @endif
-
-@section('tempat_konten')
 
 <head>
 </head>

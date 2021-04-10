@@ -60,7 +60,7 @@ class SuratController extends Controller
         $pdf = PDF::loadHTML("<h1>$isi</h1>");
         $fileName = "$data->nomor_surat"."srtutm";
         $pdf->save($folderPath. '/' . $fileName.'.pdf');
-        return $pdf->stream();
+        //return $pdf->stream();
 
         return redirect()->route('surats.index')->with('status','Surat berhasil dibuat!!');
     }
