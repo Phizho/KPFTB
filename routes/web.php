@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/testing', function (){
     return view('testing');
 });
@@ -24,5 +23,6 @@ Route::get('/tespdf', function (){
     return view('tespdf');
 });
 
-Route::get('laporan-pdf','SuratController@generatePDF');
+//Route::get('laporan-pdf','SuratController@generatePDF');
+Route::get('search','SuratController@search') -> name ('surats.search');;
 Route::resource('surats','SuratController');

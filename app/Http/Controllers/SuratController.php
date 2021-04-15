@@ -110,8 +110,28 @@ class SuratController extends Controller
         //
     }
 
-    public function generatePDF($request)
+    public function search(Request $request) 
     {
+       $noSurat = $request->get("noSurat");
+       $tanggalBuat = $request->get("TanggalA");
+       $tanggalKirim = $request->get("TanggalB");
+       $perihal = $request->get("perihal");
 
+        $lamp = DB::table('lampirans')
+             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns'))
+             ->distinct()
+             ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
+             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at','lampirans.nomor_surat')
+             ->when($noSurat, function ($q) use ($noSurat) {
+                return $q->where('surats.nomor_surat','like', "$noSurat". "%"); })
+             ->when($tanggalBuat, function ($q) use ($tanggalBuat) {
+                return $q->where('surats.created_at','=', "$tanggalBuat"); })
+             ->when($tanggalKirim, function ($q) use ($tanggalKirim) {
+                return $q->where('surats.nomor_surat','=', "$TanggalKirim"); })
+             ->when($perihal, function ($q) use ($perihal) {
+                return $q->where('surats.perihal','like', "%". "$perihal". "%"); })   
+            ->paginate(5);
+
+        return view('surats.index', compact('lamp'));
     }
 }

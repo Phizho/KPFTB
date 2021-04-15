@@ -20,14 +20,15 @@
 </head>
 
 <body>
-  <button onclick=showSearch() class="btn btn-primary">Search</button>
-  <form method="POST" action="#" enctype="multipart/form-data">
+  <button onclick=showSearch() id="button-search" class="btn btn-primary">Search</button>
+  <form method="GET" action="{{ route('surats.search') }}" enctype="multipart/form-data">
     <div class="form-group" id="search" style="display: none;">
       <div>Kriteria Pencarian</div>
-      <label>Tanggal Awal:</label>
+      <br/>
+      <label>Tanggal Buat:</label>
       <input type="date" class="form-control" name="TanggalA">
       <br />
-      <label>Tanggal Berakhir:</label>
+      <label>Tanggal Kirim:</label>
       <input type="date" class="form-control" name="TanggalB">
       <br />
       <label>No Surat</label>
@@ -46,6 +47,7 @@
         <option value="6">Surat Keputusan Dekan</option>
       </select>
       <button type="submit" class="btn btn-primary">Cari</button>
+      <button onclick=showSearch() type="button" class="btn btn-primary">Tutup</button>
     </div>
   </form>
 
@@ -107,10 +109,13 @@
 <script>
 function showSearch() {
   var x = document.getElementById("search");
+  var but = document.getElementById("button-search")
   if (x.style.display === "none") {
     x.style.display = "block";
+    but.style.display = "none";
   } else {
     x.style.display = "none";
+    but.style.display = "block";
   }
 } 
 </script>
