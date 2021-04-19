@@ -45,11 +45,9 @@
       </div>
       <h5>Format file PDF/JPG</h5>
       <div>
-        <button type="button" class="btn btn-primary" name="tambahLampiran" onclick="addInputFile()">Tambah Lampiran</button>
+      <button type="button" class="btn btn-primary" name="tambahLampiran" onclick="addInputFile()">Tambah Lampiran</button>
       </div>
       <br/>
-      <br>
-      
       <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
     </div>
   </form>

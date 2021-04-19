@@ -51,16 +51,19 @@ class SuratController extends Controller
         $data->tanggal_kirim = $request->get('Tanggal');
         $data->jenis_surat = $request->get('jenis');
 
-        $count->$request->get('count');
-        $file = $request->file('uploadfile1');
+        $count = $request->get('count');
+        
 
         $data->save();
         $isi = $request->get('isiSurat');
 
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $response = mkdir($folderPath);
-
-        $file->move($folderPath,"I.pdf");
+        
+        for ($i=1; $i<=$count; $i++) {
+            $file = $request->file("uploadfile{$i}");
+            $file->move($folderPath,"{$i}.pdf");
+        }
 
         $pdf = PDF::loadHTML("<h1>$isi</h1>");
         $fileName = "$data->nomor_surat"."srtutm";
