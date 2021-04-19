@@ -92,10 +92,12 @@
             @endfor
         @endisset
         </td>
-        <td> </td>
+        <td>
+            {{$l->tanggal_kirim}} 
+        </td>
         <td><a><img src="{{URL::asset('assets/img/icons8-edit-48.png')}}"></a> </td>
         <td><a><img src="{{URL::asset('assets/img/icons8-delete-48.png')}}"></a> </td>
-        <td><a href='{{URL::asset("assets/pdf/$l->nomor_surat/surat.pdf")}}' target="_new"><img src="{{URL::asset('assets/img/icons8-pdf-40.png')}}"></a> </td>
+        <td><a href='{{URL::asset("assets/pdf/$l->nomor_surat/{$l->nomor_surat}srtutm.pdf")}}' target="_new"><img src="{{URL::asset('assets/img/icons8-pdf-40.png')}}"></a> </td>
       @endforeach
     </tbody>
   </table>

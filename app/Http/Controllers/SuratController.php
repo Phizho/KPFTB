@@ -21,7 +21,7 @@ class SuratController extends Controller
              ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns'))
              ->distinct()
              ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
-             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at','lampirans.nomor_surat')
+             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at','lampirans.nomor_surat','surats.tanggal_kirim')
              ->paginate(5);
 
         return view('surats.index', compact('lamp'));
@@ -48,14 +48,19 @@ class SuratController extends Controller
         $data = new Surat;
         $data->nomor_surat = $request->get('noSurat');
         $data->perihal = $request->get('perihal');
-        $data->created_at = $request->get('Tanggal');
+        $data->tanggal_kirim = $request->get('Tanggal');
         $data->jenis_surat = $request->get('jenis');
+
+        $count->$request->get('count');
+        $file = $request->file('uploadfile1');
 
         $data->save();
         $isi = $request->get('isiSurat');
 
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $response = mkdir($folderPath);
+
+        $file->move($folderPath,"I.pdf");
 
         $pdf = PDF::loadHTML("<h1>$isi</h1>");
         $fileName = "$data->nomor_surat"."srtutm";
@@ -112,6 +117,7 @@ class SuratController extends Controller
 
     public function search(Request $request) 
     {
+       $jumlahLamp = $request->get("count");
        $noSurat = $request->get("noSurat");
        $tanggalBuat = $request->get("TanggalA");
        $tanggalKirim = $request->get("TanggalB");
