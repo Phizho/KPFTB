@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Lampiran;
 use PDF;
 
 class SuratController extends Controller
@@ -52,17 +53,21 @@ class SuratController extends Controller
         $data->jenis_surat = $request->get('jenis');
 
         $count = $request->get('count');
-        
 
         $data->save();
         $isi = $request->get('isiSurat');
 
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $response = mkdir($folderPath);
-        
+
         for ($i=1; $i<=$count; $i++) {
+            $lam = new lampiran;
             $file = $request->file("uploadfile{$i}");
             $file->move($folderPath,"{$i}.pdf");
+            $lam->nama_lampiran = $file->getClientOriginalName();
+            $lam->format_lampiran = $file->clientExtension();
+            $lam->nomor_surat = $request->get('noSurat');
+            $lam->save();
         }
 
         $pdf = PDF::loadHTML("<h1>$isi</h1>");
