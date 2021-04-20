@@ -88,7 +88,7 @@
         <td>
         @isset($l->ns)
             @for($i=1;$i<=$l->jumlah_lampiran; $i++)
-            <a href='{{URL::asset("assets/pdf/$l->nomor_surat/$i.pdf")}}' download>{{$i}}</a>
+            <a href='{{URL::asset("assets/pdf/$l->nomor_surat/$i.{$l->fl}")}}' download>{{$i}}</a>
             @endfor
         @endisset
         </td>

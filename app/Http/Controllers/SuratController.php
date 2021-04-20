@@ -19,10 +19,10 @@ class SuratController extends Controller
     {
         //$surat = DB::table('surats')->get();
         $lamp = DB::table('lampirans')
-             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns'))
+             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns, lampirans.format_lampiran as fl'))
              ->distinct()
              ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
-             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at','lampirans.nomor_surat','surats.tanggal_kirim')
+             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at','lampirans.nomor_surat','surats.tanggal_kirim','lampirans.format_lampiran')
              ->paginate(5);
 
         return view('surats.index', compact('lamp'));
@@ -63,9 +63,10 @@ class SuratController extends Controller
         for ($i=1; $i<=$count; $i++) {
             $lam = new lampiran;
             $file = $request->file("uploadfile{$i}");
-            $file->move($folderPath,"{$i}.pdf");
-            $lam->nama_lampiran = $file->getClientOriginalName();
-            $lam->format_lampiran = $file->clientExtension();
+            $ext = $file->clientExtension();
+            $file->move($folderPath,"{$i}.{$ext}");
+            $lam->nama_lampiran = basename($file->getClientOriginalName(),".{$ext}" );
+            $lam->format_lampiran = $ext;
             $lam->nomor_surat = $request->get('noSurat');
             $lam->save();
         }
