@@ -11,9 +11,9 @@
 @section('tempat_konten')
 
 @if (session('status'))
-    <div class="alert alert-success" role="alert">
-        {{ session('status') }}
-    </div>
+<div class="alert alert-success" role="alert">
+  {{ session('status') }}
+</div>
 @endif
 
 <head>
@@ -24,7 +24,7 @@
   <form method="GET" action="{{ route('surats.search') }}" enctype="multipart/form-data">
     <div class="form-group" id="search" style="display: none;">
       <div>Kriteria Pencarian</div>
-      <br/>
+      <br />
       <label>Tanggal Buat:</label>
       <input type="date" class="form-control" name="TanggalA">
       <br />
@@ -63,42 +63,44 @@
         <th>No. Surat Keluar Dekan</th>
         <th>Perihal</th>
         <th>Jenis Surat</th>
-        <th>Lampiran</th>     
+        <th>Lampiran</th>
         <th>Tanggal Kirim</th>
         <th></th>
         <th></th>
-        <th></th> 
+        <th></th>
       </tr>
     </thead>
     <tbody>
       @foreach($lamp as $l)
       <tr id='tr_{{$l->nomor_surat}}'>
-        <td id='td_{{$l->created_at}}'> 
-            {{$l->created_at}}
-        </td> 
-        <td> 
-            {{$l->nomor_surat}}
-        </td> 
-        <td> 
-            {{$l->perihal}}
-        </td> 
+        <td id='td_{{$l->created_at}}'>
+          {{$l->created_at}}
+        </td>
         <td>
-            {{$l->jenis_surat}}
-          </td>
+          {{$l->nomor_surat}}
+        </td>
         <td>
-        @isset($l->ns)
-            @for($i=1;$i<=$l->jumlah_lampiran; $i++)
+          {{$l->perihal}}
+        </td>
+        <td>
+          {{$l->jenis_surat}}
+        </td>
+        <td>
+          @isset($l->ns)
+          @for($i=1;$i<=$l->jumlah_lampiran; $i++)
             <a href='{{URL::asset("assets/pdf/$l->nomor_surat/$i.{$l->fl}")}}' download>{{$i}}</a>
             @endfor
-        @endisset
+            @endisset
         </td>
         <td>
-            {{$l->tanggal_kirim}} 
+          {{$l->tanggal_kirim}}
         </td>
         <td><a><img src="{{URL::asset('assets/img/icons8-edit-48.png')}}"></a> </td>
-        <td><a><img src="{{URL::asset('assets/img/icons8-delete-48.png')}}"></a> </td>
+        {{ csrf_field() }}
+        {{ method_field('DELETE') }}
+        <td><a onclick="hapus({{ $l->nomor_surat }})"><img src="{{URL::asset('assets/img/icons8-delete-48.png')}}"></a> </td>
         <td><a href='{{URL::asset("assets/pdf/$l->nomor_surat/{$l->nomor_surat}srtutm.pdf")}}' target="_new"><img src="{{URL::asset('assets/img/icons8-pdf-40.png')}}"></a> </td>
-      @endforeach
+        @endforeach
     </tbody>
   </table>
 
@@ -109,15 +111,29 @@
 @endsection
 
 <script>
-function showSearch() {
-  var x = document.getElementById("search");
-  var but = document.getElementById("button-search")
-  if (x.style.display === "none") {
-    x.style.display = "block";
-    but.style.display = "none";
-  } else {
-    x.style.display = "none";
-    but.style.display = "block";
+  function showSearch() {
+    var x = document.getElementById("search");
+    var but = document.getElementById("button-search")
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      but.style.display = "none";
+    } else {
+      x.style.display = "none";
+      but.style.display = "block";
+    }
   }
-} 
+
+  function hapus(noSurat) {
+    $.ajax({
+      type: 'POST',
+      url: '{{ route("surats.hapus") }}',
+      data: {
+        '_token': '<?php echo csrf_token() ?>',
+        'noSurat': noSurat
+      },
+      success: function(data){
+        location.reload()
+      }
+    });
+  }
 </script>

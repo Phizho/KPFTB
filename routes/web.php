@@ -25,4 +25,5 @@ Route::get('/tespdf', function (){
 
 //Route::get('laporan-pdf','SuratController@generatePDF');
 Route::get('search','SuratController@search') -> name ('surats.search');;
+Route::post('hapus','SuratController@hapus') -> name ('surats.hapus');;
 Route::resource('surats','SuratController');

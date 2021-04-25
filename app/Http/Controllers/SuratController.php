@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Lampiran;
 use PDF;
+use Illuminate\Support\Facades\File;
 
 class SuratController extends Controller
 {
@@ -19,11 +20,11 @@ class SuratController extends Controller
     {
         //$surat = DB::table('surats')->get();
         $lamp = DB::table('lampirans')
-             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns, lampirans.format_lampiran as fl'))
-             ->distinct()
-             ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
-             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at','lampirans.nomor_surat','surats.tanggal_kirim','lampirans.format_lampiran')
-             ->paginate(5);
+            ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns, lampirans.format_lampiran as fl'))
+            ->distinct()
+            ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
+            ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at', 'lampirans.nomor_surat', 'surats.tanggal_kirim', 'lampirans.format_lampiran')
+            ->paginate(5);
 
         return view('surats.index', compact('lamp'));
     }
@@ -60,23 +61,23 @@ class SuratController extends Controller
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $response = mkdir($folderPath);
 
-        for ($i=1; $i<=$count; $i++) {
+        for ($i = 1; $i <= $count; $i++) {
             $lam = new lampiran;
             $file = $request->file("uploadfile{$i}");
             $ext = $file->clientExtension();
-            $file->move($folderPath,"{$i}.{$ext}");
-            $lam->nama_lampiran = basename($file->getClientOriginalName(),".{$ext}" );
+            $file->move($folderPath, "{$i}.{$ext}");
+            $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
             $lam->format_lampiran = $ext;
             $lam->nomor_surat = $request->get('noSurat');
             $lam->save();
         }
 
         $pdf = PDF::loadHTML("<h1>$isi</h1>");
-        $fileName = "$data->nomor_surat"."srtutm";
-        $pdf->save($folderPath. '/' . $fileName.'.pdf');
+        $fileName = "$data->nomor_surat" . "srtutm";
+        $pdf->save($folderPath . '/' . $fileName . '.pdf');
         //return $pdf->stream();
 
-        return redirect()->route('surats.index')->with('status','Surat berhasil dibuat!!');
+        return redirect()->route('surats.index')->with('status', 'Surat berhasil dibuat!!');
     }
 
     /**
@@ -124,29 +125,54 @@ class SuratController extends Controller
         //
     }
 
-    public function search(Request $request) 
+    public function search(Request $request)
     {
-       $jumlahLamp = $request->get("count");
-       $noSurat = $request->get("noSurat");
-       $tanggalBuat = $request->get("TanggalA");
-       $tanggalKirim = $request->get("TanggalB");
-       $perihal = $request->get("perihal");
+        $jumlahLamp = $request->get("count");
+        $noSurat = $request->get("noSurat");
+        $tanggalBuat = $request->get("TanggalA");
+        $tanggalKirim = $request->get("TanggalB");
+        $perihal = $request->get("perihal");
 
         $lamp = DB::table('lampirans')
-             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns'))
-             ->distinct()
-             ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
-             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at','lampirans.nomor_surat')
-             ->when($noSurat, function ($q) use ($noSurat) {
-                return $q->where('surats.nomor_surat','like', "$noSurat". "%"); })
-             ->when($tanggalBuat, function ($q) use ($tanggalBuat) {
-                return $q->where('surats.created_at','=', "$tanggalBuat"); })
-             ->when($tanggalKirim, function ($q) use ($tanggalKirim) {
-                return $q->where('surats.nomor_surat','=', "$TanggalKirim"); })
-             ->when($perihal, function ($q) use ($perihal) {
-                return $q->where('surats.perihal','like', "%". "$perihal". "%"); })   
+            ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns'))
+            ->distinct()
+            ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
+            ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at', 'lampirans.nomor_surat')
+            ->when($noSurat, function ($q) use ($noSurat) {
+                return $q->where('surats.nomor_surat', 'like', "$noSurat" . "%");
+            })
+            ->when($tanggalBuat, function ($q) use ($tanggalBuat) {
+                return $q->where('surats.created_at', '=', "$tanggalBuat");
+            })
+            ->when($tanggalKirim, function ($q) use ($tanggalKirim) {
+                return $q->where('surats.nomor_surat', '=', "$tanggalKirim");
+            })
+            ->when($perihal, function ($q) use ($perihal) {
+                return $q->where('surats.perihal', 'like', "%" . "$perihal" . "%");
+            })
             ->paginate(5);
 
         return view('surats.index', compact('lamp'));
+    }
+
+    public function hapus()
+    {
+        // dd($noSurat);
+        $noSurat = $_POST['noSurat'];
+        $hapus = Surat::where('nomor_surat', $_POST['noSurat'])->delete();
+        $folderPath = public_path("assets/pdf/$noSurat");
+        File::deleteDirectory($folderPath);
+        // $response = rmdir($folderPath);
+        return response()->json(array(
+            'status' => 'ok',
+        ), 200);
+        // $lamp = DB::table('lampirans')
+        //      ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns, lampirans.format_lampiran as fl'))
+        //      ->distinct()
+        //      ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
+        //      ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at','lampirans.nomor_surat','surats.tanggal_kirim','lampirans.format_lampiran')
+        //      ->paginate(5);
+
+        // return view('surats.index', compact('lamp'));
     }
 }
