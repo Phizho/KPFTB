@@ -61,15 +61,17 @@ class SuratController extends Controller
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $response = mkdir($folderPath);
 
-        for ($i = 1; $i <= $count; $i++) {
-            $lam = new lampiran;
-            $file = $request->file("uploadfile{$i}");
-            $ext = $file->clientExtension();
-            $file->move($folderPath, "{$i}.{$ext}");
-            $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
-            $lam->format_lampiran = $ext;
-            $lam->nomor_surat = $request->get('noSurat');
-            $lam->save();
+        if ($count >= 1) {
+            for ($i = 1; $i <= $count; $i++) {
+                $lam = new lampiran;
+                $file = $request->file("uploadfile{$i}");
+                $ext = $file->clientExtension();
+                $file->move($folderPath, "{$i}.{$ext}");
+                $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
+                $lam->format_lampiran = $ext;
+                $lam->nomor_surat = $request->get('noSurat');
+                $lam->save();
+            }
         }
 
         $pdf = PDF::loadHTML("<h1>$isi</h1>");

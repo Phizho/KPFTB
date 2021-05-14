@@ -55,7 +55,7 @@
 </body>
 
 <script>
-var count = 1;
+var count = 0 ;
 
 function addInputFile() {
   count+=1; 
