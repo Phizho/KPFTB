@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Lampiran;
 use PDF;
 use Illuminate\Support\Facades\File;
+use Storage;
 
 class SuratController extends Controller
 {
@@ -74,7 +75,9 @@ class SuratController extends Controller
             }
         }
 
-        $pdf = PDF::loadHTML("<h1>$isi</h1>");
+        $fixIsi = "<h1>$isi</h1>";
+        Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
+        $pdf = PDF::loadHTML($fixIsi);
         $fileName = "$data->nomor_surat" . "srtutm";
         $pdf->save($folderPath . '/' . $fileName . '.pdf');
         //return $pdf->stream();

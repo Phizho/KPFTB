@@ -63,6 +63,10 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+        'public_pdfs' => [
+    	'driver' => 'local',
+   		 'root'   => public_path() . '/assets/pdf',
+		],
 
     ],
 
