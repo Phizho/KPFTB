@@ -30,6 +30,24 @@
       <label class="required"> Isi Surat </label>
       <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control" required></textarea>  
       <br/> 
+      <input type="checkbox" name="tcheck" id="tcheck" onclick="tOn()">
+        <label>Gunakan Tabel?</label>
+        <br/>
+        <div id="hiddenTable" style="display: none;">
+          <label class="required">Jumlah Baris</label>
+          <input type="input" class="form-control" name="noRow" id="noRow">
+          <br />
+          <label class="required">Jumlah Kolom</label>
+          <input type="input" class="form-control" name="noCol" id="noCol">
+          <br/>
+          <div>
+            <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel</button>
+          </div>
+          <table style='border: 1px solid black; border-collapse: collapse;' id="tbl">
+          </table>
+          
+        </div>
+      <br/><br/>
       <label>Jenis surat keluar</label>
       <select name="jenis">
         <option value="1">Surat Keluar Dekan</option>
@@ -38,7 +56,7 @@
         <option value="4">Surat Kerja Sama</option>
         <option value="5">Surat Keputusan Dekan</option>
       </select>
-      <br/>
+      <br/><br/>
       <div id="tempat_upload">
         <label>Upload Lampiran</label>
         <input type="file" name="uploadfile1" accept=".pdf,.jpg">       
@@ -67,6 +85,30 @@ function CekCount()
 {
     $html=`<input type="hidden" name="count" id="count" value='${count}'/>`; 
     $('#tempat_upload').append($html);
+}
+
+function tOn() {
+    var x = document.getElementById("hiddenTable");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+
+function addTable() {
+  $row = document.getElementById("noRow").value;
+  $col = document.getElementById("noCol").value;
+  $htmlTbl = "";
+        
+  for ($i=1;$i<=$row;$i++) {
+    $htmlTbl += '<tr>';
+    for ($j=1;$j<=$col;$j++){
+      $htmlTbl += '<td style="width: 200px"><div contenteditable>a</div></td>';
+    }
+    $htmlTbl += '</tr>';
+  } 
+  $('#tbl').append($htmlTbl);
 }
 </script>
 @endsection
