@@ -74,6 +74,8 @@
 
 <script>
 var count = 0 ;
+var trNum = 0;
+var tdNum = 0;
 
 function addInputFile() {
   count+=1; 
@@ -97,18 +99,38 @@ function tOn() {
   }
 
 function addTable() {
+
+  if($('#tr1').length) {
+    var k;
+    var l;
+    for (k = 1; k <= trNum; k++) {
+      for (l=1; l <= tdNum; l++) {
+        var obj = document.getElementById(`tr${k}td${l}`);
+        obj.remove(); 
+      }
+      var myobj = document.getElementById(`tr${k}`);
+      myobj.remove(); 
+    }   
+  }
+
   $row = document.getElementById("noRow").value;
   $col = document.getElementById("noCol").value;
   $htmlTbl = "";
-        
-  for ($i=1;$i<=$row;$i++) {
-    $htmlTbl += '<tr>';
-    for ($j=1;$j<=$col;$j++){
-      $htmlTbl += '<td style="width: 200px"><div contenteditable>a</div></td>';
+
+  var i;
+  var j;      
+
+  for (i=1;i<=$row;i++) {
+    $htmlTbl += `<tr id="tr${i}" style='border: 1px solid black; border-collapse: collapse;'>`;
+    for (j=1;j<=$col;j++){
+      $htmlTbl += `<td id="tr${i}td${j}" style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div contenteditable>Isi data disini</div></td>`;
     }
     $htmlTbl += '</tr>';
   } 
   $('#tbl').append($htmlTbl);
+
+  trNum = $row;
+  tdNum = $col;
 }
 </script>
 @endsection
