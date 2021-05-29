@@ -67,19 +67,6 @@ class SuratController extends Controller
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $response = mkdir($folderPath);
 
-        if ($count >= 1) {
-            for ($i = 1; $i <= $count; $i++) {
-                $lam = new lampiran;
-                $file = $request->file("uploadfile{$i}");
-                $ext = $file->clientExtension();
-                $file->move($folderPath, "{$i}.{$ext}");
-                $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
-                $lam->format_lampiran = $ext;
-                $lam->nomor_surat = $request->get('noSurat');
-                $lam->save();
-            }
-        }
-
         $fixIsi = "<br/><br/><br/><div>Kepada Yth,<br/>
                     $kepada <br/>
                     Universitas Surabaya
@@ -106,14 +93,28 @@ class SuratController extends Controller
             $fixIsi .= "</table></br>";
         }
 
-        $fixIsi .="<div>
-                Bersama ini terlampir kami sampaikan:
-                <ol>
-                    <li>Lampiran1</li>
-                    <li>Lampiran2</li>
-                </ol>
-            </div>
-            <div>
+        if ($count >= 1) {
+            $fixIsi .="</br><div>
+                    Bersama ini terlampir kami sampaikan:
+                    <ol>";
+            for ($i = 1; $i <= $count; $i++) {
+                $lam = new lampiran;
+                $file = $request->file("uploadfile{$i}");
+                $ext = $file->clientExtension();
+                
+                $namaLam = basename($file->getClientOriginalName(), '.'.$file->getClientOriginalExtension());
+                $fixIsi.="<li>$namaLam</li>";
+
+                $file->move($folderPath, "{$i}.{$ext}");
+                $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
+                $lam->format_lampiran = $ext;
+                $lam->nomor_surat = $request->get('noSurat');
+                $lam->save();
+            }
+            $fixIsi .="</ol></div>";
+        }
+
+        $fixIsi .="</br><div>
                 Demikian hal ini disampaikan, atas perhatian dan kerjasama yang baik, kami mengucapkan terimakasih.
             </div>
             <br/><br/><br/><br/>

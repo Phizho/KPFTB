@@ -61,8 +61,7 @@
       </select>
       <br/><br/>
       <div id="tempat_upload">
-        <label>Upload Lampiran</label>
-        <input type="file" name="uploadfile1" accept=".pdf,.jpg">       
+        <label>Upload Lampiran</label>     
       </div>
       <h5>Format file PDF/JPG</h5>
       <div>
