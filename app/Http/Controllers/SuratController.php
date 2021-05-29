@@ -54,7 +54,12 @@ class SuratController extends Controller
         $data->tanggal_kirim = $request->get('Tanggal');
         $data->jenis_surat = $request->get('jenis');
 
+        $checkbox = $request->input('tcheck');
+        $kepada = $request->get('kepada');
         $count = $request->get('count');
+
+        $row = $request->get('jumrow');
+        $col = $request->get('jumcol');
 
         $data->save();
         $isi = $request->get('isiSurat');
@@ -76,44 +81,47 @@ class SuratController extends Controller
         }
 
         $fixIsi = "<br/><br/><br/><div>Kepada Yth,<br/>
-        Wakil Rektor I <br/>
-        Universitas Surabaya
-   </div>
-   <br/><br/><br/>
-   <div>
-       Dengan Hormat,
-       <br/><br/>
-       Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui libero nam, sint tempore beatae eius quia maxime. Fuga, molestias eius voluptatum reprehenderit accusamus qui, soluta reiciendis fugiat quidem sit voluptatibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda est soluta, dolores, perspiciatis id consectetur ducimus dolor, hic doloremque maiores voluptatibus at unde sapiente perferendis tempore repudiandae nihil accusamus iste! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus magnam maxime dicta corporis unde deleniti ipsam quisquam expedita libero, delectus illum fugiat nostrum incidunt nihil eos. Impedit vitae ipsa ad?
-   </div>
-   <br/>
-   <table style='width: 100%; border: 1px solid black; border-collapse: collapse;'>
-       <tr style='border: 1px solid black;'>
-           <th>No.</th>
-           <th>Nama</th>
-           <th>Usulan</th>
-       </tr>
-           <tr style='border: 1px solid black;'>
-               <td style='border: 1px solid black;'>1</td>
-               <td style='border: 1px solid black;'>Jono</td>
-               <td style='border: 1px solid black;'>Benerin	</td>
-           </tr>
-   </table>
-   <br/>
-   <div>
-       Bersama ini terlampir kami sampaikan:
-       <ol>
-           <li>Lampiran1</li>
-           <li>Lampiran2</li>
-       </ol>
-   </div>
-   <div>
-       Demikian hal ini disampaikan, atas perhatian dan kerjasama yang baik, kami mengucapkan terimakasih.
-   </div>
-   <br/><br/><br/><br/>
-   <div style='text-align: right;'>
-       Tanda Tangan Here
-   </div>
-   <br/><br/>";
+                    $kepada <br/>
+                    Universitas Surabaya
+            </div>
+            <br/><br/><br/>
+            <div>
+                Dengan Hormat,
+                <br/><br/>
+                $isi
+            </div>
+            <br/>";
+
+        if (isset($checkbox)) {
+            $fixIsi .= "<table style='border: 1px solid black; border-collapse: collapse;'>";
+            
+            for ($i = 1; $i <= $row; $i++) {
+                $fixIsi .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
+                for ($j = 1; $j <= $col; $j++){
+                  $td = $request->get("instr${i}td${j}");
+                  $fixIsi .= "<td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'>$td</td>";
+                }
+                $fixIsi .= '</tr>';
+            } 
+            $fixIsi .= "</table></br>";
+        }
+
+        $fixIsi .="<div>
+                Bersama ini terlampir kami sampaikan:
+                <ol>
+                    <li>Lampiran1</li>
+                    <li>Lampiran2</li>
+                </ol>
+            </div>
+            <div>
+                Demikian hal ini disampaikan, atas perhatian dan kerjasama yang baik, kami mengucapkan terimakasih.
+            </div>
+            <br/><br/><br/><br/>
+            <div style='text-align: right;'>
+                Tanda Tangan Here
+            </div>
+            <br/><br/>";
+            
         Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsi);
         $fileName = "$data->nomor_surat" . "srtutm";

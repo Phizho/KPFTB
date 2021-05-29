@@ -27,10 +27,13 @@
       <label class="required">Tanggal Kirim:</label>
       <input type="date" class="form-control" name="Tanggal" required>
       <br>
+      <label class="required">Kepada</label>
+      <input type="input" class="form-control" name="kepada" required>
+      <br>
       <label class="required"> Isi Surat </label>
       <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control" required></textarea>  
       <br/> 
-      <input type="checkbox" name="tcheck" id="tcheck" onclick="tOn()">
+      <input type="checkbox" name="tcheck[]" value="pTabel" id="tcheck" onclick="tOn()">
         <label>Gunakan Tabel?</label>
         <br/>
         <div id="hiddenTable" style="display: none;">
@@ -85,8 +88,19 @@ function addInputFile() {
 
 function CekCount()
 {
+    if ($('#count').length) {
+      var x = document.getElementById("count");
+      x.remove();
+    }
+
     $html=`<input type="hidden" name="count" id="count" value='${count}'/>`; 
-    $('#tempat_upload').append($html);
+    for (i=1;i<=trNum;i++) {
+      for (j=1;j<=tdNum;j++){
+        var y = $(`#tr${i}td${j}`).html();
+        $html += `<input type="hidden" name="instr${i}td${j}" id="instr${i}td${j}" value='${y}'/>`;
+      }
+  } 
+  $('#tempat_upload').append($html);
 }
 
 function tOn() {
@@ -111,6 +125,10 @@ function addTable() {
       var myobj = document.getElementById(`tr${k}`);
       myobj.remove(); 
     }   
+    var r = document.getElementById(`jumrow`);
+    r.remove();
+    var c = document.getElementById(`jumcol`);
+    c.remove();
   }
 
   $row = document.getElementById("noRow").value;
@@ -123,7 +141,7 @@ function addTable() {
   for (i=1;i<=$row;i++) {
     $htmlTbl += `<tr id="tr${i}" style='border: 1px solid black; border-collapse: collapse;'>`;
     for (j=1;j<=$col;j++){
-      $htmlTbl += `<td id="tr${i}td${j}" style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div contenteditable>Isi data disini</div></td>`;
+      $htmlTbl += `<td style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div id="tr${i}td${j}" contenteditable>Isi data disini</div></td>`;
     }
     $htmlTbl += '</tr>';
   } 
@@ -131,6 +149,11 @@ function addTable() {
 
   trNum = $row;
   tdNum = $col;
+
+  $html = `<input type="hidden" name="jumrow" id="jumrow" value='${trNum}'/>
+           <input type="hidden" name="jumcol" id="jumcol" value='${tdNum}'/>`;
+  $('#tempat_upload').append($html);
+
 }
 </script>
 @endsection
