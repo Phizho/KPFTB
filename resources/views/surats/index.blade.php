@@ -95,7 +95,7 @@
         <td>
           {{$l->tanggal_kirim}}
         </td>
-        <td><a><img src="{{URL::asset('assets/img/icons8-edit-48.png')}}"></a> </td>
+        <td><a href="{{ url('surats/' . $l->nomor_surat . '/edit') }}"><img src="{{URL::asset('assets/img/icons8-edit-48.png')}}"></a> </td>
         {{ csrf_field() }}
         {{ method_field('DELETE') }}
         <td><a onclick="hapus({{ $l->nomor_surat }})"><img src="{{URL::asset('assets/img/icons8-delete-48.png')}}"></a> </td>

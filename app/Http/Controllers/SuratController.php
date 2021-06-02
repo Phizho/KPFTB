@@ -54,6 +54,7 @@ class SuratController extends Controller
         $data->tanggal_kirim = $request->get('Tanggal');
         $data->jenis_surat = $request->get('jenis');
 
+        $penutup = $request->get('penutup');
         $checkbox = $request->input('tcheck');
         $kepada = $request->get('kepada');
         $count = $request->get('count');
@@ -67,34 +68,47 @@ class SuratController extends Controller
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $response = mkdir($folderPath);
 
-        $fixIsi = "<br/><br/><br/><div>Kepada Yth,<br/>
-                    $kepada <br/>
-                    Universitas Surabaya
-            </div>
+        $fixIsi = "<br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/><br/>
             <div>
                 Dengan Hormat,
-                <br/><br/>
-                $isi
+                <br/><br/>$isi
+            <br/>
+            </div>
+            <br/>";
+        $fixIsipdf = "<br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
+            <br/><br/><br/>
+            <div>
+                Dengan Hormat,
+                <br/><br/>$isi
+            <br/>
             </div>
             <br/>";
 
         if (isset($checkbox)) {
             $fixIsi .= "<table style='border: 1px solid black; border-collapse: collapse;'>";
+            $fixIsipdf .= "<table style='border: 1px solid black; border-collapse: collapse;'>";
             
             for ($i = 1; $i <= $row; $i++) {
                 $fixIsi .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
+                $fixIsipdf .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
                 for ($j = 1; $j <= $col; $j++){
                   $td = $request->get("instr${i}td${j}");
-                  $fixIsi .= "<td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'>$td</td>";
+                  $fixIsi .= "<td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'><div>^$td^</div></td>";
+                  $fixIsipdf .="<td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'><div>$td</div></td>";
                 }
                 $fixIsi .= '</tr>';
+                $fixIsipdf .= '</tr>';
             } 
-            $fixIsi .= "</table></br>";
+            $fixIsi .= "</table>";
+            $fixIsipdf .= "</table>";
         }
 
         if ($count >= 1) {
-            $fixIsi .="</br><div>
+            $fixIsi .="</br></br><div>
+                    Bersama ini terlampir kami sampaikan:
+                    <ol>";
+            $fixIsipdf .="</br></br><div>
                     Bersama ini terlampir kami sampaikan:
                     <ol>";
             for ($i = 1; $i <= $count; $i++) {
@@ -104,6 +118,7 @@ class SuratController extends Controller
                 
                 $namaLam = basename($file->getClientOriginalName(), '.'.$file->getClientOriginalExtension());
                 $fixIsi.="<li>$namaLam</li>";
+                $fixIsipdf.="<li>$namaLam</li>";
 
                 $file->move($folderPath, "{$i}.{$ext}");
                 $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
@@ -112,19 +127,28 @@ class SuratController extends Controller
                 $lam->save();
             }
             $fixIsi .="</ol></div>";
+            $fixIsipdf .="</ol></div>";
         }
 
-        $fixIsi .="</br><div>
-                Demikian hal ini disampaikan, atas perhatian dan kerjasama yang baik, kami mengucapkan terimakasih.
+        $fixIsi .="<div>
+                <br/>$penutup
+                <br/>
             </div>
-            <br/><br/><br/><br/>
+            <br/><br/><br/>
             <div style='text-align: right;'>
                 Tanda Tangan Here
             </div>
             <br/><br/>";
+        $fixIsipdf .="<br/><div>$penutup
+        </div>
+        <br/><br/><br/><br/>
+        <div style='text-align: right;'>
+            Tanda Tangan Here
+        </div>
+        <br/><br/>";
             
         Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
-        $pdf = PDF::loadHTML($fixIsi);
+        $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$data->nomor_surat" . "srtutm";
         $pdf->save($folderPath . '/' . $fileName . '.pdf');
         //return $pdf->stream();
@@ -151,7 +175,46 @@ class SuratController extends Controller
      */
     public function edit($id)
     {
-        //
+        $s = DB::table('surats')
+            ->select(DB::raw('*'))
+            ->where('nomor_surat', $id)
+            ->get();
+        
+        $l = DB::table('lampirans')
+            ->select(DB::raw('*'))
+            ->where('nomor_surat', $id)
+            ->get();
+
+            $p = Storage::disk('public_pdfs')->getAdapter()->getPathPrefix();
+            $path = "C:/xampp/htdocs/KPFTB/public/assets/pdf/".$id."/file.txt";
+            $txtFile = file_get_contents("$path");
+
+            $fullText = explode('<br/>',$txtFile);
+            $kepada = $fullText[4];
+            $isiSurat = $fullText[10];
+            $fulltable = $fullText[12];
+            $penutup = $fullText[13];
+            $arraytable = explode("^",$fulltable);
+            $row = explode ("<tr ", $fulltable);
+            $countrow = count($row);
+            $counttable = count($arraytable);
+
+
+        if ($counttable >= 1 ) {
+            if (count($l) >= 1) {
+                return view('surats.edit', compact('s','isiSurat','kepada','arraytable','counttable','countrow','l','penutup'));
+            } else {
+                return view('surats.edit', compact('s','isiSurat','kepada','arraytable','counttable','countrow','penutup'));
+            }   
+        }
+        else {
+            if (count($l) >= 1) {
+                return view('surats.edit', compact('s','isiSurat','kepada','l','penutup'));
+            } else {
+                return view('surats.edit', compact('s','isiSurat','kepada','penutup'));
+            }       
+        }
+        
     }
 
     /**
@@ -189,7 +252,7 @@ class SuratController extends Controller
             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns'))
             ->distinct()
             ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
-            ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at', 'lampirans.nomor_surat')
+            ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at', 'lampirans.nomor_surat','surats.tanggal_kirim')
             ->when($noSurat, function ($q) use ($noSurat) {
                 return $q->where('surats.nomor_surat', 'like', "$noSurat" . "%");
             })

@@ -14,24 +14,25 @@
   Kembali</a>
 </head>
 
-<body>
+<body onload="mulai()">
   <form method="POST" action="{{ route('surats.store') }}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
     <div class="form-group">
       @csrf
+
       <label class="required">No Surat Keluar</label>
-      <input type="input" class="form-control" name="noSurat" required>
+      <input type="input" class="form-control" name="noSurat" value="{{$s[0]->nomor_surat}}" required>
       <br />
       <label class="required">Perihal</label>
-      <input type="input" class="form-control" name="perihal" required>
+      <input type="input" class="form-control" name="perihal" value="{{$s[0]->perihal}}" required>
       <br />
       <label class="required">Tanggal Kirim:</label>
-      <input type="date" class="form-control" name="Tanggal" required>
+      <input type="date" class="form-control" name="Tanggal" value="{{ date('Y-m-d', strtotime($s[0]->tanggal_kirim)) }}" required>
       <br>
       <label class="required">Kepada</label>
-      <input type="input" class="form-control" name="kepada" required>
+      <input type="input" class="form-control" name="kepada" value="{{$kepada}}" required>
       <br>
       <label class="required"> Isi Surat </label>
-      <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control" required></textarea>  
+      <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control"  required>{{$isiSurat}}</textarea>  
       <br/> 
       <input type="checkbox" name="tcheck[]" value="pTabel" id="tcheck" onclick="tOn()">
         <label>Gunakan Tabel?</label>
@@ -46,13 +47,12 @@
           <div>
             <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel</button>
           </div>
-          <br>
           <table style='border: 1px solid black; border-collapse: collapse;' id="tbl">
           </table>
-          <br/>
         </div>
+        <br/>
         <label class="required"> Penutup Surat </label>
-        <textarea name="penutup" id="penutup" rows="8" class="form-control" required></textarea>   
+        <textarea name="penutup" id="penutup" rows="8" class="form-control" required>{{$penutup}}</textarea>  
       <br/><br/>
       <label>Jenis surat keluar</label>
       <select name="jenis">
@@ -64,7 +64,15 @@
       </select>
       <br/><br/>
       <div id="tempat_upload">
-        <label>Upload Lampiran</label>     
+        <label>Upload Lampiran</label>  
+        @isset($l) 
+          @for($i=1;$i<=count($l); $i++)
+          <div>
+            <input type="file" name="lamp{{$i}}" id="lamp{{$i}}" style="display:none" accept=".pdf,.jpg">
+            <label style="color: blue; text-decoration: underline;" for="lamp{{$i}}">{{$i}}. {{$l[$i-1]->nama_lampiran}}.{{$l[$i-1]->format_lampiran}} (Klik untuk mengganti Lampiran)</label>
+          </div>
+          @endfor
+        @endisset
       </div>
       <h5>Format file PDF/JPG</h5>
       <div>
@@ -78,14 +86,48 @@
 </body>
 
 <script>
-var count = 0 ;
+var count = 0;
 var trNum = 0;
 var tdNum = 0;
 
-function addInputFile() {
-  count+=1; 
-  $html = `<input type="file" name="uploadfile${count}"  accept=".pdf,.jpg">`;
-  $("#tempat_upload").append($html);
+function mulai() {
+  var counttable = {!! json_encode($counttable) !!};
+  var countrow = {!! json_encode($countrow) !!};
+  if (counttable >= 1) {
+    var x = document.getElementById("hiddenTable");
+    x.style.display = "block";
+
+    var currentData = 1;
+
+    document.getElementById("tcheck").checked = true;
+    var arraytable = {!! json_encode($arraytable) !!};
+    var countcol = (counttable/2)/(countrow-1);
+    $htmlTbl = "";
+
+    for (i=1;i<countrow;i++) {
+      $htmlTbl += `<tr id="tr${i}" style='border: 1px solid black; border-collapse: collapse;'>`;
+      for (j=1;j<=countcol;j++){
+        $htmlTbl += `<td style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div id="tr${i}td${j}" contenteditable>${arraytable[currentData]}</div></td>`;
+        currentData += 2;
+      }
+      $htmlTbl += '</tr>';
+    } 
+
+    $('#tbl').append($htmlTbl);
+
+    trNum = countrow;
+    tdNum = countcol;
+
+    $html = `<input type="hidden" name="jumrow" id="jumrow" value='${trNum}'/>
+            <input type="hidden" name="jumcol" id="jumcol" value='${tdNum}'/>`;
+    $('#tempat_upload').append($html);
+    }
+}
+
+  function addInputFile() {
+    count+=1; 
+    $html = `<input type="file" name="uploadfile${count}"  accept=".pdf,.jpg">`;
+    $("#tempat_upload").append($html);
 }
 
 function CekCount()

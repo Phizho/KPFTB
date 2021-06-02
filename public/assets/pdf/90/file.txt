@@ -1,0 +1,17 @@
+<br/><br/><br/><div>Kepada Yth,<br/>Saya <br/>Universitas Surabaya</div>
+            <br/><br/><br/>
+            <div>
+                Dengan Hormat,
+                <br/><br/>ini isi surat
+            <br/>
+            </div>
+            <br/><table style='border: 1px solid black; border-collapse: collapse;'><tr style='border: 1px solid black; border-collapse: collapse;'><td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'><div>^1^</div></td><td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'><div>^2^</div></td></tr><tr style='border: 1px solid black; border-collapse: collapse;'><td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'><div>^3^</div></td><td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'><div>^4^</div></td></tr></table></br></br><div>
+                    Bersama ini terlampir kami sampaikan:
+                    <ol><li>Alur dan Deskripsi MK Kurikulum 2020</li></ol></div><div>
+                ini penutup surat
+            </div>
+            <br/><br/><br/><br/>
+            <div style='text-align: right;'>
+                Tanda Tangan Here
+            </div>
+            <br/><br/>
