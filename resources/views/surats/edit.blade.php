@@ -5,7 +5,7 @@
 @endsection
 
 @section('tempat_judul')
-<p style="text-align: center;">TAMBAH DATA SURAT KELUAR</p>
+<p style="text-align: center;">UBAH DATA SURAT KELUAR</p>
 @endsection
 
 @section('tempat_konten')
@@ -13,9 +13,12 @@
 <a href="{{route('surats.index')}}">
   Kembali</a>
 </head>
+<script>
+var count = 0;
+</script>
 
 <body onload="mulai()">
-  <form method="POST" action="{{ route('surats.store') }}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
+  <form method="GET" action="{{url('surats/'.$s[0]->nomor_surat)}}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
     <div class="form-group">
       @csrf
 
@@ -66,10 +69,13 @@
       <div id="tempat_upload">
         <label>Upload Lampiran</label>  
         @isset($l) 
+        <script>
+            count = <?php echo json_encode(count($l)); ?>;
+        </script>
           @for($i=1;$i<=count($l); $i++)
           <div>
-            <input type="file" name="lamp{{$i}}" id="lamp{{$i}}" style="display:none" accept=".pdf,.jpg">
-            <label style="color: blue; text-decoration: underline;" for="lamp{{$i}}">{{$i}}. {{$l[$i-1]->nama_lampiran}}.{{$l[$i-1]->format_lampiran}} (Klik untuk mengganti Lampiran)</label>
+            <input type="file" name="uploadfile{{$i}}" id="uploadfile{{$i}}" style="display:none" accept=".pdf,.jpg">
+            <label style="color: blue; text-decoration: underline;" for="uploadfile{{$i}}">{{$i}}. {{$l[$i-1]->nama_lampiran}}.{{$l[$i-1]->format_lampiran}} (Klik untuk mengganti Lampiran)</label>
           </div>
           @endfor
         @endisset
@@ -86,7 +92,6 @@
 </body>
 
 <script>
-var count = 0;
 var trNum = 0;
 var tdNum = 0;
 

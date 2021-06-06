@@ -1,0 +1,21 @@
+<br/>Nomor Surat : 5<br/>Perihal : Kebutuhan Fasilitas<br/>Tanggal : 2021-06-06 00:00:00</p>
+        <br/><br/><br/><div>Kepada Yth,<br/>Pihak Administrasi Ubaya <br/>Universitas Surabaya</div>
+            <br/><br/><br/>
+            <div>
+                Dengan Hormat,
+                <br/><br/>Sehubungan dengan kebutuhan tenaga dosen di Fakultas Teknobiologi Ubaya, kami telah melakukan seleksi wawancara calon dosen dari beberapa surat lamaran yang masuk. Dari hasil seleksi ada beberapa pelamar yang kami nyatakan lulus dan dapat diusulkan untuk di proses lebih lanjut 
+
+Adapun nama-nama yang lulus sebagai berikut:
+            <br/>
+            </div>
+            <br/></br></br><div>
+                    Bersama ini terlampir kami sampaikan:
+                    <ol><li>Surat lamaran yang bersangkutan</li><li>Hasil seleksi dari tim penilai</li></ol></div><div>
+                <br/>Demikian hal ini disampaikan, atas perhatian dan kerja sama yang baik, kami mengucapkan terimakasih.
+                <br/>
+            </div>
+            <br/><br/><br/>
+            <div style='text-align: right;'>
+                Tanda Tangan Here
+            </div>
+            <br/><br/>

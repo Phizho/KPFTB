@@ -54,6 +54,8 @@ class SuratController extends Controller
         $data->tanggal_kirim = $request->get('Tanggal');
         $data->jenis_surat = $request->get('jenis');
 
+        $data->save();
+
         $penutup = $request->get('penutup');
         $checkbox = $request->input('tcheck');
         $kepada = $request->get('kepada');
@@ -62,13 +64,13 @@ class SuratController extends Controller
         $row = $request->get('jumrow');
         $col = $request->get('jumcol');
 
-        $data->save();
         $isi = $request->get('isiSurat');
 
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $response = mkdir($folderPath);
 
-        $fixIsi = "<br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
+        $fixIsi = "<br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/><br/>
             <div>
                 Dengan Hormat,
@@ -76,7 +78,8 @@ class SuratController extends Controller
             <br/>
             </div>
             <br/>";
-        $fixIsipdf = "<br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
+        $fixIsipdf = "<br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/><br/>
             <div>
                 Dengan Hormat,
@@ -151,6 +154,7 @@ class SuratController extends Controller
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$data->nomor_surat" . "srtutm";
         $pdf->save($folderPath . '/' . $fileName . '.pdf');
+        
         //return $pdf->stream();
 
         return redirect()->route('surats.index')->with('status', 'Surat berhasil dibuat!!');
@@ -190,10 +194,10 @@ class SuratController extends Controller
             $txtFile = file_get_contents("$path");
 
             $fullText = explode('<br/>',$txtFile);
-            $kepada = $fullText[4];
-            $isiSurat = $fullText[10];
-            $fulltable = $fullText[12];
-            $penutup = $fullText[13];
+            $kepada = $fullText[7];
+            $isiSurat = $fullText[13];
+            $fulltable = $fullText[15];
+            $penutup = $fullText[16];
             $arraytable = explode("^",$fulltable);
             $row = explode ("<tr ", $fulltable);
             $countrow = count($row);
@@ -226,7 +230,11 @@ class SuratController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('surats')
+            ->where('id', $id)
+            ->update(['perihal' => $request->get("perihal")]);
+        
+        return redirect()->route('/')->with('status','Surat berhasil di edit');
     }
 
     /**
