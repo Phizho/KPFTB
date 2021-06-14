@@ -1,0 +1,17 @@
+<div><img src='C:\xampp\htdocs\KPFTB\public\assets/LogoUbayaSml.png' width='255' height='75'><img src='C:\xampp\htdocs\KPFTB\public\assets/LogoFTB.png' width='255' height='75'></div><br/>Nomor Surat : 104<br/>Perihal : testingLogo<br/>Tanggal : 2021-06-15 00:00:00</p>
+        <br/><br/><br/><div>Kepada Yth,<br/>wakil rektor 3 <br/>Universitas Surabaya</div>
+            <br/><br/><br/>
+            <div>
+                Dengan Hormat,
+                <br/><br/>ayaya
+            <br/>
+            </div>
+            <br/><div>
+                <br/>baybay
+                <br/>
+            </div>
+            <br/><br/><br/>
+            <div style='text-align: right;'>
+                Tanda Tangan Here
+            </div>
+            <br/><br/>

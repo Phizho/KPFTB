@@ -67,9 +67,11 @@ class SuratController extends Controller
         $isi = $request->get('isiSurat');
 
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
+        $ubayaPath = public_path("assets/LogoUbayaSml.png");
+        $ftbPath = public_path("assets/LogoFTB.png");
         $response = mkdir($folderPath);
 
-        $fixIsi = "<br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/><br/>
             <div>
@@ -78,7 +80,7 @@ class SuratController extends Controller
             <br/>
             </div>
             <br/>";
-        $fixIsipdf = "<br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/><br/>
             <div>
@@ -230,11 +232,64 @@ class SuratController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('surats')
-            ->where('id', $id)
-            ->update(['perihal' => $request->get("perihal")]);
         
-        return redirect()->route('/')->with('status','Surat berhasil di edit');
+        DB::table('surats')
+            ->where('nomor_surat', $id)
+            ->update(['perihal' => $request->get("perihal"),'jenis_surat' => $request->get("jenis"),'tanggal_kirim' => $request->get('Tanggal')]);
+
+        $penutup = $request->get('penutup');
+        $checkbox = $request->input('tcheck');
+        $kepada = $request->get('kepada');
+        //$count = $request->get('count');
+
+        $row = $request->get('jumrow');
+        $col = $request->get('jumcol');
+
+        $isi = $request->get('isiSurat');
+        $ubayaPath = public_path("assets/LogoUbayaSml.png");
+        $ftbPath = public_path("assets/LogoFTB.png");
+
+        $folderPath = public_path("assets/pdf/$data->nomor_surat");
+
+        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
+            <br/><br/><br/>
+            <div>
+                Dengan Hormat,
+                <br/><br/>$isi
+            <br/>
+            </div>
+            <br/>";
+        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
+            <br/><br/><br/>
+            <div>
+                Dengan Hormat,
+                <br/><br/>$isi
+            <br/>
+            </div>
+            <br/>";
+            
+        if (isset($checkbox)) {
+            $fixIsi .= "<table style='border: 1px solid black; border-collapse: collapse;'>";
+            $fixIsipdf .= "<table style='border: 1px solid black; border-collapse: collapse;'>";
+            
+            for ($i = 1; $i <= $row; $i++) {
+                $fixIsi .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
+                $fixIsipdf .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
+                for ($j = 1; $j <= $col; $j++){
+                    $td = $request->get("instr${i}td${j}");
+                    $fixIsi .= "<td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'><div>^$td^</div></td>";
+                    $fixIsipdf .="<td  style='width: 200px; border: 1px solid black; border-collapse: collapse;'><div>$td</div></td>";
+                }
+                $fixIsi .= '</tr>';
+                $fixIsipdf .= '</tr>';
+            } 
+            $fixIsi .= "</table>";
+            $fixIsipdf .= "</table>";
+        }
+        
+        return redirect()->route('surats.index')->with('status','Surat berhasil di edit');
     }
 
     /**

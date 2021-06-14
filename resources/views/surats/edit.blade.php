@@ -18,9 +18,10 @@ var count = 0;
 </script>
 
 <body onload="mulai()">
-  <form method="GET" action="{{url('surats/'.$s[0]->nomor_surat)}}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
+  <form method="POST" action="{{url('surats/4')}}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
     <div class="form-group">
       @csrf
+      @method('PUT')
 
       <label class="required">No Surat Keluar</label>
       <input type="input" class="form-control" name="noSurat" value="{{$s[0]->nomor_surat}}" required>
@@ -37,7 +38,7 @@ var count = 0;
       <label class="required"> Isi Surat </label>
       <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control"  required>{{$isiSurat}}</textarea>  
       <br/> 
-      <input type="checkbox" name="tcheck[]" value="pTabel" id="tcheck" onclick="tOn()">
+      <span id="tempatCheck"></span>
         <label>Gunakan Tabel?</label>
         <br/>
         <div id="hiddenTable" style="display: none;">
@@ -98,13 +99,16 @@ var tdNum = 0;
 function mulai() {
   var counttable = {!! json_encode($counttable) !!};
   var countrow = {!! json_encode($countrow) !!};
-  if (counttable >= 1) {
+
+  if (counttable > 1) {
     var x = document.getElementById("hiddenTable");
     x.style.display = "block";
 
     var currentData = 1;
 
-    document.getElementById("tcheck").checked = true;
+    $chk = `<input type="checkbox" id="tcheck" onclick="tOn()" value="check" checked/>`; 
+    $("#tempatCheck").append($chk)
+
     var arraytable = {!! json_encode($arraytable) !!};
     var countcol = (counttable/2)/(countrow-1);
     $htmlTbl = "";
@@ -116,7 +120,7 @@ function mulai() {
         currentData += 2;
       }
       $htmlTbl += '</tr>';
-    } 
+  } 
 
     $('#tbl').append($htmlTbl);
 
@@ -126,6 +130,10 @@ function mulai() {
     $html = `<input type="hidden" name="jumrow" id="jumrow" value='${trNum}'/>
             <input type="hidden" name="jumcol" id="jumcol" value='${tdNum}'/>`;
     $('#tempat_upload').append($html);
+    }
+    else {
+      $chk = `<input type="checkbox" id="tcheck" onclick="tOn()" value="notcheck"/>`; 
+      $("#tempatCheck").append($chk)
     }
 }
 
@@ -169,7 +177,7 @@ function addTable() {
     for (k = 1; k <= trNum; k++) {
       for (l=1; l <= tdNum; l++) {
         var obj = document.getElementById(`tr${k}td${l}`);
-        obj.remove(); 
+        obj.remove();   
       }
       var myobj = document.getElementById(`tr${k}`);
       myobj.remove(); 
