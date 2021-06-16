@@ -38,10 +38,10 @@
         <br/>
         <div id="hiddenTable" style="display: none;">
           <label class="required">Jumlah Baris</label>
-          <input type="input" class="form-control" name="noRow" id="noRow">
+          <input type="number" class="form-control" name="noRow" id="noRow" min="1">
           <br />
           <label class="required">Jumlah Kolom</label>
-          <input type="input" class="form-control" name="noCol" id="noCol">
+          <input type="number" class="form-control" name="noCol" id="noCol" min="1" max="6">
           <br/>
           <div>
             <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel</button>
