@@ -95,11 +95,11 @@
         <td>
           {{$l->tanggal_kirim}}
         </td>
-        <td><a href="{{ url('surats/' . $l->nomor_surat . '/edit') }}"><img src="{{URL::asset('assets/img/icons8-edit-48.png')}}"></a> </td>
+        <td><a href="{{ url('surats/' . $l->nomor_surat . '/edit') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
         {{ csrf_field() }}
         {{ method_field('DELETE') }}
-        <td><a onclick="hapus({{ $l->nomor_surat }})"><img src="{{URL::asset('assets/img/icons8-delete-48.png')}}"></a> </td>
-        <td><a href='{{URL::asset("assets/pdf/$l->nomor_surat/{$l->nomor_surat}srtutm.pdf")}}' target="_new"><img src="{{URL::asset('assets/img/icons8-pdf-40.png')}}"></a> </td>
+        <td><a onclick="hapus({{ $l->nomor_surat }})"><img src="{{URL::asset('assets/img/delete.png')}}"></a> </td>
+        <td><a href='{{URL::asset("assets/pdf/$l->nomor_surat/{$l->nomor_surat}srtutm.pdf")}}' target="_new"><img src="{{URL::asset('assets/img/pdf.png')}}"></a> </td>
         @endforeach
     </tbody>
   </table>
@@ -110,6 +110,7 @@
 </body>
 @endsection
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
   function showSearch() {
     var x = document.getElementById("search");
@@ -124,16 +125,26 @@
   }
 
   function hapus(noSurat) {
-    $.ajax({
-      type: 'POST',
-      url: '{{ route("surats.hapus") }}',
-      data: {
-        '_token': '<?php echo csrf_token() ?>',
-        'noSurat': noSurat
-      },
-      success: function(data){
-        location.reload()
-      }
+    swal({
+        title: 'Apakah anda yakin?',
+        text: 'Keseluruhan surat dan lampirannya akan dihapus',
+        icon: 'warning',
+        buttons: ["Cancel", "Hapus"],
+    }).then(function(value) {
+        if (value) {
+          $.ajax({
+            type: 'POST',
+            url: '{{ route("surats.hapus") }}',
+            data: {
+              '_token': '<?php echo csrf_token() ?>',
+              'noSurat': noSurat
+            },
+            success: function(data){
+              location.reload()
+            }
+          });
+        }
     });
+    
   }
 </script>

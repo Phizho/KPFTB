@@ -413,12 +413,12 @@ class SuratController extends Controller
         $perihal = $request->get("perihal");
 
         $lamp = DB::table('lampirans')
-            ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns'))
+            ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns, lampirans.format_lampiran as fl'))
             ->distinct()
             ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
-            ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at', 'lampirans.nomor_surat','surats.tanggal_kirim')
+            ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at', 'lampirans.nomor_surat','surats.tanggal_kirim','lampirans.format_lampiran')
             ->when($noSurat, function ($q) use ($noSurat) {
-                return $q->where('surats.nomor_surat', 'like', "$noSurat" . "%");
+                return $q->where('surats.nomor_surat', 'like', "$noSurat" . "%");               
             })
             ->when($tanggalBuat, function ($q) use ($tanggalBuat) {
                 return $q->where('surats.created_at', '=', "$tanggalBuat");
@@ -429,8 +429,7 @@ class SuratController extends Controller
             ->when($perihal, function ($q) use ($perihal) {
                 return $q->where('surats.perihal', 'like', "%" . "$perihal" . "%");
             })
-            ->paginate(5);
-
+            ->paginate(100);
         return view('surats.index', compact('lamp'));
     }
 
