@@ -112,10 +112,10 @@ class SuratController extends Controller
         if ($count >= 1) {
             $fixIsi .="</br></br><div>
                     Bersama ini terlampir kami sampaikan:
-                    <ol>";
+                    <ol></br>";
             $fixIsipdf .="</br></br><div>
                     Bersama ini terlampir kami sampaikan:
-                    <ol>";
+                    <ol></br>";
             for ($i = 1; $i <= $count; $i++) {
                 $lam = new lampiran;
                 $file = $request->file("uploadfile{$i}");
@@ -131,8 +131,8 @@ class SuratController extends Controller
                 $lam->nomor_surat = $request->get('noSurat');
                 $lam->save();
             }
-            $fixIsi .="</ol></div>";
-            $fixIsipdf .="</ol></div>";
+            $fixIsi .="</ol></br></div>";
+            $fixIsipdf .="</ol></br></div>";
         }
 
         $fixIsi .="<div>
@@ -200,6 +200,27 @@ class SuratController extends Controller
             $isiSurat = $fullText[13];
             $fulltable = $fullText[15];
             $penutup = $fullText[16];
+
+            $arrayNama = array();
+            $arrayExtension = array();
+            
+            if (count($l) >= 1) {
+                $lampiran = explode('</br>',$txtFile);
+                $perlamp = explode('<li>',$lampiran[3]);
+                for ($i = 0; $i < count($l); $i++) {
+                    $nL = explode('</li>',$perlamp[$i+1]);
+
+                    array_push($arrayNama, $nL[0]);
+
+                    $format = DB::table('lampirans')
+                        ->where('nomor_surat', $id)
+                        ->where('nama_lampiran', $nL[0])
+                        ->value('format_lampiran');
+                    
+                    array_push($arrayExtension, $format);
+                }
+            }
+            
             $arraytable = explode("^",$fulltable);
             $row = explode ("<tr ", $fulltable);
             $countrow = count($row);
@@ -208,14 +229,14 @@ class SuratController extends Controller
 
         if ($counttable >= 1 ) {
             if (count($l) >= 1) {
-                return view('surats.edit', compact('s','isiSurat','kepada','arraytable','counttable','countrow','l','penutup'));
+                return view('surats.edit', compact('s','isiSurat','kepada','arraytable','counttable','countrow','arrayNama','arrayExtension','penutup'));
             } else {
                 return view('surats.edit', compact('s','isiSurat','kepada','arraytable','counttable','countrow','penutup'));
             }   
         }
         else {
             if (count($l) >= 1) {
-                return view('surats.edit', compact('s','isiSurat','kepada','l','penutup'));
+                return view('surats.edit', compact('s','isiSurat','kepada','arrayNama','arrayExtension','penutup'));
             } else {
                 return view('surats.edit', compact('s','isiSurat','kepada','penutup'));
             }       
@@ -232,15 +253,19 @@ class SuratController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $perihal = $request->get("perihal");
+        $jenis = $request->get("jenis");
+        $tanggal = $request->get('Tanggal');
+
+
         DB::table('surats')
             ->where('nomor_surat', $id)
-            ->update(['perihal' => $request->get("perihal"),'jenis_surat' => $request->get("jenis"),'tanggal_kirim' => $request->get('Tanggal')]);
+            ->update(['perihal' => $perihal,'jenis_surat' => $jenis,'tanggal_kirim' => $tanggal]);
 
         $penutup = $request->get('penutup');
         $checkbox = $request->input('tcheck');
         $kepada = $request->get('kepada');
-        //$count = $request->get('count');
+        $count = $request->get('count');
 
         $row = $request->get('jumrow');
         $col = $request->get('jumcol');
@@ -249,9 +274,9 @@ class SuratController extends Controller
         $ubayaPath = public_path("assets/LogoUbayaSml.png");
         $ftbPath = public_path("assets/LogoFTB.png");
 
-        $folderPath = public_path("assets/pdf/$data->nomor_surat");
+        $folderPath = public_path("assets/pdf/$id");
 
-        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $id<br/>Perihal : $perihal<br/>Tanggal : $tanggal</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/><br/>
             <div>
@@ -260,7 +285,7 @@ class SuratController extends Controller
             <br/>
             </div>
             <br/>";
-        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $id<br/>Perihal : $perihal<br/>Tanggal : $tanggal</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/><br/>
             <div>
@@ -288,7 +313,83 @@ class SuratController extends Controller
             $fixIsi .= "</table>";
             $fixIsipdf .= "</table>";
         }
-        
+
+        if ($count >= 1) {
+            $fixIsi .="</br></br><div>
+                    Bersama ini terlampir kami sampaikan:
+                    <ol></br>";
+            $fixIsipdf .="</br></br><div>
+                    Bersama ini terlampir kami sampaikan:
+                    <ol></br>";
+            for ($i = 1; $i <= $count; $i++) {
+                $lam = new lampiran;
+                $file = $request->file("uploadfile{$i}");
+                $cek = $request->get("lampuploadfile{$i}");
+
+                $f = explode('.',$cek);
+                if(isset($cek)) {
+                    if (isset($file)) {
+                        $hapus = Lampiran::where('nomor_surat','=', $id)->where('nama_lampiran','=', $f[0])->delete();
+                        $filePath = public_path("assets/pdf/$id/$i.$f[1]");
+                        File::delete($filePath);
+                        $ext = $f[1];
+
+                        $namaLam = basename($file->getClientOriginalName(), '.'.$file->getClientOriginalExtension());
+                        $fixIsi.="<li>$namaLam</li>";
+                        $fixIsipdf.="<li>$namaLam</li>";
+                        
+                        $folderPath = public_path("assets/pdf/$id");
+                        $file->move($folderPath, "{$i}.{$ext}");
+                        $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
+                        $lam->format_lampiran = $ext;
+                        $lam->nomor_surat = $request->get('noSurat');
+                        $lam->save();
+                    } else {
+                        $namaLam = $f[0];
+                        $fixIsi.="<li>$namaLam</li>";
+                        $fixIsipdf.="<li>$namaLam</li>";
+                    }
+                    
+                } else {
+                    if (isset($file)) {
+                        $namaLam = basename($file->getClientOriginalName(), '.'.$file->getClientOriginalExtension());
+                        $fixIsi.="<li>$namaLam</li>";
+                        $fixIsipdf.="<li>$namaLam</li>";
+    
+                        $folderPath = public_path("assets/pdf/$id");
+                        $file->move($folderPath, "{$i}.{$ext}");
+                        $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
+                        $lam->format_lampiran = $ext;
+                        $lam->nomor_surat = $request->get('noSurat');
+                        $lam->save();
+                    } 
+                }
+                
+            }
+            $fixIsi .="</ol></br></div>";
+            $fixIsipdf .="</ol></br></div>";
+        }
+        $fixIsi .="<div><br/>$penutup
+                <br/>
+            </div>
+            <br/><br/><br/>
+            <div style='text-align: right;'>
+                Tanda Tangan Here
+            </div>
+            <br/><br/>";
+        $fixIsipdf .="<br/><div>$penutup
+        </div>
+        <br/><br/><br/><br/>
+        <div style='text-align: right;'>
+            Tanda Tangan Here
+        </div>
+        <br/><br/>";
+            
+        Storage::disk('public_pdfs')->put("$id/file.txt", $fixIsi);
+        $pdf = PDF::loadHTML($fixIsipdf);
+        $fileName = "$id" . "srtutm";
+        $pdf->save($folderPath . '/' . $fileName . '.pdf');
+
         return redirect()->route('surats.index')->with('status','Surat berhasil di edit');
     }
 

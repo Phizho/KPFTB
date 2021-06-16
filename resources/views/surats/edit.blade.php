@@ -18,7 +18,7 @@ var count = 0;
 </script>
 
 <body onload="mulai()">
-  <form method="POST" action="{{url('surats/4')}}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
+  <form method="POST" action="{{url('surats/'.$s[0]->nomor_surat)}}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
     <div class="form-group">
       @csrf
       @method('PUT')
@@ -69,14 +69,15 @@ var count = 0;
       <br/><br/>
       <div id="tempat_upload">
         <label>Upload Lampiran</label>  
-        @isset($l) 
+        @isset($arrayNama) 
         <script>
-            count = <?php echo json_encode(count($l)); ?>;
+            count = <?php echo json_encode(count($arrayNama)); ?>;
         </script>
-          @for($i=1;$i<=count($l); $i++)
+          @for($i=1;$i<=count($arrayNama); $i++)
           <div>
-            <input type="file" name="uploadfile{{$i}}" id="uploadfile{{$i}}" style="display:none" accept=".pdf,.jpg">
-            <label style="color: blue; text-decoration: underline;" for="uploadfile{{$i}}">{{$i}}. {{$l[$i-1]->nama_lampiran}}.{{$l[$i-1]->format_lampiran}} (Klik untuk mengganti Lampiran)</label>
+            <input type="file" name="uploadfile{{$i}}" id="uploadfile{{$i}}" onchange="changeLampText(this.id)" style="display: none;" accept=".pdf,.jpg">
+            <label style="color: blue; text-decoration: underline;" for="uploadfile{{$i}}" value="{{$arrayNama[$i-1]}}.{{$arrayExtension[$i-1]}}">{{$i}}. {{$arrayNama[$i-1]}} (Klik disini untuk mengubah)</label>
+            <input type="hidden" name="lampuploadfile{{$i}}" id="lampuploadfile{{$i}}" value='{{$arrayNama[$i-1]}}.{{$arrayExtension[$i-1]}}'/>
           </div>
           @endfor
         @endisset
@@ -168,6 +169,26 @@ function tOn() {
       x.style.display = "none";
     }
   }
+
+function changeLampText(id) {
+
+  var labelId = "label[for="+id+"]";
+
+  if ($(labelId).length) {
+    var x = document.getElementById(id);
+    x.style.display = "block";
+
+    if ($(`#lamp${id}`).length) {
+      $(`#lamp${id}`).remove();
+    }
+    var value = $(labelId).attr("value");
+    $html = `<input type="hidden" name="lamp${id}" id="lamp${id}" value='${value}'/>`;
+
+    $('#tempat_upload').append($html);
+    $(labelId).remove();
+  }
+  
+}
 
 function addTable() {
 
