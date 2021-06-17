@@ -332,7 +332,7 @@ class SuratController extends Controller
                         $hapus = Lampiran::where('nomor_surat','=', $id)->where('nama_lampiran','=', $f[0])->delete();
                         $filePath = public_path("assets/pdf/$id/$i.$f[1]");
                         File::delete($filePath);
-                        $ext = $f[1];
+                        $ext = $file->clientExtension();
 
                         $namaLam = basename($file->getClientOriginalName(), '.'.$file->getClientOriginalExtension());
                         $fixIsi.="<li>$namaLam</li>";
@@ -352,6 +352,7 @@ class SuratController extends Controller
                     
                 } else {
                     if (isset($file)) {
+                        $ext = $file->clientExtension();
                         $namaLam = basename($file->getClientOriginalName(), '.'.$file->getClientOriginalExtension());
                         $fixIsi.="<li>$namaLam</li>";
                         $fixIsipdf.="<li>$namaLam</li>";

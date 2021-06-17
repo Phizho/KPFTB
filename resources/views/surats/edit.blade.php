@@ -38,7 +38,7 @@ var count = 0;
       <label class="required"> Isi Surat </label>
       <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control"  required>{{$isiSurat}}</textarea>  
       <br/> 
-      <span id="tempatCheck"></span>
+      <input type="checkbox" name="tcheck[]" value="pTabel" id="tcheck" onclick="tOn()" @if ($counttable > 1 ) checked @endif>
         <label>Gunakan Tabel?</label>
         <br/>
         <div id="hiddenTable" style="display: none;">
@@ -107,11 +107,8 @@ function mulai() {
 
     var currentData = 1;
 
-    $chk = `<input type="checkbox" id="tcheck" onclick="tOn()" value="check" checked/>`; 
-    $("#tempatCheck").append($chk)
-
     var arraytable = {!! json_encode($arraytable) !!};
-    var countcol = (counttable/2)/(countrow-1);
+    var countcol = (counttable/2)/(countrow - 1);
     $htmlTbl = "";
 
     for (i=1;i<countrow;i++) {
@@ -125,16 +122,12 @@ function mulai() {
 
     $('#tbl').append($htmlTbl);
 
-    trNum = countrow;
+    trNum = countrow-1;
     tdNum = countcol;
 
     $html = `<input type="hidden" name="jumrow" id="jumrow" value='${trNum}'/>
             <input type="hidden" name="jumcol" id="jumcol" value='${tdNum}'/>`;
     $('#tempat_upload').append($html);
-    }
-    else {
-      $chk = `<input type="checkbox" id="tcheck" onclick="tOn()" value="notcheck"/>`; 
-      $("#tempatCheck").append($chk)
     }
 }
 
