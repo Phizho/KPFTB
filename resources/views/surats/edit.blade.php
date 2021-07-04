@@ -23,6 +23,16 @@ var count = 0;
       @csrf
       @method('PUT')
 
+      <br />
+      <select name="jenis">
+        <option value="1">Surat Keluar Dekan</option>
+        <option value="2">Surat Keluar Wakil Dekan</option>
+        <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
+        <option value="4">Surat Kerja Sama</option>
+        <option value="5">Surat Keputusan Dekan</option>
+      </select>
+      <br /><br />
+
       <label class="required">No Surat Keluar</label>
       <input type="input" class="form-control" name="noSurat" value="{{$s[0]->nomor_surat}}" required>
       <br />

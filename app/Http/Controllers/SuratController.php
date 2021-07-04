@@ -49,9 +49,11 @@ class SuratController extends Controller
     public function store(Request $request)
     {
         $data = new Surat;
-        $data->nomor_surat = $request->get('noSurat');
+        $data->nomor_surat = str_replace("/","-",$request->get('noSurat'));
+        $ns = $request->get('noSurat');
         $data->perihal = $request->get('perihal');
         $data->tanggal_kirim = $request->get('Tanggal');
+        $date = date('d-m-Y', strtotime($data->tanggal_kirim));
         $data->jenis_surat = $request->get('jenis');
 
         $data->save();
@@ -71,18 +73,18 @@ class SuratController extends Controller
         $ftbPath = public_path("assets/LogoFTB.png");
         $response = mkdir($folderPath);
 
-        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $ns<br/>Perihal : <b>$data->perihal</b><br/>Tanggal : $date</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
-            <br/><br/><br/>
+            <br/><br/>
             <div>
                 Dengan Hormat,
                 <br/><br/>$isi
             <br/>
             </div>
             <br/>";
-        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $data->nomor_surat<br/>Perihal : $data->perihal<br/>Tanggal : $data->tanggal_kirim</p>
+        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $ns<br/>Perihal : <b>$data->perihal</b><br/>Tanggal : $date</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
-            <br/><br/><br/>
+            <br/><br/>
             <div>
                 Dengan Hormat,
                 <br/><br/>$isi
@@ -91,8 +93,8 @@ class SuratController extends Controller
             <br/>";
 
         if (isset($checkbox)) {
-            $fixIsi .= "<table style='border: 1px solid black; border-collapse: collapse;'>";
-            $fixIsipdf .= "<table style='border: 1px solid black; border-collapse: collapse;'>";
+            $fixIsi .= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;'>";
+            $fixIsipdf .= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;'>";
             
             for ($i = 1; $i <= $row; $i++) {
                 $fixIsi .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
@@ -140,15 +142,15 @@ class SuratController extends Controller
                 <br/>
             </div>
             <br/><br/><br/>
-            <div style='text-align: right;'>
-                Tanda Tangan Here
+            <div style='text-align: left;'>
+                Tanda Tangan Disini
             </div>
             <br/><br/>";
         $fixIsipdf .="<br/><div>$penutup
         </div>
         <br/><br/><br/><br/>
-        <div style='text-align: right;'>
-            Tanda Tangan Here
+        <div style='text-align: left;'>
+            Tanda Tangan Disini
         </div>
         <br/><br/>";
             
@@ -181,6 +183,7 @@ class SuratController extends Controller
      */
     public function edit($id)
     {
+        //$idc = str_replace("-","/",$id);
         $s = DB::table('surats')
             ->select(DB::raw('*'))
             ->where('nomor_surat', $id)
@@ -192,14 +195,15 @@ class SuratController extends Controller
             ->get();
 
             $p = Storage::disk('public_pdfs')->getAdapter()->getPathPrefix();
+            
             $path = "C:/xampp/htdocs/KPFTB/public/assets/pdf/".$id."/file.txt";
             $txtFile = file_get_contents("$path");
 
             $fullText = explode('<br/>',$txtFile);
             $kepada = $fullText[7];
-            $isiSurat = $fullText[13];
-            $fulltable = $fullText[15];
-            $penutup = $fullText[16];
+            $isiSurat = $fullText[12];
+            $fulltable = $fullText[14];
+            $penutup = $fullText[15];
 
             $arrayNama = array();
             $arrayExtension = array();
@@ -253,10 +257,11 @@ class SuratController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //$idc = str_replace("-","/",$id);
         $perihal = $request->get("perihal");
         $jenis = $request->get("jenis");
         $tanggal = $request->get('Tanggal');
-
+        $date = date('d-m-Y', strtotime($tanggal));
 
         DB::table('surats')
             ->where('nomor_surat', $id)
@@ -276,18 +281,18 @@ class SuratController extends Controller
 
         $folderPath = public_path("assets/pdf/$id");
 
-        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $id<br/>Perihal : $perihal<br/>Tanggal : $tanggal</p>
+        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $id<br/>Perihal : <b>$perihal</b><br/>Tanggal : $date</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
-            <br/><br/><br/>
+            <br/><br/>
             <div>
                 Dengan Hormat,
                 <br/><br/>$isi
             <br/>
             </div>
             <br/>";
-        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $id<br/>Perihal : $perihal<br/>Tanggal : $tanggal</p>
+        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $id<br/>Perihal : <b>$perihal</b><br/>Tanggal : $date</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
-            <br/><br/><br/>
+            <br/><br/>
             <div>
                 Dengan Hormat,
                 <br/><br/>$isi
@@ -296,8 +301,8 @@ class SuratController extends Controller
             <br/>";
             
         if (isset($checkbox)) {
-            $fixIsi .= "<table style='border: 1px solid black; border-collapse: collapse;'>";
-            $fixIsipdf .= "<table style='border: 1px solid black; border-collapse: collapse;'>";
+            $fixIsi .= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;' >";
+            $fixIsipdf .= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;'>";
             
             for ($i = 1; $i <= $row; $i++) {
                 $fixIsi .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
@@ -374,15 +379,15 @@ class SuratController extends Controller
                 <br/>
             </div>
             <br/><br/><br/>
-            <div style='text-align: right;'>
-                Tanda Tangan Here
+            <div style='text-align: left;'>
+                Tanda Tangan Disini
             </div>
             <br/><br/>";
         $fixIsipdf .="<br/><div>$penutup
         </div>
         <br/><br/><br/><br/>
-        <div style='text-align: right;'>
-            Tanda Tangan Here
+        <div style='text-align: left;'>
+            Tanda Tangan Disini
         </div>
         <br/><br/>";
             

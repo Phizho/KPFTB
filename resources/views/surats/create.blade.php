@@ -18,6 +18,15 @@
   <form method="POST" action="{{ route('surats.store') }}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
     <div class="form-group">
       @csrf
+      <br />
+      <select name="jenis">
+        <option value="1">Surat Keluar Dekan</option>
+        <option value="2">Surat Keluar Wakil Dekan</option>
+        <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
+        <option value="4">Surat Kerja Sama</option>
+        <option value="5">Surat Keputusan Dekan</option>
+      </select>
+      <br /><br />
       <label class="required">No Surat Keluar</label>
       <input type="input" class="form-control" name="noSurat" required>
       <br />
@@ -47,7 +56,7 @@
             <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel</button>
           </div>
           <br>
-          <table style='border: 1px solid black; border-collapse: collapse;' id="tbl">
+          <table style='border: 1px solid black; border-collapse: collapse; width: 100%;' id="tbl">
           </table>
           <br/>
         </div>
@@ -55,13 +64,6 @@
         <textarea name="penutup" id="penutup" rows="8" class="form-control" required></textarea>   
       <br/><br/>
       <label>Jenis surat keluar</label>
-      <select name="jenis">
-        <option value="1">Surat Keluar Dekan</option>
-        <option value="2">Surat Keluar Wakil Dekan</option>
-        <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
-        <option value="4">Surat Kerja Sama</option>
-        <option value="5">Surat Keputusan Dekan</option>
-      </select>
       <br/><br/>
       <div id="tempat_upload">
         <label>Upload Lampiran</label>     
