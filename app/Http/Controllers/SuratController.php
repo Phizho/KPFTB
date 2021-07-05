@@ -73,7 +73,7 @@ class SuratController extends Controller
         $ftbPath = public_path("assets/LogoFTB.png");
         $response = mkdir($folderPath);
 
-        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $ns<br/>Perihal : <b>$data->perihal</b><br/>Tanggal : $date</p>
+        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'><br/></div><br/>Nomor : $ns<br/>Perihal : <b>$data->perihal</b><br/>Tanggal : $date</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/>
             <div>
@@ -82,7 +82,7 @@ class SuratController extends Controller
             <br/>
             </div>
             <br/>";
-        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $ns<br/>Perihal : <b>$data->perihal</b><br/>Tanggal : $date</p>
+        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/><br/><br/><div style=' width: 100%; text-align: right; float: right;'>Tanggal : $date</div>Nomor : $ns <br/> Perihal : <b>$data->perihal</b><br/></p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/>
             <div>
@@ -200,10 +200,10 @@ class SuratController extends Controller
             $txtFile = file_get_contents("$path");
 
             $fullText = explode('<br/>',$txtFile);
-            $kepada = $fullText[7];
-            $isiSurat = $fullText[12];
-            $fulltable = $fullText[14];
-            $penutup = $fullText[15];
+            $kepada = $fullText[8];
+            $isiSurat = $fullText[13];
+            $fulltable = $fullText[15];
+            $penutup = $fullText[16];
 
             $arrayNama = array();
             $arrayExtension = array();
@@ -281,7 +281,7 @@ class SuratController extends Controller
 
         $folderPath = public_path("assets/pdf/$id");
 
-        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $id<br/>Perihal : <b>$perihal</b><br/>Tanggal : $date</p>
+        $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor : $id<br/>Perihal : <b>$perihal</b><br/>Tanggal : $date</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/>
             <div>
@@ -290,7 +290,7 @@ class SuratController extends Controller
             <br/>
             </div>
             <br/>";
-        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor Surat : $id<br/>Perihal : <b>$perihal</b><br/>Tanggal : $date</p>
+        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor : $id<br/>Perihal : <b>$perihal</b><br/>Tanggal : $date</p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/>
             <div>

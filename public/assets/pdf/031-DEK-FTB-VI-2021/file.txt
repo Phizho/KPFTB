@@ -1,0 +1,17 @@
+<div><img src='C:\xampp\htdocs\KPFTB\public\assets/LogoUbayaSml.png' width='255' height='75'><img src='C:\xampp\htdocs\KPFTB\public\assets/LogoFTB.png' width='255' height='75' style='float: right;'></div><br/><div style='float: right;'>Nomor : 031/DEK/FTB/VI/2021</div><br/>Perihal : <b>u</b><br/>Tanggal : 05-07-2021</p>
+        <br/><br/><br/><div>Kepada Yth,<br/>u <br/>Universitas Surabaya</div>
+            <br/><br/>
+            <div>
+                Dengan Hormat,
+                <br/><br/>u
+            <br/>
+            </div>
+            <br/><div>
+                <br/>u
+                <br/>
+            </div>
+            <br/><br/><br/>
+            <div style='text-align: left;'>
+                Tanda Tangan Disini
+            </div>
+            <br/><br/>

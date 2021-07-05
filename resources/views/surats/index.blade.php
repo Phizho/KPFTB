@@ -77,7 +77,7 @@
           {{$l->created_at}}
         </td>
         <td>
-          {{$l->nomor_surat}}
+          {{str_replace("-","/",$l->nomor_surat)}}
         </td>
         <td>
           {{$l->perihal}}

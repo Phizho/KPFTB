@@ -1,7 +1,7 @@
 @extends('layout.conquer')
 
 @section('tempat_titleatas')
-<title>Pembuatan Surat Keluar</title>
+<title>Edit Surat Keluar</title>
 @endsection
 
 @section('tempat_judul')
@@ -34,7 +34,7 @@ var count = 0;
       <br /><br />
 
       <label class="required">No Surat Keluar</label>
-      <input type="input" class="form-control" name="noSurat" value="{{$s[0]->nomor_surat}}" required>
+      <input type="input" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' required>
       <br />
       <label class="required">Perihal</label>
       <input type="input" class="form-control" name="perihal" value="{{$s[0]->perihal}}" required>
