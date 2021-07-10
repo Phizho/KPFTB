@@ -19,6 +19,7 @@
     <div class="form-group">
       @csrf
       <br />
+      <label>Jenis surat keluar</label>
       <select name="jenis">
         <option value="1">Surat Keluar Dekan</option>
         <option value="2">Surat Keluar Wakil Dekan</option>
@@ -55,15 +56,13 @@
           <div>
             <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel</button>
           </div>
-          <br>
+          <br/>
           <table style='border: 1px solid black; border-collapse: collapse; width: 100%;' id="tbl">
           </table>
           <br/>
         </div>
         <label class="required"> Penutup Surat </label>
         <textarea name="penutup" id="penutup" rows="8" class="form-control" required></textarea>   
-      <br/><br/>
-      <label>Jenis surat keluar</label>
       <br/><br/>
       <div id="tempat_upload">
         <label>Upload Lampiran</label>     
@@ -145,7 +144,11 @@ function addTable() {
   for (i=1;i<=$row;i++) {
     $htmlTbl += `<tr id="tr${i}" style='border: 1px solid black; border-collapse: collapse;'>`;
     for (j=1;j<=$col;j++){
-      $htmlTbl += `<td style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div id="tr${i}td${j}" contenteditable>Isi data disini</div></td>`;
+      if (i == 1) {
+        $htmlTbl += `<td style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div id="tr${i}td${j}" contenteditable><center><b>Judul Kolom</b></center></div></td>`;
+      } else {
+        $htmlTbl += `<td style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div id="tr${i}td${j}" contenteditable></div></td>`;
+      }
     }
     $htmlTbl += '</tr>';
   } 

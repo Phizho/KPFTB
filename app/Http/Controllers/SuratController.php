@@ -82,6 +82,8 @@ class SuratController extends Controller
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $ubayaPath = public_path("assets/LogoUbayaSml.png");
         $ftbPath = public_path("assets/LogoFTB.png");
+        $ttDEKPath = public_path("assets/TTDekan.png");
+        $ttKPDMPath = public_path("assets/TTKaprodiM.png");
         $response = mkdir($folderPath);
 
         $fixIsi = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'><br/></div><br/>Nomor : $ns<br/>Perihal : <b>$data->perihal</b><br/>Tanggal : $date</p>
@@ -154,14 +156,19 @@ class SuratController extends Controller
             </div>
             <br/><br/><br/>
             <div style='text-align: left;'>
-                Tanda Tangan Disini
+                <img src='$ttDEKPath' width='213' height='135'>
             </div>
             <br/><br/>";
         $fixIsipdf .="<br/><div>$penutup
         </div>
-        <br/><br/><br/><br/>
+        <br/><br/><br/>
         <div style='text-align: left;'>
-            Tanda Tangan Disini
+            <p>
+            Hormat Kami, <br/>
+            Dekan Fakultas Teknobiologi
+            </p>
+            <img src='$ttDEKPath' width='213' height='135'><br/>
+            Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
         </div>
         <br/><br/>";
             

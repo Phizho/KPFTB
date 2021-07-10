@@ -34,7 +34,7 @@ var count = 0;
       <br /><br />
 
       <label class="required">No Surat Keluar</label>
-      <input type="input" class="form-control" name="noSurat" value='{{str_replace("-","/",$s)}}' required>
+      <input type="input" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' required>
       <br />
       <label class="required">Perihal</label>
       <input type="input" class="form-control" name="perihal" value="{{$s[0]->perihal}}" required>
@@ -61,7 +61,8 @@ var count = 0;
           <div>
             <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel</button>
           </div>
-          <table style='border: 1px solid black; border-collapse: collapse;' id="tbl">
+          <br/>
+          <table style='border: 1px solid black; border-collapse: collapse;  width: 100%;' id="tbl">
           </table>
         </div>
         <br/>
@@ -222,7 +223,11 @@ function addTable() {
   for (i=1;i<=$row;i++) {
     $htmlTbl += `<tr id="tr${i}" style='border: 1px solid black; border-collapse: collapse;'>`;
     for (j=1;j<=$col;j++){
-      $htmlTbl += `<td style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div id="tr${i}td${j}" contenteditable>Isi data disini</div></td>`;
+      if (i == 1) {
+        $htmlTbl += `<td style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div id="tr${i}td${j}" contenteditable><center><b>Judul Kolom</b></center></div></td>`;
+      } else {
+        $htmlTbl += `<td style="width: 200px; border: 1px solid black; border-collapse: collapse;"><div id="tr${i}td${j}" contenteditable></div></td>`;
+      }
     }
     $htmlTbl += '</tr>';
   } 
