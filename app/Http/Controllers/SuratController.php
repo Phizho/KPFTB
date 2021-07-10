@@ -37,7 +37,18 @@ class SuratController extends Controller
      */
     public function create()
     {
-        return view('surats.create');
+        $s = DB::table('surats')
+            ->select(DB::raw('surats.nomor_surat'))
+            ->orderBy('nomor_surat','desc')
+            ->limit(1)
+            ->get();
+        
+        $dbs = explode('-',$s[0]->nomor_surat);
+        $angka = intval($dbs[0]);
+        $angka += 1;
+        $dbs[0] = str_pad($angka, 3, '0', STR_PAD_LEFT);
+        $nsurat = implode('-', $dbs);
+        return view('surats.create', compact('nsurat'));
     }
 
     /**
@@ -82,7 +93,7 @@ class SuratController extends Controller
             <br/>
             </div>
             <br/>";
-        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/><br/><br/><div style=' width: 100%; text-align: right; float: right;'>Tanggal : $date</div>Nomor : $ns <br/> Perihal : <b>$data->perihal</b><br/></p>
+        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/><br/><br/><div style=' width: 100%; text-align: right; float: right;'>Tanggal : $date</div>Nomor : $ns <br/>Lampiran : <br/> Perihal : <b>$data->perihal</b><br/></p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/>
             <div>
@@ -290,7 +301,7 @@ class SuratController extends Controller
             <br/>
             </div>
             <br/>";
-        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/>Nomor : $id<br/>Perihal : <b>$perihal</b><br/>Tanggal : $date</p>
+        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/><br/><br/><div style=' width: 100%; text-align: right; float: right;'>Tanggal : $date</div>Nomor : $id <br/>Lampiran : <br/> Perihal : <b>$perihal</b><br/></p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/>
             <div>

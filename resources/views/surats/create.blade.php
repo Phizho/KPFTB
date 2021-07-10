@@ -28,7 +28,7 @@
       </select>
       <br /><br />
       <label class="required">No Surat Keluar</label>
-      <input type="input" class="form-control" name="noSurat" required>
+      <input type="input" class="form-control" name="noSurat" value='{{str_replace("-","/",$nsurat)}}' required>
       <br />
       <label class="required">Perihal</label>
       <input type="input" class="form-control" name="perihal" required>
