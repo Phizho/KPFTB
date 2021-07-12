@@ -34,6 +34,9 @@
       <label class="required">Perihal</label>
       <input type="input" class="form-control" name="perihal" required>
       <br />
+      <label class="required">Lampiran</label>
+      <input type="input" class="form-control" name="lampiran" required>
+      <br />
       <label class="required">Tanggal Kirim:</label>
       <input type="date" class="form-control" name="Tanggal" required>
       <br>

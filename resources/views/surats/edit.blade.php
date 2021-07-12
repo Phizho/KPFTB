@@ -39,6 +39,9 @@ var count = 0;
       <label class="required">Perihal</label>
       <input type="input" class="form-control" name="perihal" value="{{$s[0]->perihal}}" required>
       <br />
+      <label class="required">Lampiran</label>
+      <input type="input" class="form-control" name="Lampiran" value ="{{$la}}" required>
+      <br />
       <label class="required">Tanggal Kirim:</label>
       <input type="date" class="form-control" name="Tanggal" value="{{ date('Y-m-d', strtotime($s[0]->tanggal_kirim)) }}" required>
       <br>
@@ -79,6 +82,7 @@ var count = 0;
       </select>
       <br/><br/>
       <div id="tempat_upload">
+      <input type="hidden" name="tglbuat" id="tglbuat" value='{{$s[0]->created_at}}'/>
         <label>Upload Lampiran</label>  
         @isset($arrayNama) 
         <script>
