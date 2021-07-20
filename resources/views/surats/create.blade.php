@@ -9,18 +9,20 @@
 @endsection
 
 @section('tempat_konten')
-<head>
+<head> 
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <a href="{{route('surats.index')}}">
   Kembali</a>
 </head>
 
 <body>
-  <form method="POST" action="{{ route('surats.store') }}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
+  <form method="POST" action="{{ route('surats.store') }}" formtarget="_blank" target="_blank"  enctype="multipart/form-data">
     <div class="form-group">
       @csrf
       <br />
       <label>Jenis surat keluar</label>
-      <select name="jenis">
+      <select name="jenis" onchange="getComboN(this)">
+        <option disabled selected value> -- Pilih Jenis Surat -- </option>
         <option value="1">Surat Keluar Dekan</option>
         <option value="2">Surat Keluar Wakil Dekan</option>
         <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
@@ -29,7 +31,7 @@
       </select>
       <br /><br />
       <label class="required">No Surat Keluar</label>
-      <input type="input" class="form-control" name="noSurat" value='{{str_replace("-","/",$nsurat)}}' required>
+      <input type="input" class="form-control" name="noSurat" value="" required readonly>
       <br />
       <label class="required">Perihal</label>
       <input type="input" class="form-control" name="perihal" required>
@@ -81,10 +83,157 @@
 
 </body>
 
-<script>
+<script type="text/javascript">
 var count = 0 ;
 var trNum = 0;
 var tdNum = 0;
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+function getComboN(selectObject) {
+  let value = selectObject.value;  
+    $.ajax({
+            type:"POST",
+            url: "{{ route('surats.generateNO') }}",
+            data: {
+                vl : value,
+            },
+            success: function(data)
+            { 
+              var arrSpl = data.success.split("-");
+              var d = new Date();
+              var y = d.getFullYear();
+
+              switch(d.getMonth()) {
+                case 0:
+                  month = "I"
+                  break;
+                case 1:
+                  month = "II"
+                  break;
+                case 2:
+                  month = "III"
+                  break;
+                case 3:
+                  month = "IV"
+                  break;
+                case 4:
+                  month = "V"
+                  break;
+                case 5:
+                  month = "VI"
+                  break;
+                case 6:
+                  month = "VII"
+                  break;
+                case 7:
+                  month = "VIII"
+                  break;
+                case 8:
+                  month = "IX"
+                  break;
+                case 9:
+                  month = "X"
+                  break;
+                case 10:
+                  month = "XI"
+                  break;
+                case 11:
+                  month = "XII"
+                  break;
+              } 
+
+              if (arrSpl[4] == y) {
+                //Tahun sama     
+                if (month == arrSpl[3]) {
+                  //Bulan sama
+                  arrSpl[0] = String(parseInt(arrSpl[0]) + 1).padStart(3,'0');
+                  var baru = arrSpl.join('/');
+                } else {
+                  //Bulan beda
+                  arrSpl[3] = month;
+                  arrSpl[0] = "001";
+                  var baru = arrSpl.join('/');
+                }
+                $('input[name=noSurat]').attr('value', baru);
+              } else {
+                //Tahun Beda
+                arrSpl[3] = month;
+                arrSpl[0] = "001";
+                arrSpl[4] = y;
+                var baru = arrSpl.join('/');
+                $('input[name=noSurat]').attr('value', baru);
+              }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              var d = new Date();
+              var y = d.getFullYear();
+
+              switch(d.getMonth()) {
+                case 0:
+                  month = "I"
+                  break;
+                case 1:
+                  month = "II"
+                  break;
+                case 2:
+                  month = "III"
+                  break;
+                case 3:
+                  month = "IV"
+                  break;
+                case 4:
+                  month = "V"
+                  break;
+                case 5:
+                  month = "VI"
+                  break;
+                case 6:
+                  month = "VII"
+                  break;
+                case 7:
+                  month = "VIII"
+                  break;
+                case 8:
+                  month = "IX"
+                  break;
+                case 9:
+                  month = "X"
+                  break;
+                case 10:
+                  month = "XI"
+                  break;
+                case 11:
+                  month = "XII"
+                  break;
+              } 
+              
+              switch(value){
+                case "1":
+                  baru = "001/DEK/FTb/"+month+"/"+y
+                  break;
+                case "2":
+                  baru = "001/WD/FTb/"+month+"/"+y
+                  break;
+                case "3":
+                  baru = "001/Mag-Bioteknologi/FTb/"+month+"/"+y
+                  break;
+                case "4":
+                  baru = "001/PKS/FTb/"+month+"/"+y
+                  break;
+                case "5":
+                  baru = "001/SK/DEK/FTb/"+month+"/"+y
+                  break;
+              }
+
+              $('input[name=noSurat]').attr('value', baru);
+            }
+        });
+}
 
 function addInputFile() {
   count+=1; 

@@ -37,18 +37,7 @@ class SuratController extends Controller
      */
     public function create()
     {
-        $s = DB::table('surats')
-            ->select(DB::raw('surats.nomor_surat'))
-            ->orderBy('nomor_surat','desc')
-            ->limit(1)
-            ->get();
-        
-        $dbs = explode('-',$s[0]->nomor_surat);
-        $angka = intval($dbs[0]);
-        $angka += 1;
-        $dbs[0] = str_pad($angka, 3, '0', STR_PAD_LEFT);
-        $nsurat = implode('-', $dbs);
-        return view('surats.create', compact('nsurat'));
+        return view('surats.create');
     }
 
     /**
@@ -68,6 +57,7 @@ class SuratController extends Controller
         $date = date('d-m-Y', strtotime($data->tanggal_kirim));
         $d = strftime('%d %B %Y');
         $data->jenis_surat = $request->get('jenis');
+        $jen = $request->get('jenis');
 
         $data->save();
 
@@ -89,6 +79,18 @@ class SuratController extends Controller
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
         $response = mkdir($folderPath);
 
+        if ($jen = 5) {
+            $fixIsipdf = "<center><b><div>KEPUTUSAN<br/>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA<br/>NOMOR: $ns<br/>Tentang<br/>$data->perihal</div><hr><br/><div>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA</div></b></center><br/>";
+            $fixIsipdf.= "MENIMBANG : Dalam Rangka<br/><br/>";
+            $fixIsipdf.= "MENGINGAT : Dalam Rangka<br/><br/>";
+            $fixIsipdf.= "<br/><b>MENETAPKAN</b><br/><br/>";
+            $fixIsipdf.= "Pertama<br/><br/>";
+            $fixIsipdf.= "Ditetapkan di  : Surabaya<br/>Pada Tanggal  : $d<br/>Dekan,
+            <br/><img src='$ttDEKPath' width='213' height='135'><br/>
+            Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
+            </div>
+            <br/><br/>";
+        } else {
         $fixIsi = "$lampiran<br/>$ns<br/>$data->perihal<br/>$date<br/>$kepada<br/>$isi<br/>$penutup<br/>";
         $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/><br/><br/><div style=' width: 100%; text-align: right; float: right;'>$d</div>Nomor : $ns <br/>Lampiran : $lampiran<br/> Perihal : <b>$data->perihal</b><br/></p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
@@ -142,7 +144,21 @@ class SuratController extends Controller
             $fixIsi .="</br></div>";
             $fixIsipdf .="</ol></br></div>";
         }
-        $fixIsipdf .="<br/><div>$penutup
+        if($jen == 3) {    
+            $fixIsipdf .="<br/><div>$penutup
+        </div>
+        <br/><br/><br/>
+        <div style='text-align: left;'>
+            <p>
+            Hormat Kami, <br/>
+            Dekan Fakultas Teknobiologi
+            </p>
+            <img src='$ttKPDMPath' width='213' height='135'><br/>
+            Dr.Tjie Kok, S.Si., M.Si., Apt         
+        </div>
+        <br/><br/>";
+        } else {
+            $fixIsipdf .="<br/><div>$penutup
         </div>
         <br/><br/><br/>
         <div style='text-align: left;'>
@@ -154,6 +170,8 @@ class SuratController extends Controller
             Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
         </div>
         <br/><br/>";
+        }
+        }
             
         Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
@@ -451,5 +469,51 @@ class SuratController extends Controller
         //      ->paginate(5);
 
         // return view('surats.index', compact('lamp'));
+    }
+
+    public function generateNO(Request $request) {
+        if ($request->vl == 1) {
+            $s = DB::table('surats')
+            ->select(DB::raw('max(surats.nomor_surat) mns, created_at'))
+            ->where('surats.jenis_surat', '=', 'Keluar Dekan')
+            ->groupBy('surats.created_at')
+            ->orderBy('created_at','desc')
+            ->limit(1)
+            ->get();
+        } else if ($request->vl == 2) {
+            $s = DB::table('surats')
+            ->select(DB::raw('max(surats.nomor_surat) mns, created_at'))
+            ->where('surats.jenis_surat', '=', 'Keluar Wakil Dekan')
+            ->groupBy('surats.created_at')
+            ->orderBy('created_at','desc')
+            ->limit(1)
+            ->get();
+        } else if ($request->vl == 3) {
+            $s = DB::table('surats')
+            ->select(DB::raw('max(surats.nomor_surat) mns, created_at'))
+            ->where('surats.jenis_surat', '=', 'Keluar Kaprodi Magister Bioteknologi')
+            ->groupBy('surats.created_at')
+            ->orderBy('created_at','desc')
+            ->limit(1)
+            ->get();
+        } else if ($request->vl == 4) {
+            $s = DB::table('surats')
+            ->select(DB::raw('max(surats.nomor_surat) mns, created_at'))
+            ->where('surats.jenis_surat', '=', 'Kerja Sama')
+            ->groupBy('surats.created_at')
+            ->orderBy('created_at','desc')
+            ->limit(1)
+            ->get();
+        } else if ($request->vl == 5) {
+            $s = DB::table('surats')
+            ->select(DB::raw('max(surats.nomor_surat) mns, created_at'))
+            ->where('surats.jenis_surat', '=', 'Keputusan Dekan')
+            ->groupBy('surats.created_at')
+            ->orderBy('created_at','desc')
+            ->limit(1)
+            ->get();
+        }
+
+        return response()->json(['success'=>$s[0]->mns]);
     }
 }
