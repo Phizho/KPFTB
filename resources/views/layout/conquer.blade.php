@@ -51,13 +51,68 @@
 	<!-- BEGIN HEADER -->
 
 	<div class="header navbar navbar-fixed-top">
-		<div class="header-inner">
+		<div class="header-inner" style="color: white;">
 			<!-- <center><p>DAFTAR SURAT KELUAR</p>	</center> -->
 			@yield('tempat_judul')
 		</div>
 	</div>
 	<!-- BEGIN CONTAINER -->
 	<div class="page-container">
+	<!-- BEGIN SIDEBAR -->
+	<div class="page-sidebar-wrapper">
+		<div class="page-sidebar navbar-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->
+			<!-- DOC: for circle icon style menu apply page-sidebar-menu-circle-icons class right after sidebar-toggler-wrapper -->
+			<ul class="page-sidebar-menu">
+				<li class="sidebar-toggler-wrapper">
+					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+					<div class="sidebar-toggler">
+					</div>
+					<div class="clearfix">
+					</div>
+					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+				</li>
+				<li class="sidebar-search-wrapper">
+					<form class="search-form" role="form" action="index.html" method="get">
+						<div class="input-icon right">
+							<i class="icon-magnifier"></i>
+							<input type="text" class="form-control" name="query" placeholder="Search...">
+						</div>
+					</form>
+				</li>
+				<li class="start active ">
+					<a href="{{route('surats.index')}}">
+					<i class="icon-home"></i>
+					<span class="title">Daftar Surat Keluar</span>
+					<span class="selected"></span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ route('surats.create') }}">
+					<i><img src="{{URL::asset('assets/img/plus.png')}}"></i>
+					<span class="title">Buat Surat Dekan</span>
+					<span class="selected"></span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ route('surats.createKep') }}">
+					<i><img src="{{URL::asset('assets/img/plus.png')}}"></i>
+					<span class="title">Buat Surat Keputusan</span>
+					<span class="selected"></span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ route('surats.createKerj') }}">
+					<i><img src="{{URL::asset('assets/img/plus.png')}}"></i>
+					<span class="title">Buat Surat Kerja Sama</span>
+					<span class="selected"></span>
+					</a>
+				</li>
+			</ul>
+			<!-- END SIDEBAR MENU -->
+		</div>
+	</div>
+	<!-- END SIDEBAR -->
 		<!-- BEGIN CONTENT -->	
 		<div class="page-content-wrapper">
 			<div class="page-content">

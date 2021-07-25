@@ -40,6 +40,16 @@ class SuratController extends Controller
         return view('surats.create');
     }
 
+    public function createKep()
+    {
+        return view('surats.createKep');
+    }
+
+    public function createKerj()
+    {
+        return view('surats.createKerj');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -79,101 +89,103 @@ class SuratController extends Controller
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
         $response = mkdir($folderPath);
 
-        if ($jen = 5) {
-            $fixIsipdf = "<center><b><div>KEPUTUSAN<br/>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA<br/>NOMOR: $ns<br/>Tentang<br/>$data->perihal</div><hr><br/><div>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA</div></b></center><br/>";
-            $fixIsipdf.= "MENIMBANG : Dalam Rangka<br/><br/>";
-            $fixIsipdf.= "MENGINGAT : Dalam Rangka<br/><br/>";
-            $fixIsipdf.= "<br/><b>MENETAPKAN</b><br/><br/>";
-            $fixIsipdf.= "Pertama<br/><br/>";
-            $fixIsipdf.= "Ditetapkan di  : Surabaya<br/>Pada Tanggal  : $d<br/>Dekan,
-            <br/><img src='$ttDEKPath' width='213' height='135'><br/>
-            Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
+        // if ($jen = 5) {
+        //     $fixIsipdf = "<center><b><div>KEPUTUSAN<br/>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA<br/>NOMOR: $ns<br/>Tentang<br/>$data->perihal</div><hr><br/><div>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA</div></b></center><br/>";
+        //     $fixIsipdf.= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;'>";
+        //     $fixIsipdf.= "<tr><td style='width:30%'>MENIMBANG</td><td style='width:5%'>: </td><td style='text-align:left'>Dalam Rangka</td></tr>";
+        //     $fixIsipdf.= "<tr><td style='height:10px'></td><td></td><td></td></tr>";
+        //     $fixIsipdf.= "<tr><td style='width:30%'>MENGINGAT</td><td style='width:5%'>: </td><td style='text-align:left'>Dalam Rangka</td></tr>";
+        //     $fixIsipdf.= "<br/><b>MENETAPKAN</b><br/><br/>";
+        //     $fixIsipdf.= "Pertama<br/><br/>";
+        //     $fixIsipdf.= "Ditetapkan di  : Surabaya<br/>Pada Tanggal  : $d<br/>Dekan,
+        //     <br/><img src='$ttDEKPath' width='213' height='135'><br/>
+        //     Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
+        //     </div>
+        //     <br/><br/>";
+        // } else {
+            $fixIsi = "$lampiran<br/>$ns<br/>$data->perihal<br/>$date<br/>$kepada<br/>$isi<br/>$penutup<br/>";
+            $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/><br/><br/><div style=' width: 100%; text-align: right; float: right;'>$d</div>Nomor : $ns <br/>Lampiran : $lampiran<br/> Perihal : <b>$data->perihal</b><br/></p>
+            <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
+                <br/><br/>
+                <div>
+                    Dengan Hormat,
+                    <br/><br/>$isi
+                <br/>
+                </div>
+                <br/>";
+
+            if (isset($checkbox)) {
+                $fixIsi .= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;'>";
+                $fixIsipdf .= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;'>";
+                
+                for ($i = 1; $i <= $row; $i++) {
+                    $fixIsi .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
+                    $fixIsipdf .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
+                    for ($j = 1; $j <= $col; $j++){
+                    $td = $request->get("instr${i}td${j}");
+                    $fixIsi .= "<td  style=' border: 1px solid black; border-collapse: collapse;'><div>^$td^</div></td>";
+                    $fixIsipdf .="<td  style='border: 1px solid black; border-collapse: collapse;'><div>$td</div></td>";
+                    }
+                    $fixIsi .= '</tr>';
+                    $fixIsipdf .= '</tr>';
+                } 
+                $fixIsi .= "</table>";
+                $fixIsipdf .= "</table>";
+            }
+
+            if ($count >= 1) {
+                $fixIsi .="</br>";
+                $fixIsipdf .="</br></br><div>
+                        Bersama ini terlampir kami sampaikan:
+                        <ol></br>";
+                for ($i = 1; $i <= $count; $i++) {
+                    $lam = new lampiran;
+                    $file = $request->file("uploadfile{$i}");
+                    $ext = $file->clientExtension();
+                    
+                    $namaLam = basename($file->getClientOriginalName(), '.'.$file->getClientOriginalExtension());
+                    $fixIsi.="<li>$namaLam</li>";
+                    $fixIsipdf.="<li>$namaLam</li>";
+
+                    $file->move($folderPath, "{$i}.{$ext}");
+                    $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
+                    $lam->format_lampiran = $ext;
+                    $lam->nomor_surat = str_replace("/","-",$request->get('noSurat'));
+                    $lam->save();
+                }
+                $fixIsi .="</br></div>";
+                $fixIsipdf .="</ol></br></div>";
+            }
+            if($jen == 3) {    
+                $fixIsipdf .="<br/><div>$penutup
+            </div>
+            <br/><br/><br/>
+            <div style='text-align: left;'>
+                <p>
+                Hormat Kami, <br/>
+                Dekan Fakultas Teknobiologi
+                </p>
+                <img src='$ttKPDMPath' width='213' height='135'><br/>
+                Dr.Tjie Kok, S.Si., M.Si., Apt         
             </div>
             <br/><br/>";
-        } else {
-        $fixIsi = "$lampiran<br/>$ns<br/>$data->perihal<br/>$date<br/>$kepada<br/>$isi<br/>$penutup<br/>";
-        $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/><br/><br/><div style=' width: 100%; text-align: right; float: right;'>$d</div>Nomor : $ns <br/>Lampiran : $lampiran<br/> Perihal : <b>$data->perihal</b><br/></p>
-        <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
-            <br/><br/>
-            <div>
-                Dengan Hormat,
-                <br/><br/>$isi
-            <br/>
+            } else {
+                $fixIsipdf .="<br/><div>$penutup
             </div>
-            <br/>";
-
-        if (isset($checkbox)) {
-            $fixIsi .= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;'>";
-            $fixIsipdf .= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;'>";
-            
-            for ($i = 1; $i <= $row; $i++) {
-                $fixIsi .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
-                $fixIsipdf .= "<tr style='border: 1px solid black; border-collapse: collapse;'>";
-                for ($j = 1; $j <= $col; $j++){
-                  $td = $request->get("instr${i}td${j}");
-                  $fixIsi .= "<td  style=' border: 1px solid black; border-collapse: collapse;'><div>^$td^</div></td>";
-                  $fixIsipdf .="<td  style='border: 1px solid black; border-collapse: collapse;'><div>$td</div></td>";
-                }
-                $fixIsi .= '</tr>';
-                $fixIsipdf .= '</tr>';
-            } 
-            $fixIsi .= "</table>";
-            $fixIsipdf .= "</table>";
-        }
-
-        if ($count >= 1) {
-            $fixIsi .="</br>";
-            $fixIsipdf .="</br></br><div>
-                    Bersama ini terlampir kami sampaikan:
-                    <ol></br>";
-            for ($i = 1; $i <= $count; $i++) {
-                $lam = new lampiran;
-                $file = $request->file("uploadfile{$i}");
-                $ext = $file->clientExtension();
-                
-                $namaLam = basename($file->getClientOriginalName(), '.'.$file->getClientOriginalExtension());
-                $fixIsi.="<li>$namaLam</li>";
-                $fixIsipdf.="<li>$namaLam</li>";
-
-                $file->move($folderPath, "{$i}.{$ext}");
-                $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
-                $lam->format_lampiran = $ext;
-                $lam->nomor_surat = str_replace("/","-",$request->get('noSurat'));
-                $lam->save();
+            <br/><br/><br/>
+            <div style='text-align: left;'>
+                <p>
+                Hormat Kami, <br/>
+                Dekan Fakultas Teknobiologi
+                </p>
+                <img src='$ttDEKPath' width='213' height='135'><br/>
+                Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
+            </div>
+            <br/><br/>";
             }
-            $fixIsi .="</br></div>";
-            $fixIsipdf .="</ol></br></div>";
-        }
-        if($jen == 3) {    
-            $fixIsipdf .="<br/><div>$penutup
-        </div>
-        <br/><br/><br/>
-        <div style='text-align: left;'>
-            <p>
-            Hormat Kami, <br/>
-            Dekan Fakultas Teknobiologi
-            </p>
-            <img src='$ttKPDMPath' width='213' height='135'><br/>
-            Dr.Tjie Kok, S.Si., M.Si., Apt         
-        </div>
-        <br/><br/>";
-        } else {
-            $fixIsipdf .="<br/><div>$penutup
-        </div>
-        <br/><br/><br/>
-        <div style='text-align: left;'>
-            <p>
-            Hormat Kami, <br/>
-            Dekan Fakultas Teknobiologi
-            </p>
-            <img src='$ttDEKPath' width='213' height='135'><br/>
-            Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
-        </div>
-        <br/><br/>";
-        }
-        }
+        // }
             
-        Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
+        //Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$data->nomor_surat" . "srtutm";
         $pdf->save($folderPath . '/' . $fileName . '.pdf');
@@ -264,8 +276,7 @@ class SuratController extends Controller
             } else {
                 return view('surats.edit', compact('s','isiSurat','kepada','penutup','la'));
             }       
-        }
-        
+        }   
     }
 
     /**
@@ -402,7 +413,7 @@ class SuratController extends Controller
             </div>
             <br/><br/>";
             
-        Storage::disk('public_pdfs')->put("$id/file.txt", $fixIsi);
+        //Storage::disk('public_pdfs')->put("$id/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$id" . "srtutm";
         $pdf->save($folderPath . '/' . $fileName . '.pdf');

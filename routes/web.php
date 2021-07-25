@@ -22,6 +22,9 @@ Route::get('/testing', function (){
 Route::get('/tespdf', function (){
     return view('tespdf');
 });
+Route::get('/surats/createKep','SuratController@createKep') -> name ('surats.createKep');
+Route::get('/surats/createKerj','SuratController@createKerj') -> name ('surats.createKerj');;
+
 
 //Route::get('laporan-pdf','SuratController@generatePDF');
 Route::get('search','SuratController@search') -> name ('surats.search');;

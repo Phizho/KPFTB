@@ -26,8 +26,6 @@
         <option value="1">Surat Keluar Dekan</option>
         <option value="2">Surat Keluar Wakil Dekan</option>
         <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
-        <option value="4">Surat Kerja Sama</option>
-        <option value="5">Surat Keputusan Dekan</option>
       </select>
       <br /><br />
       <label class="required">No Surat Keluar</label>
@@ -146,8 +144,30 @@ function getComboN(selectObject) {
                   month = "XII"
                   break;
               } 
-
-              if (arrSpl[4] == y) {
+              if (value == 5) {
+                if (arrSpl[5] == y) {
+                //Tahun sama     
+                if (month == arrSpl[4]) {
+                  //Bulan sama
+                  arrSpl[0] = String(parseInt(arrSpl[0]) + 1).padStart(2,'0');
+                  var baru = arrSpl.join('/');
+                } else {
+                  //Bulan beda
+                  arrSpl[4] = month;
+                  arrSpl[0] = "01";
+                  var baru = arrSpl.join('/');
+                }
+                $('input[name=noSurat]').attr('value', baru);
+              } else {
+                //Tahun Beda
+                arrSpl[4] = month;
+                arrSpl[0] = "01";
+                arrSpl[5] = y;
+                var baru = arrSpl.join('/');
+                $('input[name=noSurat]').attr('value', baru);
+              }
+              } else {
+                if (arrSpl[4] == y) {
                 //Tahun sama     
                 if (month == arrSpl[3]) {
                   //Bulan sama
@@ -168,6 +188,7 @@ function getComboN(selectObject) {
                 var baru = arrSpl.join('/');
                 $('input[name=noSurat]').attr('value', baru);
               }
+              }    
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               var d = new Date();
