@@ -28,8 +28,6 @@ var count = 0;
         <option value="1">Surat Keluar Dekan</option>
         <option value="2">Surat Keluar Wakil Dekan</option>
         <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
-        <option value="4">Surat Kerja Sama</option>
-        <option value="5">Surat Keputusan Dekan</option>
       </select>
       <br /><br />
 
@@ -71,15 +69,6 @@ var count = 0;
         <br/>
         <label class="required"> Penutup Surat </label>
         <textarea name="penutup" id="penutup" rows="8" class="form-control" required>{{$penutup}}</textarea>  
-      <br/><br/>
-      <label>Jenis surat keluar</label>
-      <select name="jenis">
-        <option value="1">Surat Keluar Dekan</option>
-        <option value="2">Surat Keluar Wakil Dekan</option>
-        <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
-        <option value="4">Surat Kerja Sama</option>
-        <option value="5">Surat Keputusan Dekan</option>
-      </select>
       <br/><br/>
       <div id="tempat_upload">
       <input type="hidden" name="tglbuat" id="tglbuat" value='{{$s[0]->created_at}}'/>

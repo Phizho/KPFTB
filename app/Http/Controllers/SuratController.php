@@ -89,20 +89,6 @@ class SuratController extends Controller
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
         $response = mkdir($folderPath);
 
-        // if ($jen = 5) {
-        //     $fixIsipdf = "<center><b><div>KEPUTUSAN<br/>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA<br/>NOMOR: $ns<br/>Tentang<br/>$data->perihal</div><hr><br/><div>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA</div></b></center><br/>";
-        //     $fixIsipdf.= "<table style='border: 1px solid black; border-collapse: collapse; width: 100%;'>";
-        //     $fixIsipdf.= "<tr><td style='width:30%'>MENIMBANG</td><td style='width:5%'>: </td><td style='text-align:left'>Dalam Rangka</td></tr>";
-        //     $fixIsipdf.= "<tr><td style='height:10px'></td><td></td><td></td></tr>";
-        //     $fixIsipdf.= "<tr><td style='width:30%'>MENGINGAT</td><td style='width:5%'>: </td><td style='text-align:left'>Dalam Rangka</td></tr>";
-        //     $fixIsipdf.= "<br/><b>MENETAPKAN</b><br/><br/>";
-        //     $fixIsipdf.= "Pertama<br/><br/>";
-        //     $fixIsipdf.= "Ditetapkan di  : Surabaya<br/>Pada Tanggal  : $d<br/>Dekan,
-        //     <br/><img src='$ttDEKPath' width='213' height='135'><br/>
-        //     Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
-        //     </div>
-        //     <br/><br/>";
-        // } else {
             $fixIsi = "$lampiran<br/>$ns<br/>$data->perihal<br/>$date<br/>$kepada<br/>$isi<br/>$penutup<br/>";
             $fixIsipdf = "<div><img src='$ubayaPath' width='255' height='75'><img src='$ftbPath' width='255' height='75' style='float: right;'></div><br/><br/><br/><div style=' width: 100%; text-align: right; float: right;'>$d</div>Nomor : $ns <br/>Lampiran : $lampiran<br/> Perihal : <b>$data->perihal</b><br/></p>
             <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
@@ -183,9 +169,104 @@ class SuratController extends Controller
             </div>
             <br/><br/>";
             }
-        // }
             
-        //Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
+        Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
+        $pdf = PDF::loadHTML($fixIsipdf);
+        $fileName = "$data->nomor_surat" . "srtutm";
+        $pdf->save($folderPath . '/' . $fileName . '.pdf');
+        
+        //return $pdf->stream();
+
+        return redirect()->route('surats.index')->with('status', 'Surat berhasil dibuat!!');
+    }
+
+    public function storeKep(Request $request)
+    {
+        $data = new Surat;
+        setlocale(LC_ALL, 'IND');
+        $data->nomor_surat = str_replace("/","-",$request->get('noSurat'));
+        $ns = $request->get('noSurat');
+        $data->perihal = $request->get('perihal');
+        $data->tanggal_kirim = $request->get('Tanggal');
+        $date = date('d-m-Y', strtotime($data->tanggal_kirim));
+        $d = strftime('%d %B %Y');
+        $data->jenis_surat = 5;
+
+        $data->save();
+
+        $menimbang = $request->get('menimbang');
+        $countMengingat = $request->get('countMengingat');
+        $countMenetapkan = $request->get('countMenetapkan');
+
+        $isi = $request->get('isiSurat');
+
+        $folderPath = public_path("assets/pdf/$data->nomor_surat");
+        $ubayaPath = public_path("assets/LogoUbayaSml.png");
+        $ftbPath = public_path("assets/LogoFTB.png");
+        $ttDEKPath = public_path("assets/TTDekan.png");
+        $ttKPDMPath = public_path("assets/TTKaprodiM.png");
+        $response = mkdir($folderPath);
+
+        $fixIsi = "$ns<br/>$data->perihal<br/>$menimbang<br/>";
+
+        $fixIsipdf = "<center><b><div>KEPUTUSAN<br/>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA<br/>NOMOR: $ns<br/>Tentang<br/>$data->perihal</div><hr><br/><div>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA</div></b></center><br/>";
+        $fixIsipdf.= "<table style='border-collapse: collapse; width: 100%;'>";
+        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENIMBANG</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left;'>$menimbang</td></tr>";
+        $fixIsipdf.= "<tr><td style='height:10px;'></td><td></td><td></td></tr>";
+        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENGINGAT</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left;'>";
+        for ($i = 1; $i <= $countMengingat; $i++) {
+            $fill = $request->get("mengingat$i");
+            $fixIsipdf.="$i. $fill<br/>";
+            $fixIsi.="$fill</br>";
+        } 
+        $fixIsi.="<br/>";
+        $fixIsipdf.="</td></tr>";
+        $fixIsipdf.= "<tr><td style='width:30%;'></td><td></td><td style='text-align:center; width:70%;'><b>MENETAPKAN</b></td></tr>";
+        $fixIsipdf.= "<tr><td style='height:10px;'></td><td></td><td></td></tr>";
+        for ($i = 1; $i <= $countMenetapkan; $i++) {
+            switch ($i) {
+                case 1:
+                  $angka = "Pertama";
+                  break;
+                case 2:
+                    $angka = "Kedua";
+                    break;
+                case 3:
+                    $angka = "Ketiga";
+                    break;
+                case 4:
+                    $angka = "Keempat";
+                    break;
+                case 5:
+                    $angka = "Kelima";
+                    break;
+                case 6:
+                    $angka = "Keenam";
+                    break;
+                case 7:
+                    $angka = "Ketujuh";
+                    break;
+                case 8:
+                    $angka = "Kedelapan";
+                    break;
+                case 9:
+                    $angka = "Kesembilan";
+                    break;
+                default:
+                    "";
+                }
+            $fill = $request->get("menetapkan$i");
+            $fixIsipdf.="<tr><td style='width:30%;'>$angka</td><td style='width:5%;'>:</td><td style='text-align:left; width:70%;'>$fill</td></tr>";
+            $fixIsi.="$fill</br>";
+        } 
+        $fixIsi.= "<br/>$countMengingat<br/>$countMenetapkan";
+        $fixIsipdf.= "Pertama<br/><br/>";
+        $fixIsipdf.= "<div>Ditetapkan di  : Surabaya<br/>Pada Tanggal  : $d<br/>Dekan,
+        <br/><img src='$ttDEKPath' width='213' height='135'><br/>
+        <b>Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si </b>
+        </div>
+        <br/><br/>";
+        Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$data->nomor_surat" . "srtutm";
         $pdf->save($folderPath . '/' . $fileName . '.pdf');
@@ -214,7 +295,6 @@ class SuratController extends Controller
      */
     public function edit($id)
     {
-        //$idc = str_replace("-","/",$id);
         $s = DB::table('surats')
             ->select(DB::raw('*'))
             ->where('nomor_surat', $id)
@@ -277,6 +357,28 @@ class SuratController extends Controller
                 return view('surats.edit', compact('s','isiSurat','kepada','penutup','la'));
             }       
         }   
+    }
+
+    public function editKep($id) {
+        $s = DB::table('surats')
+        ->select(DB::raw('*'))
+        ->where('nomor_surat', $id)
+        ->get();
+
+        $p = Storage::disk('public_pdfs')->getAdapter()->getPathPrefix();
+            
+        $path = "C:/xampp/htdocs/KPFTB/public/assets/pdf/".$id."/file.txt";
+        $txtFile = file_get_contents("$path");
+
+        $fullText = explode('<br/>', $txtFile);
+        $perihal = $fullText[1];
+        $menimbang = $fullText[2];
+        $mengingat = explode("</br>", $fullText[3]);
+        $menetapkan = explode("</br>", $fullText[4]);
+        $cIngat = $fullText[5];
+        $cTetap = $fullText[6];
+
+        return view('surats.editKep', compact('s','perihal','menimbang','mengingat','menetapkan','cIngat','cTetap'));
     }
 
     /**
@@ -413,7 +515,97 @@ class SuratController extends Controller
             </div>
             <br/><br/>";
             
-        //Storage::disk('public_pdfs')->put("$id/file.txt", $fixIsi);
+        Storage::disk('public_pdfs')->put("$id/file.txt", $fixIsi);
+        $pdf = PDF::loadHTML($fixIsipdf);
+        $fileName = "$id" . "srtutm";
+        $pdf->save($folderPath . '/' . $fileName . '.pdf');
+
+        return redirect()->route('surats.index')->with('status','Surat berhasil di edit');
+    }
+
+    public function updateKep(Request $request, $id)
+    {
+        //$idc = str_replace("-","/",$id);
+        setlocale(LC_ALL, 'IND');
+        $perihal = $request->get("perihal");
+        $tanggal = $request->get('Tanggal');
+        $tglbuat = $request->get('tglbuat');
+        $date = strftime('%d %B %Y', strtotime($tglbuat));
+
+        $menimbang = $request->get('menimbang');
+        $countMengingat = $request->get('countMengingat');
+        $countMenetapkan = $request->get('countMenetapkan');
+
+        DB::table('surats')
+            ->where('nomor_surat', $id)
+            ->update(['perihal' => $perihal,'tanggal_kirim' => $tanggal]);
+
+        $folderPath = public_path("assets/pdf/$id");
+        $ttDEKPath = public_path("assets/TTDekan.png");
+
+        $fixIsi = "$id<br/>$perihal<br/>$menimbang<br/>";
+
+        $fixIsipdf = "<center><b><div>KEPUTUSAN<br/>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA<br/>NOMOR: $id<br/>Tentang<br/>$perihal</div><hr><br/><div>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA</div></b></center><br/>";
+        $fixIsipdf.= "<table style='border-collapse: collapse; width: 100%;'>";
+        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENIMBANG</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left;'>$menimbang</td></tr>";
+        $fixIsipdf.= "<tr><td style='height:10px;'></td><td></td><td></td></tr>";
+        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENGINGAT</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left;'>";
+        for ($i = 1; $i <= $countMengingat; $i++) {
+            $fill = $request->get("mengingat$i");
+            $fixIsipdf.="$i. $fill<br/>";
+            $fixIsi.="$fill</br>";
+        } 
+        $fixIsi.="<br/>";
+        $fixIsipdf.="</td></tr>";
+        $fixIsipdf.= "<tr><td style='width:30%;'></td><td></td><td style='text-align:center; width:70%;'><b>MENETAPKAN</b></td></tr>";
+        $fixIsipdf.= "<tr><td style='height:10px;'></td><td></td><td></td></tr>";
+        for ($i = 1; $i <= $countMenetapkan; $i++) {
+            switch ($i) {
+                case 1:
+                  $angka = "Pertama";
+                  break;
+                case 2:
+                    $angka = "Kedua";
+                    break;
+                case 3:
+                    $angka = "Ketiga";
+                    break;
+                case 4:
+                    $angka = "Keempat";
+                    break;
+                case 5:
+                    $angka = "Kelima";
+                    break;
+                case 6:
+                    $angka = "Keenam";
+                    break;
+                case 7:
+                    $angka = "Ketujuh";
+                    break;
+                case 8:
+                    $angka = "Kedelapan";
+                    break;
+                case 9:
+                    $angka = "Kesembilan";
+                    break;
+                default:
+                    "";
+                }
+            $fill = $request->get("menetapkan$i");
+            $fixIsipdf.="<tr><td style='width:30%;'>$angka</td><td style='width:5%;'>:</td><td style='text-align:left; width:70%;'>$fill</td></tr>";
+            $fixIsi.="$fill</br>";
+        } 
+        $fixIsi.= "<br/>$countMengingat<br/>$countMenetapkan";
+        $fixIsipdf.= "Pertama<br/><br/>";
+        $fixIsipdf.= "<div>Ditetapkan di  : Surabaya<br/>Pada Tanggal  : $date<br/>Dekan,
+        <br/><img src='$ttDEKPath' width='213' height='135'><br/>
+        <b>Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si </b>
+        </div>
+        <br/><br/>";
+            
+
+
+        Storage::disk('public_pdfs')->put("$id/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$id" . "srtutm";
         $pdf->save($folderPath . '/' . $fileName . '.pdf');

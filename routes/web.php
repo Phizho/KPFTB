@@ -16,18 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/testing', function (){
-    return view('testing');
-});
-Route::get('/tespdf', function (){
-    return view('tespdf');
-});
 Route::get('/surats/createKep','SuratController@createKep') -> name ('surats.createKep');
-Route::get('/surats/createKerj','SuratController@createKerj') -> name ('surats.createKerj');;
-
+Route::get('/surats/{surat}/editKep','SuratController@editKep') -> name ('surats.editKep');
+Route::post('/surats/{surat}/updateKep','SuratController@updateKep') -> name ('surats.updateKep');
+Route::get('/surats/createKerj','SuratController@createKerj') -> name ('surats.createKerj');
+Route::post('storeKep','SuratController@storeKep') -> name ('surats.storeKep');
 
 //Route::get('laporan-pdf','SuratController@generatePDF');
-Route::get('search','SuratController@search') -> name ('surats.search');;
-Route::post('hapus','SuratController@hapus') -> name ('surats.hapus');;
-Route::post('generateNO','SuratController@generateNO') -> name ('surats.generateNO');;
+Route::get('search','SuratController@search') -> name ('surats.search');
+Route::post('hapus','SuratController@hapus') -> name ('surats.hapus');
+Route::post('generateNO','SuratController@generateNO') -> name ('surats.generateNO');
 Route::resource('surats','SuratController');

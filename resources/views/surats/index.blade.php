@@ -96,9 +96,15 @@
           {{$l->tanggal_kirim}}
         </td>
         @php
-          $h = str_replace("/","-",$l->nomor_surat)
+          $h = str_replace("/","-",$l->nomor_surat);
+          $he = explode("-",$h);
         @endphp
-        <td><a href="{{ url('surats/' . $h . '/edit') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
+        @if ($he[1] === "DEK" || $he[1] === "WD" || $he[1] === "Mag-Bioteknologi" ) 
+          <td><a href="{{ url('surats/' . $h . '/edit') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
+        @elseif ($he[1] === "SK")
+          <td><a href="{{ url('surats/' . $h . '/editKep') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
+        
+        @endif
         {{ csrf_field() }}
         {{ method_field('DELETE') }}
         
