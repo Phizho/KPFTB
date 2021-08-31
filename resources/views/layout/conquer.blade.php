@@ -108,6 +108,13 @@
 					<span class="selected"></span>
 					</a>
 				</li>
+				<li>
+					<a href="{{ route('surats.createKerj') }}">
+					<i><img src="{{URL::asset('assets/img/option.png')}}"></i>
+					<span class="title">Opsi</span>
+					<span class="selected"></span>
+					</a>
+				</li>
 			</ul>
 			<!-- END SIDEBAR MENU -->
 		</div>

@@ -49,12 +49,7 @@
       <button type="submit" class="btn btn-primary">Cari</button>
       <button onclick=showSearch() type="button" class="btn btn-primary">Tutup</button>
     </div>
-  </form>
-
-  <a href="{{ route('surats.create') }}">
-    <button class="btn btn-primary">Tambah Surat</button>
-  </a>
-  <br /><br>
+  </form><br/>
 
   <table class="table table-bordered table-hover">
     <thead>

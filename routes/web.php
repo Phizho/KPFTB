@@ -21,6 +21,7 @@ Route::get('/surats/{surat}/editKep','SuratController@editKep') -> name ('surats
 Route::post('/surats/{surat}/updateKep','SuratController@updateKep') -> name ('surats.updateKep');
 Route::get('/surats/createKerj','SuratController@createKerj') -> name ('surats.createKerj');
 Route::post('storeKep','SuratController@storeKep') -> name ('surats.storeKep');
+Route::post('storeKerj','SuratController@storeKerj') -> name ('surats.storeKerj');
 
 //Route::get('laporan-pdf','SuratController@generatePDF');
 Route::get('search','SuratController@search') -> name ('surats.search');
