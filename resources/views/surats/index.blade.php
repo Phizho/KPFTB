@@ -98,7 +98,8 @@
           <td><a href="{{ url('surats/' . $h . '/edit') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
         @elseif ($he[1] === "SK")
           <td><a href="{{ url('surats/' . $h . '/editKep') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
-        
+        @elseif ($he[1] === "PKS")
+        <td><a href="{{ url('surats/' . $h . '/editKerj') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
         @endif
         {{ csrf_field() }}
         {{ method_field('DELETE') }}

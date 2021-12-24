@@ -69,10 +69,10 @@ $.ajaxSetup({
 });
 
 function mulai() {
-  var cIngat = parseInt({!! json_encode($cIngat) !!});
-  var cTetap = parseInt({!! json_encode($cTetap) !!});
-  var mengingat = {!! json_encode($mengingat) !!};
-  var menetapkan = {!! json_encode($menetapkan) !!};
+  var cIngat = parseInt({ json_encode($cIngat) });
+  var cTetap = parseInt({ json_encode($cTetap) });
+  var mengingat = { json_encode($mengingat)};
+  var menetapkan = { json_encode($menetapkan) };
 
 
   if (cIngat >= 1) {

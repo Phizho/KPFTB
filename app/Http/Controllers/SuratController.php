@@ -50,6 +50,10 @@ class SuratController extends Controller
         return view('surats.createKerj');
     }
 
+    public function opsi() {
+        return view('surats.opsi');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -207,6 +211,7 @@ class SuratController extends Controller
         $tahun = strftime('%Y');
 
         $pihakUbaya = $request->get('pihakKe');
+        $fixIsi = "$ns<br/>$data->perihal<br/>$pihakUbaya<br/>";
         if ($pihakUbaya == 1) {
             $namaPihak1 = "Fakultas Teknobiologi Surabaya";
             $alamatPihak1 = "Jalan Raya Kalirungkut, Surabaya 60293";
@@ -236,6 +241,9 @@ class SuratController extends Controller
             $telepon2 = $request->get('noTelpRkn');
             $hp2 = $request->get("noHPRkn");
             $email2 = $request->get("emailRkn");
+
+        $fixIsi.= "$namaPihak2<br/>$perwakilanPihak2<br/>$jabatanWP2<br/>$telepon2<br/>$hp2<br/>$alamatPihak2<br/>$email2<br/>$lingkup2<br/>$kewajiban2<br/>$hak2<br/>";
+        $fixIsi.= "$lingkup1<br/>$kewajiban1<br/>$hak1<br/>";
         } else {
             $namaPihak2 = "Fakultas Teknobiologi Surabaya";
             $alamatPihak2 = "Jalan Raya Kalirungkut, Surabaya 60293";
@@ -265,6 +273,9 @@ class SuratController extends Controller
             $telepon1 = $request->get('noTelpRkn');
             $hp1 = $request->get("noHPRkn");
             $email1 = $request->get("emailRkn");
+
+            $fixIsi.= "$namaPihak1<br/>$perwakilanPihak1<br/>$jabatanWP1<br/>$telepon1<br/>$hp1<br/>$alamatPihak1<br/>$email1<br/>$lingkup1<br/>$kewajiban1<br/>$hak1<br/>";
+            $fixIsi.= "$lingkup2<br/>$kewajiban2<br/>$hak2<br/>";
         }
 
         $pihak1K = strtoupper($namaPihak1);
@@ -279,6 +290,7 @@ class SuratController extends Controller
         // $countMenetapkan = $request->get('countMenetapkan');
 
         // $isi = $request->get('isiSurat');
+        $fixIsi.= "$pelaksanaan<br/>$pihakPembayar<br/>$jumlahBayar<br/>$caraPembayaran<br/>$tanggalsl";
 
         $folderPath = public_path("assets/pdf/$data->nomor_surat");
         $ubayaPath = public_path("assets/LogoUbayaSml.png");
@@ -287,7 +299,7 @@ class SuratController extends Controller
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
         $response = mkdir($folderPath);
 
-        // $fixIsi = "$ns<br/>$data->perihal<br/>$menimbang<br/>";
+        
         $fixIsipdf = "<html> <head> <style> display: block; margin-top: -10px; margin-bottom: -3px; margin-left: 0; margin-right: 0; padding-left: 40px; } </style> </head> <body>"; 
         $fixIsipdf.= "<center><b><div>PERJANJIAN KERJASAMA<br/><i>(Letter of Agreement)</i><br/>antara<br/>";
         $fixIsipdf.= "$pihak1K<br/>dengan<br/>$pihak2K<br/>Tentang<br/>\"$data->perihal\"</div>";
@@ -372,7 +384,7 @@ class SuratController extends Controller
         </div>";
         $fixIsipdf.= "</body>";
 
-        //Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
+        Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$data->nomor_surat" . "srtutm";
         $pdf->save($folderPath . '/' . $fileName . '.pdf');
@@ -581,6 +593,45 @@ class SuratController extends Controller
         $cTetap = $fullText[6];
 
         return view('surats.editKep', compact('s','perihal','menimbang','mengingat','menetapkan','cIngat','cTetap'));
+    }
+
+    public function editKerj($id) {
+        $s = DB::table('surats')
+        ->select(DB::raw('*'))
+        ->where('nomor_surat', $id)
+        ->get();
+
+        $p = Storage::disk('public_pdfs')->getAdapter()->getPathPrefix();
+            
+        $path = "C:/xampp/htdocs/KPFTB/public/assets/pdf/".$id."/file.txt";
+        $txtFile = file_get_contents("$path");
+
+
+        $fullText = explode('<br/>', $txtFile);
+        $perihal = $fullText[1];
+        $pihakUbaya = $fullText[2];
+        $namaRekan = $fullText[3];
+        $perwakilanRkn = $fullText[4];
+        $jabatanWPR = $fullText[5];
+        $teleponRkn = $fullText[6];
+        $hpRkn = $fullText[7];
+        $alamatRkn = $fullText[8];
+        $emailRkn = $fullText[9];
+        $lingkupRkn = $fullText[10];
+        $kewajibanRkn = $fullText[11];
+        $hakRkn = $fullText[12];
+        $lingkupUby = $fullText[13];
+        $kewajibanUby = $fullText[14];
+        $hakUby = $fullText[15];
+        $pelaksanaan = $fullText[16];
+        $pihakPembayar = $fullText[17];
+        $jumlahBayar = $fullText[18];
+        $caraPembayaran = $fullText[19];
+        $tanggalsl = $fullText[20];
+
+        return view('surats.editKerj', compact('s','perihal','pihakUbaya','namaRekan','perwakilanRkn','jabatanWPR','teleponRkn','hpRkn','alamatRkn'
+        ,'emailRkn','lingkupRkn','kewajibanRkn','hakRkn','lingkupUby','kewajibanUby','hakUby','pelaksanaan','pihakPembayar'
+        ,'jumlahBayar','caraPembayaran','tanggalsl'));
     }
 
     /**
@@ -943,4 +994,6 @@ class SuratController extends Controller
 
         return response()->json(['success'=>$s[0]->mns]);
     }
+
+
 }

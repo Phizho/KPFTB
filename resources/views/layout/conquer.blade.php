@@ -109,7 +109,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="{{ route('surats.createKerj') }}">
+					<a href="{{ route('surats.opsi') }}">
 					<i><img src="{{URL::asset('assets/img/option.png')}}"></i>
 					<span class="title">Opsi</span>
 					<span class="selected"></span>

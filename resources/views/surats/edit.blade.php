@@ -24,7 +24,7 @@ var count = 0;
       @method('PUT')
 
       <br />
-      <select name="jenis">
+      <select name="jenis" id="jenis">
         <option value="1">Surat Keluar Dekan</option>
         <option value="2">Surat Keluar Wakil Dekan</option>
         <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
@@ -102,16 +102,17 @@ var trNum = 0;
 var tdNum = 0;
 
 function mulai() {
-  var counttable = {!! json_encode($counttable) !!};
-  var countrow = {!! json_encode($countrow) !!};
+  var counttable = { json_encode($counttable) };
+  var countrow = { json_encode($countrow) };
 
   if (counttable > 1) {
     var x = document.getElementById("hiddenTable");
     x.style.display = "block";
+    
 
     var currentData = 1;
 
-    var arraytable = {!! json_encode($arraytable) !!};
+    var arraytable = { json_encode($arraytable) };
     var countcol = (counttable/2)/(countrow - 1);
     $htmlTbl = "";
 
