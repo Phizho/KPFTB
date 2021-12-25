@@ -17,66 +17,88 @@
 
   <body>
     <form method="POST" action="{{ route('surats.store') }}" formtarget="_blank" target="_blank"  enctype="multipart/form-data">
-      <div class="form-inline">
-        @csrf
-        <br />
-        <label class="bold">Jenis surat keluar:</label>
-        <select name="jenis" class="form-control" onchange="getComboN(this)">
-          <option disabled selected value> -- Pilih Jenis Surat -- </option>
-          <option value="1">Surat Keluar Dekan</option>
-          <option value="2">Surat Keluar Wakil Dekan</option>
-          <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
-        </select>
-        <br /><br />
-        <label class="required bold" for="noSurat">No Surat Keluar:</label>
-        <input type="input" id="noSurat" class="form-control" name="noSurat" value="" style="width:200px;" required disabled/>
-        <br style="clear:both;" /><br/>
-        <label class="required bold" for="Tanggal">Tanggal Kirim:</label>
-        <input type="date" class="form-control" name="Tanggal" style="width:200px;" id="Tanggal" required/>
-        <br style="clear:both;" /><br/>
-        <label class="required bold">Perihal:</label>
-        <input type="input" class="form-control" name="perihal" style="width: 300px;" required>
-        <br style="clear:both;" /><br />
-        <label class="required bold">Lampiran:</label>
-        <input type="input" class="form-control" name="lampiran" style="width: 300px;" required>
-        <br style="clear:both;" /><br />
-        <label class="required bold">Kepada:</label>
-        <input type="input" class="form-control" name="kepada" style="width: 300px;" required>
-        <br style="clear:both;" /><br />
-        <label class="required bold"> Isi Surat: </label>
-        <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control" style="width:100%;" required></textarea>  
-        <br/> 
-        <input type="checkbox" name="tcheck[]" value="pTabel" id="tcheck" onclick="tOn()">
-          <label class="bold">Gunakan Tabel?</label>
-          <br/>
-          <div id="hiddenTable" style="display: none;">
-            <label class="required">Jumlah Baris</label>
-            <input type="number" class="form-control" name="noRow" id="noRow" style="width: 10%;" min="1">
-            <br/>
-            <label class="required">Jumlah Kolom</label>
-            <input type="number" class="form-control" name="noCol" id="noCol" style="width: 10%;" min="1" max="6">
-            <br/>
-            <div>
-              <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel</button>
-            </div>
-            <br/>
-            <table style='border: 1px solid black; border-collapse: collapse; width: 100%;' id="tbl">
-            </table>
-            <br/>
-          </div><br/>
-          <label class="required bold"> Penutup Surat: </label>
-          <textarea name="penutup" id="penutup" rows="8" style="width:100%;" class="form-control" required></textarea>   
-        <br/><br/>
-        <div id="tempat_upload">
-          <label class="bold">Upload Lampiran</label>     
+    @csrf  
+      <br/>
+      <div class="form-group row">
+        <label for="jenis" class="bold col-sm-2 col-form-label">Jenis surat keluar:</label>
+        <div class="col-sm-4">
+          <select name="jenis" id="jenis" class="form-control" onchange="getComboN(this)">
+            <option disabled selected value> -- Pilih Jenis Surat -- </option>
+            <option value="1">Surat Keluar Dekan</option>
+            <option value="2">Surat Keluar Wakil Dekan</option>
+            <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
+          </select>
         </div>
-        <h5>Format file PDF/JPG</h5>
+      </div>
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label" for="noSurat">No Surat Keluar:</label>
+        <div class="col-sm-4">
+          <input type="input" id="noSurat" class="form-control" name="noSurat" value="" style="width:200px;" required disabled/>
+        </div>
+      </div>
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label" for="Tanggal">Tanggal Kirim:</label>
+        <div class="col-sm-2">
+          <input type="date" class="form-control" name="Tanggal" id="Tanggal" required/>
+        </div>
+      </div>
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Perihal:</label>
+        <div class="col-sm-4">
+         <input type="input" class="form-control" name="perihal" required>
+        </div>
+      </div>
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Lampiran:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="lampiran" required>
+        </div> 
+      </div>  
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Kepada:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="kepada" required>
+        </div> 
+      </div>   
+      <br/>
+      <label class="required bold"> Isi Surat: </label>
+      <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control" style="width:100%;" required></textarea>  
+      <br/> 
+      <input type="checkbox" name="tcheck[]" value="pTabel" id="tcheck" onclick="tOn()">
+      <label class="bold">Gunakan Tabel?</label>
+      <br/>
+      <div id="hiddenTable" style="display: none;">
+        <label class="required">Jumlah Baris</label>
+        <input type="number" class="form-control" name="noRow" id="noRow" style="width: 10%;" min="1">
+        <br/>
+        <label class="required">Jumlah Kolom</label>
+        <input type="number" class="form-control" name="noCol" id="noCol" style="width: 10%;" min="1" max="6">
+        <br/>
         <div>
-        <button type="button" class="btn btn-primary" name="tambahLampiran" onclick="addInputFile()">Tambah Lampiran</button>
+          <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel</button>
         </div>
         <br/>
-        <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
+        <table style='border: 1px solid black; border-collapse: collapse; width: 100%;' id="tbl"></table>
+        <br/>
       </div>
+      <br/>
+      <label class="required bold"> Penutup Surat: </label>
+      <textarea name="penutup" id="penutup" rows="8" style="width:100%;" class="form-control" required></textarea>   
+      <br/><br/>
+      <div id="tempat_upload">
+        <label class="bold">Upload Lampiran</label>     
+      </div>
+      <h5>Format file PDF/JPG</h5>
+      <div>
+        <button type="button" class="btn btn-primary" name="tambahLampiran" onclick="addInputFile()">Tambah Lampiran</button>
+      </div>
+      <br/>
+      <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
     </form>
 
   </body>
@@ -258,7 +280,7 @@
 
   function addInputFile() {
     count+=1; 
-    $html = `<input type="file" name="uploadfile${count}"  accept=".pdf,.jpg">`;
+    $html = `<input type="file" name="uploadfile${count}" class="form-control-file"  accept=".pdf,.jpg">`;
     $("#tempat_upload").append($html);
   }
 

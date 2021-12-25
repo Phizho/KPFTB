@@ -17,42 +17,50 @@
 
   <body onload="getComboN()">
     <form method="POST" action="{{ route('surats.storeKep') }}" formtarget="_blank" target="_blank"  enctype="multipart/form-data">
-      <div class="form-inline">
-        @csrf
-        <br />
-        <label class="required bold">No Surat Keluar:</label>
-        <input type="input" class="form-control" name="noSurat" value="" required readonly>
-        <br/><br/>
-        <label class="required bold">Tanggal Kirim:</label>
-        <input type="date" class="form-control" name="Tanggal" required>
-        <br style="clear:both;"/>
-        <br/>
-        <label class="required bold">Perihal:</label>
-        <input type="input" class="form-control" name="perihal" style="width: 300px;" required>
-        <br /><br/>
-        <label class="required bold">Menimbang</label>
-        <textarea name="menimbang" id="menimbang" rows="8" class="form-control" style="width: 100%;" required></textarea>
-        <br/><br/>
-        <div id="tempat_mengingat">
-          <label class="bold">Mengingat</label>     
+      @csrf 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">No Surat Keluar:</label>
+        <div class="col-sm-2">
+          <input type="input" class="form-control" name="noSurat" value="" required readonly>
         </div>
-        <div>
+      </div>
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Tanggal Kirim:</label>
+        <div class="col-sm-2">
+          <input type="date" class="form-control" name="Tanggal" required>
+        </div>
+      </div>  
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Perihal:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="perihal" required>
+        </div>
+      </div> 
+      <br/>
+      <label class="required bold">Menimbang</label>
+      <textarea name="menimbang" id="menimbang" rows="8" class="form-control" style="width: 100%;" required></textarea>
+      <br/><br/>
+      <div id="tempat_mengingat">
+        <label class="bold">Mengingat</label>     
+      </div>
+      <div>
         <button type="button" class="btn btn-primary" name="tambahMengingat" onclick="addMengingat()">Tambah Mengingat</button>
         <button type="button" class="btn btn-danger" name="hapusMengingat" onclick="deleteMengingat()">Hapus Mengingat</button>
-        </div>
-        <br/>
-        <div id="tempat_menetapkan">
-          <label class="bold">Menetapkan</label>     
-        </div>
-        <div>
+      </div>
+      <br/>
+      <div id="tempat_menetapkan">
+        <label class="bold">Menetapkan</label>     
+      </div>
+      <div>
         <button type="button" class="btn btn-primary" name="tambahMenetapkan" onclick="addMenetapkan()">Tambah Menetapkan</button>
         <button type="button" class="btn btn-danger" name="hapusMenetapkan" onclick="deleteMenetapkan()">Hapus Menetapkan</button>
-        </div>
-        <div id="tempat_upload"> 
-        </div>
-        <br/>
-        <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
       </div>
+      <div id="tempat_upload"></div>
+      <br/>
+      <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
     </form>
 
   </body>
@@ -201,15 +209,27 @@
 
   function addMengingat() {
     countMengingat+=1; 
-    $html = `<div id="divMengingat${countMengingat}"><label class="bold required">${countMengingat}.</label>`
-    $html += `<input type="input" class="form-control" name="mengingat${countMengingat}" style="width: 300px;" required>`
+    $html = `<div class="form-group row" id="divMengingat${countMengingat}">
+                <div class="required" style="width: 50px; float: left; margin-left:18px; padding-top: 5px;">
+                  <label class="bold col-sm-6 col-form-label" >${countMengingat}.</label>
+                </div>
+                <div class="col-sm-4">
+                 <input type="input" class="form-control" name="mengingat${countMengingat}" style="float:left;" required>
+                </div>
+              </div>`
     $("#tempat_mengingat").append($html);
   }
 
   function addMenetapkan() {
     countMenetapkan+=1; 
-    $html = `<div id="divMenetapkan${countMenetapkan}"><label class="bold required">${countMenetapkan}.</label>`
-    $html += `<input type="input" class="form-control" name="mengingat${countMenetapkan}" style="width: 300px;" required>`
+    $html = `<div class="form-group row" id="divMenetapkan${countMenetapkan}">
+                <div class="required" style="width: 50px; float: left; margin-left:18px; padding-top: 5px;">
+                  <label class="bold col-sm-6 col-form-label" >${countMenetapkan}.</label>
+                </div>
+                <div class="col-sm-4">
+                 <input type="input" class="form-control" name="menetapkan${countMenetapkan}" style="float:left;" required>
+                </div>
+              </div>`
     $("#tempat_menetapkan").append($html);
   }
 
