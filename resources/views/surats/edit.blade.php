@@ -19,82 +19,102 @@ var count = 0;
 
 <body onload="mulai()">
   <form method="POST" action="{{url('surats/'.$s[0]->nomor_surat)}}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
-    <div class="form-group">
-      @csrf
-      @method('PUT')
-
-      <br />
-      <select name="jenis" id="jenis">
-        <option value="1">Surat Keluar Dekan</option>
-        <option value="2">Surat Keluar Wakil Dekan</option>
-        <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
-      </select>
-      <br /><br />
-
-      <label class="required">No Surat Keluar</label>
-      <input type="input" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' required>
-      <br />
-      <label class="required">Perihal</label>
-      <input type="input" class="form-control" name="perihal" value="{{$s[0]->perihal}}" required>
-      <br />
-      <label class="required">Lampiran</label>
-      <input type="input" class="form-control" name="Lampiran" value ="{{$la}}" required>
-      <br />
-      <label class="required">Tanggal Kirim:</label>
-      <input type="date" class="form-control" name="Tanggal" value="{{ date('Y-m-d', strtotime($s[0]->tanggal_kirim)) }}" required>
-      <br>
-      <label class="required">Kepada</label>
-      <input type="input" class="form-control" name="kepada" value="{{$kepada}}" required>
-      <br>
-      <label class="required"> Isi Surat </label>
-      <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control"  required>{{$isiSurat}}</textarea>  
-      <br/> 
-      <input type="checkbox" name="tcheck[]" value="pTabel" id="tcheck" onclick="tOn()" @if ($counttable > 1 ) checked @endif>
-        <label>Gunakan Tabel?</label>
+    @csrf
+    @method('PUT')
+    <br />
+    <div class="form-group row">
+      <label for="jenis" class="bold col-sm-2 col-form-label">Jenis surat keluar:</label>
+      <div class="col-sm-4">
+        <select name="jenis" id="jenis" class="form-control">
+          <option value="1">Surat Keluar Dekan</option>
+          <option value="2">Surat Keluar Wakil Dekan</option>
+          <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
+        </select>
+      </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label" for="noSurat">No Surat Keluar:</label>
+      <div class="col-sm-4">
+        <input type="input" id="noSurat" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' style="width:200px;" required/>
+      </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label" for="Tanggal">Tanggal Kirim:</label>
+      <div class="col-sm-2">
+        <input type="date" class="form-control" name="Tanggal" id="Tanggal" value="{{ date('Y-m-d', strtotime($s[0]->tanggal_kirim)) }}" required/>
+      </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Perihal:</label>
+      <div class="col-sm-4">
+        <input type="input" class="form-control" name="perihal" value="{{$s[0]->perihal}}" required>
+      </div>
+    </div>
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Lampiran:</label>
+      <div class="col-sm-2">
+        <input type="input" class="form-control" name="lampiran" value ="{{$la}}" required>
+      </div> 
+    </div>  
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Kepada:</label>
+      <div class="col-sm-3">
+        <input type="input" class="form-control" name="kepada" value="{{$kepada}}" required>
+      </div> 
+    </div>
+    <br/>
+    <label class="required bold"> Isi Surat </label>
+    <textarea name="isiSurat" id="isiSurat" rows="8" class="form-control"  required>{{$isiSurat}}</textarea>  
+    <br/> 
+    <input type="checkbox" name="tcheck[]" value="pTabel" id="tcheck" onclick="tOn()" @if ($counttable > 1 ) checked @endif>
+      <label>Gunakan Tabel?</label>
+      <br/>
+      <div id="hiddenTable" style="display: none;">
+        <label class="required">Jumlah Baris</label>
+        <input type="input" class="form-control" name="noRow" id="noRow" min="1">
+        <br />
+        <label class="required">Jumlah Kolom</label>
+        <input type="input" class="form-control" name="noCol" id="noCol" min="1" max="6">
         <br/>
-        <div id="hiddenTable" style="display: none;">
-          <label class="required">Jumlah Baris</label>
-          <input type="input" class="form-control" name="noRow" id="noRow" min="1">
-          <br />
-          <label class="required">Jumlah Kolom</label>
-          <input type="input" class="form-control" name="noCol" id="noCol" min="1" max="6">
-          <br/>
-          <div>
-            <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel</button>
-          </div>
-          <br/>
-          <table style='border: 1px solid black; border-collapse: collapse;  width: 100%;' id="tbl">
-          </table>
+        <div>
+          <button type="button" class="btn btn-primary" name="tambahTable" onclick="addTable()">Buat Tabel baru</button>
         </div>
         <br/>
-        <label class="required"> Penutup Surat </label>
-        <textarea name="penutup" id="penutup" rows="8" class="form-control" required>{{$penutup}}</textarea>  
-      <br/><br/>
-      <div id="tempat_upload">
-      <input type="hidden" name="tglbuat" id="tglbuat" value='{{$s[0]->created_at}}'/>
-        <label>Upload Lampiran</label>  
-        @isset($arrayNama) 
-        <script>
-            count = <?php echo json_encode(count($arrayNama)); ?>;
-        </script>
-          @for($i=1;$i<=count($arrayNama); $i++)
-          <div>
-            <input type="file" name="uploadfile{{$i}}" id="uploadfile{{$i}}" onchange="changeLampText(this.id)" style="display: none;" accept=".pdf,.jpg">
-            <label style="color: blue; text-decoration: underline;" for="uploadfile{{$i}}" value="{{$arrayNama[$i-1]}}.{{$arrayExtension[$i-1]}}">{{$i}}. {{$arrayNama[$i-1]}} (Klik disini untuk mengubah)</label>
-            <input type="hidden" name="lampuploadfile{{$i}}" id="lampuploadfile{{$i}}" value='{{$arrayNama[$i-1]}}.{{$arrayExtension[$i-1]}}'/>
-          </div>
-          @endfor
-        @endisset
-      </div>
-      <h5>Format file PDF/JPG</h5>
-      <div>
-      <button type="button" class="btn btn-primary" name="tambahLampiran" onclick="addInputFile()">Tambah Lampiran</button>
+        <table style='border: 1px solid black; border-collapse: collapse;  width: 100%;' id="tbl">
+        </table>
       </div>
       <br/>
-      <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
+      <label class="required bold"> Penutup Surat </label>
+      <textarea name="penutup" id="penutup" rows="8" class="form-control" required>{{$penutup}}</textarea>  
+    <br/><br/>
+    <div id="tempat_upload">
+    <input type="hidden" name="tglbuat" id="tglbuat" value='{{$s[0]->created_at}}'/>
+      <label>Upload Lampiran</label>  
+      @isset($arrayNama) 
+      <script>
+          count = <?php echo json_encode(count($arrayNama)); ?>;
+      </script>
+        @for($i=1;$i<=count($arrayNama); $i++)
+        <div>
+          <input type="file" name="uploadfile{{$i}}" id="uploadfile{{$i}}" onchange="changeLampText(this.id)" style="display: none;" accept=".pdf,.jpg">
+          <label style="color: blue; text-decoration: underline;" for="uploadfile{{$i}}" value="{{$arrayNama[$i-1]}}.{{$arrayExtension[$i-1]}}">{{$i}}. {{$arrayNama[$i-1]}} (Klik disini untuk mengubah)</label>
+          <input type="hidden" name="lampuploadfile{{$i}}" id="lampuploadfile{{$i}}" value='{{$arrayNama[$i-1]}}.{{$arrayExtension[$i-1]}}'/>
+        </div>
+        @endfor
+      @endisset
     </div>
+    <h5>Format file PDF/JPG</h5>
+    <div>
+    <button type="button" class="btn btn-primary" name="tambahLampiran" onclick="addInputFile()">Tambah Lampiran</button>
+    </div>
+    <br/>
+    <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
   </form>
-
 </body>
 
 <script>
@@ -102,18 +122,19 @@ var trNum = 0;
 var tdNum = 0;
 
 function mulai() {
-  var counttable = { json_encode($counttable) };
-  var countrow = { json_encode($countrow) };
+  var counttable = <?php echo json_encode($counttable) ?>;
+  var countrow = parseInt(<?php echo json_encode($countrow) ?>);
 
   if (counttable > 1) {
     var x = document.getElementById("hiddenTable");
     x.style.display = "block";
     
-
     var currentData = 1;
 
-    var arraytable = { json_encode($arraytable) };
-    var countcol = (counttable/2)/(countrow - 1);
+    var arraytable = <?php echo json_encode($arraytable) ?>;
+    var countcol = parseInt(counttable/2)/(countrow - 1);
+    document.getElementById("noRow").value = countrow - 1;
+    document.getElementById("noCol").value = countcol;
     $htmlTbl = "";
 
     for (i=1;i<countrow;i++) {
@@ -138,7 +159,7 @@ function mulai() {
 
   function addInputFile() {
     count+=1; 
-    $html = `<input type="file" name="uploadfile${count}"  accept=".pdf,.jpg">`;
+    $html = `<input type="file" name="uploadfile${count}" class="form-control" accept=".pdf,.jpg">`;
     $("#tempat_upload").append($html);
 }
 

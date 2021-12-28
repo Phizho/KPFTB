@@ -18,71 +18,137 @@
 
 <body onload="getComboN()">
   <form method="POST" action="{{ route('surats.storeKerj') }}" formtarget="_blank" target="_blank" enctype="multipart/form-data">
-    <div class="form-inline">
       @csrf
       <br />
-      <label class="required bold">Ubaya Pihak ke</label>
-      <select name="pihakKe" class="form-control" onchange="">
-        <option value="1">1</option>
-        <option value="2">2</option>
-      </select>
-        <br/><br/>
-        <label class="required bold">No Surat Keluar:</label>
-        <input type="input" class="form-control" name="noSurat" value="" required>
-        <br/><br/>
-        <label class="required bold">Tanggal Kirim:</label>
-        <input type="date" class="form-control" name="Tanggal" required>
-        <br style="clear:both;" />
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Ubaya Pihak ke:</label>
+        <div class="col-sm-1">
+          <select name="pihakKe" class="form-control" onchange="">
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+      </div>
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">No Surat Keluar:</label>
+        <div class="col-sm-4">  
+          <input type="input" class="form-control" name="noSurat" value="" required>
+        </div>
+      </div>  
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Tanggal Kirim:</label>
+        <div class="col-sm-4"> 
+          <input type="date" class="form-control" name="Tanggal" required>
+        </div>
+      </div>  
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Instansi Rekan:</label>
+        <div class="col-sm-4"> 
+          <input type="input" class="form-control" name="pihak2" style="width: 200px;" required>
+        </div>
+      </div> 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Perihal Kerja Sama:</label>
+        <div class="col-sm-4"> 
+          <input type="input" class="form-control" name="perihal" style="width: 300px;" required>
+        </div>
+      </div> 
+      <br/>
+      <div>
+        <b style="font-size: 20px;"> Data Rekan </b><br/><br/>
+        <div class="form-group row">
+          <label class="required bold col-sm-2 col-form-label">Perwakilan Rekan:</label>
+          <div class="col-sm-4"> 
+            <input type="input" class="form-control" name="wakilRkn" required>
+          </div>
+        </div> 
         <br/>
-        <label class="required bold">Instansi Rekan:</label>
-        <input type="input" class="form-control" name="pihak2" style="width: 200px;" required>
-        <br /><br/>
-        <label class="required bold">Perihal Kerja Sama:</label>
-        <input type="input" class="form-control" name="perihal" style="width: 300px;" required>
-        <br /><br/>
+        <div class="form-group row">
+          <label class="required bold col-sm-2 col-form-label">Jabatan Perwakilan Rekan:</label>
+          <div class="col-sm-4">
+            <input type="input" class="form-control" name="jabatanRkn" required>
+          </div>
+        </div> 
+        <br/>
+        <div class="form-group row">
+          <label class="required bold col-sm-2 col-form-label">Nomor Telepon Rekan:</label>
+          <div class="col-sm-4">
+            <input type="input" class="form-control" name="noTelpRkn">
+          </div>
+        </div> 
+        <br/>
+        <div class="form-group row">
+          <label class="required bold col-sm-2 col-form-label">Nomor HP Rekan:</label>
+          <div class="col-sm-4">
+            <input type="input" class="form-control" name="noHPRkn">
+          </div>
+        </div> 
+        <br/>
+        <div class="form-group row">
+          <label class="required bold col-sm-2 col-form-label">Alamat Rekan:</label>
+          <div class="col-sm-4">
+            <input type="input" class="form-control" name="alamatRkn" required>
+          </div>
+        </div> 
+        <br/>
+        <div class="form-group row">
+          <label class="required bold col-sm-2 col-form-label">Email Rekan:</label>
+          <div class="col-sm-4">
+            <input type="input" class="form-control" name="emailRkn" required>
+          </div>
+        </div> 
+      </div>
+        <br/>
         <div>
-          <b style="font-size: 20px;"> Data Rekan </b><br /><br />
-          <label class="required bold">Perwakilan Rekan:</label>
-          <input type="input" class="form-control" name="wakilRkn" required>
-          <br/><br/>
-          <label class="required bold">Jabatan Perwakilan Rekan:</label>
-          <input type="input" class="form-control" name="jabatanRkn" required>
-          <br/><br/>
-          <label class="required bold">Nomor Telepon Rekan:</label>
-          <input type="input" class="form-control" name="noTelpRkn">
-          <br/><br/>
-          <label class="required bold">Nomor HP Rekan:</label>
-          <input type="input" class="form-control" name="noHPRkn">
-          <br/><br/>
-          <label class="required bold">Alamat Rekan:</label>
-          <input type="input" class="form-control" name="alamatRkn" required>
-          <br/><br/>
-          <label class="required bold">Email Rekan:</label>
-          <input type="input" class="form-control" name="emailRkn" required>
+          <b style="font-size: 20px;"> Ruang Lingkup Perjanjian </b> <br/><br/>
+          <div class="form-group row">
+            <label class="required bold col-sm-2 col-form-label">Pihak Rekan:</label>
+              <div class="col-sm-4">
+              <input type="input" class="form-control" name="lingkupRkn" required>
+            </div>
+          </div> 
+          <br/>
+          <div class="form-group row">
+            <label class="required bold col-sm-2 col-form-label">Pihak Bioteknologi:</label>
+            <div class="col-sm-4">
+              <input type="input" class="form-control" name="lingkupBiotek" required>
+            </div>
+          </div> 
         </div>
-        <br />
+        <br/>
         <div>
-          <b style="font-size: 20px;"> Ruang Lingkup Perjanjian </b> <br /><br />
-          <label class="required bold">Pihak Rekan:</label>
-          <input type="input" class="form-control" name="lingkupRkn" required>
-          <br /><br />
-          <label class="required bold">Pihak Bioteknologi:</label>
-          <input type="input" class="form-control" name="lingkupBiotek" required>
-        </div>
-        <br />
-        <div>
-          <b style="font-size: 20px;"> Hak dan Kewajiban </b> <br /><br />
-          <label class="required bold">Kewajiban Bioteknologi:</label>
-          <input type="input" class="form-control" name="kewajibanBiotek" required>
-          <br /><br />
-          <label class="required bold">Kewajiban Rekan:</label>
-          <input type="input" class="form-control" name="kewajibanRkn" required>
-          <br /><br />
-          <label class="required bold">Hak Bioteknologi:</label>
-          <input type="input" class="form-control" name="hakBiotek" required>
-          <br /><br />
-          <label class="required bold">Hak Rekan:</label>
-          <input type="input" class="form-control" name="hakRkn" required>
+          <b style="font-size: 20px;"> Hak dan Kewajiban </b> <br/><br/>
+          <div class="form-group row">
+            <label class="required bold col-sm-2 col-form-label">Kewajiban Bioteknologi:</label>
+            <div class="col-sm-4">
+              <input type="input" class="form-control" name="kewajibanBiotek" required>
+            </div>
+          </div> 
+          <br/>
+          <div class="form-group row">
+            <label class="required bold col-sm-2 col-form-label">Kewajiban Rekan:</label>
+            <div class="col-sm-4">
+              <input type="input" class="form-control" name="kewajibanRkn" required>
+            </div>
+          </div> 
+          <br/>
+          <div class="form-group row">
+            <label class="required bold col-sm-2 col-form-label">Hak Bioteknologi:</label>
+            <div class="col-sm-4">
+              <input type="input" class="form-control" name="hakBiotek" required>
+            </div>
+          </div>
+          <br/>
+          <div class="form-group row">
+            <label class="required bold col-sm-2 col-form-label">Hak Rekan:</label>
+            <div class="col-sm-4">
+              <input type="input" class="form-control" name="hakRkn" required>
+            </div>
+          </div>
         </div>
         <br />
         <div>
@@ -93,15 +159,22 @@
         <br />
         <div>
           <b style="font-size: 20px;"> Biaya-Biaya </b> <br/><br/>
-          <label class="required bold">Pihak Pembayar</label>
-          <select name="pihakPembayar" class="form-control" onchange="">
-            <option value="1">Bioteknologi</option>
-            <option value="2">Rekan</option>
-            <br /><br/>
-          </select>
-          <br /><br/>
-          <label class="required bold">Jumlah Pembayaran</label>
-          <input type="input" class="form-control" name="jumlahBayar" required>
+          <div class="form-group row">
+            <label class="required bold col-sm-2 col-form-label">Pihak Pembayar</label>
+            <div class="col-sm-4">
+              <select name="pihakPembayar" class="form-control" onchange="">
+                <option value="1">Bioteknologi</option>
+                <option value="2">Rekan</option>
+              </select>
+            </div>
+          </div>
+          <br/>
+          <div class="form-group row">
+            <label class="required bold col-sm-2 col-form-label">Jumlah Pembayaran</label>
+            <div class="col-sm-4">
+              <input type="input" class="form-control" name="jumlahBayar" required>
+            </div>
+          </div>
         </div>
         <br />
         <div>
@@ -109,16 +182,17 @@
           <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control" style="width: 100%;" required></textarea>
         </div>
         <br />
-        <div>
-          <label class="required bold">Batas Waktu Perjanjian</label>
-          <input type="date" class="form-control" name="tanggalSelesai" required>
+        <div class="form-group row">
+          <label class="required bold col-sm-2 col-form-label">Batas Waktu Perjanjian</label>
+          <div class="col-sm-4">
+            <input type="date" class="form-control" name="tanggalSelesai" required>
+          </div>
         </div>
         <br />
         <div id="tempat_upload">
         </div>
         <br />
         <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
-    </div>
   </form>
 
 </body>

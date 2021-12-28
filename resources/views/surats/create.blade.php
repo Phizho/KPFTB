@@ -34,7 +34,7 @@
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label" for="noSurat">No Surat Keluar:</label>
         <div class="col-sm-4">
-          <input type="input" id="noSurat" class="form-control" name="noSurat" value="" style="width:200px;" required disabled/>
+          <input type="input" id="noSurat" class="form-control" name="noSurat" value="" style="width:200px;" required readonly/>
         </div>
       </div>
       <br/>
@@ -54,14 +54,14 @@
       <br/>
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label">Lampiran:</label>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
           <input type="input" class="form-control" name="lampiran" required>
         </div> 
       </div>  
       <br/>
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label">Kepada:</label>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <input type="input" class="form-control" name="kepada" required>
         </div> 
       </div>   
@@ -280,7 +280,7 @@
 
   function addInputFile() {
     count+=1; 
-    $html = `<input type="file" name="uploadfile${count}" class="form-control-file"  accept=".pdf,.jpg">`;
+    $html = `<input type="file" name="uploadfile${count}" class="form-control"  accept=".pdf,.jpg">`;
     $("#tempat_upload").append($html);
   }
 

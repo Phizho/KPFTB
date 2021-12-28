@@ -234,19 +234,19 @@
   }
 
   function deleteMengingat() {
-    if ($(`#mengingat${countMengingat}`).length) {
+    //if ($(`#mengingat${countMengingat}`).length) {
         var x = document.getElementById(`divMengingat${countMengingat}`);
         x.remove();
         countMengingat-=1;
-      } 
+      //} 
   }
 
   function deleteMenetapkan() {
-    if ($(`#menetapkan${countMenetapkan}`).length) {
+    //if ($(`#menetapkan${countMenetapkan}`).length) {
         var x = document.getElementById(`divMenetapkan${countMenetapkan}`);
         x.remove();
         countMenetapkan-=1;
-      } 
+      //} 
   }
 
   function CekCount()
