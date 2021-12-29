@@ -434,7 +434,7 @@ class SuratController extends Controller
             $fixIsi.="$fill</br>";
         } 
         $fixIsi.="<br/>";
-        $fixIsipdf.="</td></tr>";
+        $fixIsipdf.="<br/></td></tr>";
         $fixIsipdf.= "<tr><td style='width:30%;'></td><td></td><td style='text-align:center; width:70%;'><b>MENETAPKAN</b></td></tr>";
         $fixIsipdf.= "<tr><td style='height:10px;'></td><td></td><td></td></tr>";
         for ($i = 1; $i <= $countMenetapkan; $i++) {

@@ -22,7 +22,7 @@
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label">No Surat Keluar:</label>
         <div class="col-sm-2">
-          <input type="input" class="form-control" name="noSurat" value="" required readonly>
+          <input type="input" class="form-control" name="noSurat" value="" style="width: 200px;" required readonly>
         </div>
       </div>
       <br/>
@@ -156,6 +156,7 @@
               error: function(XMLHttpRequest, textStatus, errorThrown) {
                 var d = new Date();
                 var y = d.getFullYear();
+                var baru = ""
 
                 switch(d.getMonth()) {
                   case 0:
@@ -195,13 +196,7 @@
                     month = "XII"
                     break;
                 } 
-                
-                switch(value){
-                  case "5":
-                    baru = "001/SK/DEK/FTb/"+month+"/"+y
-                    break;
-                }
-
+                baru = "001/SK/DEK/FTb/"+month+"/"+y
                 $('input[name=noSurat]').attr('value', baru);
               }
           });
