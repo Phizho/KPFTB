@@ -17,94 +17,178 @@
 
 <body onload="getComboN()">
   <form method="POST" action="{{ route('surats.storeKerj') }}" formtarget="_blank" target="_blank"  enctype="multipart/form-data">
-    <div class="form-group">
-      @csrf
-      <br />
-      <label class="required">Ubaya Pihak ke</label>
-      <select name="pihakKe" onchange="" value="{{$pihakUbaya}}">
-        <option value="1">1</option>
-        <option value="2">2</option>
-      <br/>
-      <label class="required">No Surat Keluar</label>
-      <input type="input" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' required>
-      <br />
-      <label class="required">Perihal Kerja Sama</label>
-      <input type="input" class="form-control" name="perihal" value="{{$s[0]->perihal}}" required>
-      <br />
-      <label class="required">Tanggal Kirim:</label>
-      <input type="date" class="form-control" name="Tanggal" value="{{ date('Y-m-d', strtotime($s[0]->tanggal_kirim)) }}" required>
-      <br/>
-      <label class="required">Instansi Rekan</label>
-      <input type="input" class="form-control" name="pihak2" value="{{$namaRekan}}" required>
-      <br />
-      <div>
-         <b> Data Rekan </b><br/><br/>
-        <label class="required">Perwakilan Rekan</label>
-        <input type="input" class="form-control" name="wakilRkn" value="{{$perwakilanRkn}}" required>
-        <label class="required">Jabatan Perwakilan Rekan</label>
-        <input type="input" class="form-control" name="jabatanRkn" value="{{$jabatanWPR}}" required>
-        <label class="required">Nomor Telepon Rekan</label>
-        <input type="input" class="form-control" name="noTelpRkn" value="{{$teleponRkn}}">
-        <label class="required">Nomor HP Rekan</label>
-        <input type="input" class="form-control" name="noHPRkn" value="{{$hpRkn}}">
-        <label class="required">Alamat Rekan</label>
-        <input type="input" class="form-control" name="alamatRkn" value="{{$alamatRkn}}" required>
-        <label class="required">Email Rekan</label>
-        <input type="input" class="form-control" name="emailRkn" value="{{$emailRkn}}" required>
+    @csrf
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Ubaya Pihak ke:</label>
+      <div class="col-sm-1">
+        <select name="pihakKe" class="form-control" onchange="" value="{{$pihakUbaya}}">
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
       </div>
-      <br/>
-      <div>
-          <b> Ruang Lingkup Perjanjian </b> <br/><br/>
-          <label class="required">Pihak Rekan</label>
-          <input type="input" class="form-control" name="lingkupRkn" value="{{$lingkupRkn}}" required>
-          <label class="required">Pihak Bioteknologi</label>
-          <input type="input" class="form-control" name="lingkupBiotek" value="{{$lingkupUby}}" required>
-      </div>
-      <br/>
-      <div>
-          <b> Hak dan Kewajiban </b> <br/><br/>
-          <label class="required">Kewajiban Bioteknologi</label>
-          <input type="input" class="form-control" name="kewajibanBiotek" value="{{$kewajibanUby}}" required>
-          <label class="required">Kewajiban Rekan</label>
-          <input type="input" class="form-control" name="kewajibanRkn" value="{{$kewajibanRkn}}" required>  
-          <label class="required">Hak Bioteknologi</label>
-          <input type="input" class="form-control" name="hakBiotek" value="{{$hakUby}}" required> 
-          <label class="required">Hak Rekan</label>
-          <input type="input" class="form-control" name="hakRkn" value="{{$hakRkn}}" required>
-      </div>
-      <br/>
-      <div>
-          <b> Pelaksanaan Kerjasama </b> <br/><br/>
-          <label class="required">Pelaksanaan Kerjasama</label>
-          <textarea name="pelaksanaanKj" id="pelaksanaanKj" rows="8" class="form-control" required>{{$pelaksanaan}}</textarea>
-      </div>
-      <br/>
-      <div>
-          <b> Biaya-Biaya </b> <br/>
-          <label class="required">Pihak Pembayar</label>
-          <select name="pihakPembayar" onchange="">
-          <option value="1">Bioteknologi</option>
-          <option value="2">Rekan</option>
-          <br />
-          <label class="required">Jumlah Pembayaran</label>
-          <input type="input" class="form-control" name="jumlahBayar" value="{{$jumlahBayar}}" required>
-      </div>
-      <br/>
-      <div>
-          <label class="required">Pembayaran dilakukan melalui</label>
-          <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control" required>{{$caraPembayaran}}</textarea>
-      </div>
-      <br/>
-      <div>
-          <label class="required">Batas Waktu Perjanjian</label>
-          <input type="date" class="form-control" name="tanggalSelesai" value="{{date('Y-m-d', strtotime($tanggalsl))}}" required>
-      </div>
-      <br/>
-      <div id="tempat_upload"> 
-      </div>
-      <br/>
-      <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
     </div>
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">No Surat Keluar:</label>
+      <div class="col-sm-4">  
+        <input type="input" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' required readonly>
+      </div>
+    </div>  
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Tanggal Kirim:</label>
+      <div class="col-sm-4"> 
+        <input type="date" class="form-control" name="Tanggal" value="{{ date('Y-m-d', strtotime($s[0]->tanggal_kirim)) }}" required>
+      </div>
+    </div>  
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Instansi Rekan:</label>
+      <div class="col-sm-4"> 
+        <input type="input" class="form-control" name="pihak2" style="width: 200px;" value="{{$namaRekan}}" required>
+      </div>
+    </div> 
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Perihal Kerja Sama:</label>
+      <div class="col-sm-4"> 
+        <input type="input" class="form-control" name="perihal" style="width: 300px;" value="{{$s[0]->perihal}}" required>
+      </div>
+    </div> 
+    <div>
+      <b style="font-size: 20px;"> Data Rekan </b><br/><br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Perwakilan Rekan:</label>
+        <div class="col-sm-4"> 
+          <input type="input" class="form-control" name="wakilRkn" value="{{$perwakilanRkn}}" required>
+        </div>
+      </div> 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Jabatan Perwakilan Rekan:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="jabatanRkn" value="{{$jabatanWPR}}" required>
+        </div>
+      </div> 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Nomor Telepon Rekan:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="noTelpRkn" value="{{$teleponRkn}}">
+        </div>
+      </div> 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Nomor HP Rekan:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="noHPRkn" value="{{$hpRkn}}">
+        </div>
+      </div> 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Alamat Rekan:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="alamatRkn" value="{{$alamatRkn}}" required>
+        </div>
+      </div> 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Email Rekan:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="emailRkn" value="{{$emailRkn}}" required>
+        </div>
+      </div> 
+    </div>
+    <br/>
+    <div>
+      <b style="font-size: 20px;"> Ruang Lingkup Perjanjian </b> <br/><br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Pihak Rekan:</label>
+          <div class="col-sm-4">
+          <input type="input" class="form-control" name="lingkupRkn" value="{{$lingkupRkn}}" required>
+        </div>
+      </div> 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Pihak Bioteknologi:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="lingkupBiotek" value="{{$lingkupUby}}" required>
+        </div>
+      </div> 
+    </div>
+    <br/>
+    <div>
+      <b style="font-size: 20px;"> Hak dan Kewajiban </b> <br/><br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Kewajiban Bioteknologi:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="kewajibanBiotek" value="{{$kewajibanUby}}" required>
+        </div>
+      </div> 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Kewajiban Rekan:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="kewajibanRkn" value="{{$kewajibanRkn}}" required>
+        </div>
+      </div> 
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Hak Bioteknologi:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="hakBiotek" value="{{$hakUby}}" required>
+        </div>
+      </div>
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Hak Rekan:</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="hakRkn" value="{{$hakRkn}}" required>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div>
+      <b style="font-size: 20px;"> Pelaksanaan Kerjasama </b> <br/><br/>
+        <label class="required bold">Pelaksanaan Kerjasama</label>
+        <textarea name="pelaksanaanKj" id="pelaksanaanKj" rows="8" class="form-control" required>{{$pelaksanaan}}</textarea>
+    </div>
+    <br/>
+    <div>
+      <b style="font-size: 20px;"> Biaya-Biaya </b> <br/><br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Pihak Pembayar</label>
+        <div class="col-sm-4">
+          <select name="pihakPembayar" class="form-control" onchange="" value="{{$pihakPembayar}}">
+            <option value="1">Bioteknologi</option>
+            <option value="2">Rekan</option>
+          </select>
+        </div>
+      </div>
+      <br/>
+      <div class="form-group row">
+        <label class="required bold col-sm-2 col-form-label">Jumlah Pembayaran</label>
+        <div class="col-sm-4">
+          <input type="input" class="form-control" name="jumlahBayar" value="{{$jumlahBayar}}" required>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <label class="required bold">Pembayaran dilakukan melalui</label>
+    <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control" required>{{$caraPembayaran}}</textarea>
+    <br/>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Batas Waktu Perjanjian</label>
+      <div class="col-sm-4">
+        <input type="date" class="form-control" name="tanggalSelesai" value="{{date('Y-m-d', strtotime($tanggalsl))}}" required>
+      </div>
+    </div>
+    <br/>
+    <div id="tempat_upload"> 
+    </div>
+    <br/>
+    <input type="submit" class="btn btn-primary" value="Simpan Surat" name="submit" onclick="CekCount()">
   </form>
 
 </body>

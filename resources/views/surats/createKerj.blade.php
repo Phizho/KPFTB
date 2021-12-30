@@ -33,7 +33,7 @@
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label">No Surat Keluar:</label>
         <div class="col-sm-4">  
-          <input type="input" class="form-control" name="noSurat" value="" required>
+          <input type="input" class="form-control" name="noSurat" value="" required readonly>
         </div>
       </div>  
       <br/>
@@ -102,7 +102,7 @@
           </div>
         </div> 
       </div>
-        <br/>
+      <br/>
         <div>
           <b style="font-size: 20px;"> Ruang Lingkup Perjanjian </b> <br/><br/>
           <div class="form-group row">
@@ -150,7 +150,7 @@
             </div>
           </div>
         </div>
-        <br />
+        <br/>
         <div>
           <b style="font-size: 20px;"> Pelaksanaan Kerjasama </b> <br /><br />
           <label class="required bold">Pelaksanaan Kerjasama</label>
@@ -177,10 +177,8 @@
           </div>
         </div>
         <br />
-        <div>
-          <label class="required bold">Pembayaran dilakukan melalui</label>
-          <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control" style="width: 100%;" required></textarea>
-        </div>
+        <label class="required bold">Pembayaran dilakukan melalui</label>
+        <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control" style="width: 100%;" required></textarea>
         <br />
         <div class="form-group row">
           <label class="required bold col-sm-2 col-form-label">Batas Waktu Perjanjian</label>
