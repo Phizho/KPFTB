@@ -29,4 +29,5 @@ Route::get('search','SuratController@search') -> name ('surats.search');
 Route::get('opsi','SuratController@opsi') -> name ('surats.opsi');
 Route::post('hapus','SuratController@hapus') -> name ('surats.hapus');
 Route::post('generateNO','SuratController@generateNO') -> name ('surats.generateNO');
+Route::post('updateOpsi','SuratController@updateOpsi') -> name('surats.updateOpsi');
 Route::resource('surats','SuratController');

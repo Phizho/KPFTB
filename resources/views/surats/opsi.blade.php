@@ -5,7 +5,7 @@
 @endsection
 
 @section('tempat_judul')
-<p style="text-align: center;">DAFTAR SURAT KELUAR</p>
+<p style="text-align: center;">Ubah Data Dekan</p>
 @endsection
 
 @section('tempat_konten')
@@ -20,27 +20,32 @@
 </head>
 
 <body>
-  <label class="required">Nama Lengkap Dekan</label>
-  <input type="input" class="form-control" name="wakilRkn">
-  <label class="required">Nama Lengkap Wakil Dekan</label>
-  <input type="input" class="form-control" name="wakilRkn">
-  <label class="required">Nama Lengkap Magister Kaprodi</label>
-  <input type="input" class="form-control" name="wakilRkn">
+  <form method="POST" action="{{ route('surats.updateOpsi') }}" formtarget="_blank" target="_blank"  enctype="multipart/form-data">
+  @csrf
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Nama Lengkap Dekan:</label>
+      <div class="col-sm-2">
+        <input type="input" class="form-control" name="Dekan" value='{{$namaDekan}}' style="width: 300px;" required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Nama Lengkap Wakil Dekan:</label>
+      <div class="col-sm-2">
+        <input type="input" class="form-control" name="WakilDekan" value='{{$namaWakilDekan}}' style="width: 300px;" required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="required bold col-sm-2 col-form-label">Nama Lengkap Magister Kaprodi:</label>
+      <div class="col-sm-2">
+        <input type="input" class="form-control" name="MagisterKaprodi" value='{{$namaMagisterKaprodi}}' style="width: 300px;" required>
+      </div>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Simpan" name="submit" onclick="">
+  </form>
   
 </body>
 @endsection
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-  function showSearch() {
-    var x = document.getElementById("search");
-    var but = document.getElementById("button-search")
-    if (x.style.display === "none") {
-      x.style.display = "block";
-      but.style.display = "none";
-    } else {
-      x.style.display = "none";
-      but.style.display = "block";
-    }
-  }
 </script>

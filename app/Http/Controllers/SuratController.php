@@ -51,7 +51,16 @@ class SuratController extends Controller
     }
 
     public function opsi() {
-        return view('surats.opsi');
+            
+        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $txtFile = file_get_contents("$path");
+
+        $fullText = explode('|',$txtFile);
+        $namaDekan = $fullText[0];
+        $namaWakilDekan = $fullText[1];
+        $namaMagisterKaprodi = $fullText[2];
+
+        return view('surats.opsi', compact('namaDekan','namaWakilDekan','namaMagisterKaprodi'));
     }
 
     /**
@@ -878,8 +887,6 @@ class SuratController extends Controller
         </div>
         <br/><br/>";
             
-
-
         Storage::disk('public_pdfs')->put("$id/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$id" . "srtutm";
@@ -995,5 +1002,17 @@ class SuratController extends Controller
         return response()->json(['success'=>$s[0]->mns]);
     }
 
+    public function updateOpsi(Request $request) {
+        $namaDekan = $request->get('Dekan');
+        $namaWakilDekan = $request->get('WakilDekan');
+        $namaMagisterKaprodi = $request->get('MagisterKaprodi');
+
+        $opsi = "$namaDekan|$namaWakilDekan|$namaMagisterKaprodi";
+
+        Storage::disk('public_assets')->put("opsi.txt", $opsi);
+
+        return redirect()-> route('surats.opsi');
+        //return view('surats.opsi', compact('namaDekan','namaWakilDekan','namaMagisterKaprodi'));
+    }
 
 }
