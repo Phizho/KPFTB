@@ -50,8 +50,7 @@ class SuratController extends Controller
         return view('surats.createKerj');
     }
 
-    public function opsi() {
-            
+    public function opsi() {     
         $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
         $txtFile = file_get_contents("$path");
 
@@ -100,14 +99,24 @@ class SuratController extends Controller
         $ubayaPath = public_path("assets/LogoUbayaSml.png");
         $ftbPath = public_path("assets/LogoFTB.png");
         $ttDEKPath = public_path("assets/TTDekan.png");
+        $ttWaDekPath = public_path("assets/TTWaDekan.png");
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
         $response = mkdir($folderPath);
 
+        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $opsi = file_get_contents("$path");
+
+        $listnama = explode('|',$opsi);
+        $namaDekan = $listnama[0];
+        $namaWakilDekan = $listnama[1];
+        $namaMagisterKaprodi = $listnama[2];
+
             $fixIsi = "$lampiran<br/>$ns<br/>$data->perihal<br/>$date<br/>$kepada<br/>$isi<br/>$penutup<br/>";
-            $fixIsipdf ="<html><head><style> @page { margin: margin: 0cm 0cm; } body { margin-top: 2cm; margin-left: 2cm; margin-right: 2cm; margin-bottom: 2cm; }";
-            $fixIsipdf.=" header { position: fixed; top: 0cm; left: 0cm; right: 0cm; height: 2cm; } footer { position: fixed;  bottom: 0cm;  left: 0cm;  right: 0cm; height: 2cm; }";
+            $fixIsipdf ="<html><head><style> @page { margin: margin: 0cm 0cm; } body { margin-top: 3cm; margin-left: 2cm; margin-right: 2cm; margin-bottom: 2cm; }";
+            $fixIsipdf.="header { position: fixed; top: 0cm; left: 0cm; right: 0cm; height: 1cm; } footer { position: fixed;  bottom: 0cm;  left: 0cm;  right: 0cm; height: 2cm; }";
             $fixIsipdf.="</style></head>";
-            $fixIsipdf.= "<header><div><img src='$ubayaPath' width='255' height='75' style='margin-left: 1cm; margin-top: 1cm;'><img src='$ftbPath' width='255' height='75' style='float: right; margin-right: 1cm; margin-top: 1cm;'></div></header><br/><br/><br/>";
+            $fixIsipdf.= "<header><img src='$ubayaPath' width='255' height='75' style='margin-left: 1cm; margin-top: 1cm;'><img src='$ftbPath' width='255' height='75' style='float: right; margin-right: 1cm; margin-top: 1cm;'></header><br/><br/><br/>";
+            $fixIsipdf.="<footer><img src='$footerPath' width='100%'></footer>";
             $fixIsipdf.= "<body><div style=' width: 100%; text-align: right; float: right;'>$d</div>Nomor : $ns <br/>Lampiran : $lampiran<br/> Perihal : <b>$data->perihal</b><br/></p>
             <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
                 <br/><br/>
@@ -167,13 +176,13 @@ class SuratController extends Controller
             <div style='text-align: left;'>
                 <p>
                 Hormat Kami, <br/>
-                Dekan Fakultas Teknobiologi
+                Kaprodi. Magister Teknobiologi
                 </p>
                 <img src='$ttKPDMPath' width='213' height='135'><br/>
-                Dr.Tjie Kok, S.Si., M.Si., Apt         
+                $namaMagisterKaprodi         
             </div>
             <br/><br/></body>";
-            } else {
+            } else if ($jen == 1) {
                 $fixIsipdf .="<br/><div>$penutup
             </div>
             <br/><br/><br/>
@@ -183,12 +192,24 @@ class SuratController extends Controller
                 Dekan Fakultas Teknobiologi
                 </p>
                 <img src='$ttDEKPath' width='213' height='135'><br/>
-                Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
+                $namaDekan         
             </div>
             <br/><br/></body>";
+            } else if ($jen == 2) {
+                $fixIsipdf .="<br/><div>$penutup
+                </div>
+                <br/><br/><br/>
+                <div style='text-align: left; page-break-inside: avoid;'>
+                    <p>
+                    Hormat Kami, <br/>
+                    Wakil Dekan Fakultas Teknobiologi
+                    </p>
+                    <img src='$ttWaDekPath' width='213' height='135'><br/>
+                    $namaWakilDekan         
+                </div>
+                <br/><br/></body>";
             }
-            $fixIsipdf.="<footer><img src='$footerPath' width='100%'></footer></html>";
-            
+        $fixIsipdf.="</html>";
         Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$data->nomor_surat" . "srtutm";
@@ -214,6 +235,14 @@ class SuratController extends Controller
 
         $data->save();
 
+        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $opsi = file_get_contents("$path");
+
+        $listnama = explode('|',$opsi);
+        $namaDekan = $listnama[0];
+        $namaWakilDekan = $listnama[1];
+        $namaMagisterKaprodi = $listnama[2];
+
         $hari = strftime('%A');
         $tanggal = strftime('%d');
         $bulan = strftime('%B');
@@ -224,7 +253,7 @@ class SuratController extends Controller
         if ($pihakUbaya == 1) {
             $namaPihak1 = "Fakultas Teknobiologi Surabaya";
             $alamatPihak1 = "Jalan Raya Kalirungkut, Surabaya 60293";
-            $perwakilanPihak1 = "Dr.rer.nat. Sulistyo Emantoko";
+            $perwakilanPihak1 = "$namaDekan";
             $jabatanWP1 = "Dekan";
             $lingkup1 = $request->get('lingkupBiotek');
             $kewajiban1 = $request->get('kewajibanBiotek');
@@ -256,7 +285,7 @@ class SuratController extends Controller
         } else {
             $namaPihak2 = "Fakultas Teknobiologi Surabaya";
             $alamatPihak2 = "Jalan Raya Kalirungkut, Surabaya 60293";
-            $perwakilanPihak2 = "Dr. rer. nat. Sulistyo Emantoko";
+            $perwakilanPihak2 = "$namaDekan";
             $jabatanWP2 = "Dekan";
             $lingkup2 = $request->get('lingkupBiotek');
             $kewajiban2 = $request->get('kewajibanBiotek');
@@ -306,15 +335,16 @@ class SuratController extends Controller
         $ftbPath = public_path("assets/LogoFTB.png");
         $ttDEKPath = public_path("assets/TTDekan.png");
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
+        $parafPKS = public_path("assets/parafPKS.png");
         $response = mkdir($folderPath);
 
-        
-        $fixIsipdf = "<html> <head> <style> display: block; margin-top: -10px; margin-bottom: -3px; margin-left: 0; margin-right: 0; padding-left: 40px; } </style> </head> <body>"; 
-        $fixIsipdf.= "<center><b><div>PERJANJIAN KERJASAMA<br/><i>(Letter of Agreement)</i><br/>antara<br/>";
+        $fixIsipdf = "<html> <head> <style> @page { margin: margin: 0cm 0cm; } body { margin-top: 2cm; margin-left: 2cm; margin-right: 2cm; margin-bottom: 3cm; } footer { position: fixed;  bottom: 0cm;  left: 0cm;  right: 0cm; height: 3cm; margin-left: 3cm; }</style> </head>"; 
+        $fixIsipdf.= "<footer><img src='$parafPKS'></footer>";
+        $fixIsipdf.= "<body><center><b><div style='font-size: 30px;'>PERJANJIAN KERJASAMA<br/><i>(Letter of Agreement)</i><br/>antara<br/>";
         $fixIsipdf.= "$pihak1K<br/>dengan<br/>$pihak2K<br/>Tentang<br/>\"$data->perihal\"</div>";
-        $fixIsipdf.= "<hr><div style='width: 200px; margin: auto; text-align: left;'>NOMOR :<hr>NOMOR : $ns</div></b></center>";
+        $fixIsipdf.= "<hr><div style='width: 250px; margin: auto; text-align: left;'>NOMOR :<hr>NOMOR : $ns</div></b></center>";
         $fixIsipdf.= "<br/><div>Pada hari ini <b>$hari</b>, tanggal <b>$tanggal</b>, bulan <b>$bulan</b>, tahun <b>$tahun</b>, telah dibuat dan ditandatangani Perjanjian Kerjasama, oleh dan antara :<br/><br/>";
-        $fixIsipdf.= "<ol type='I'><li><b>$namaPihak1</b>, yang berdomisili di $alamatPihak1 yang dalam melakukan pembuatan hukum ini diwakili oleh <b>$perwakilanPihak1</b> sebagai <b>$jabatanWP1</b> Selanjutnya disebut sebagai <b>PIHAK PERTAMA</b></li>";
+        $fixIsipdf.= "<ol type='I'><li><b>$namaPihak1</b>, yang berdomisili di $alamatPihak1 yang dalam melakukan pembuatan hukum ini diwakili oleh <b>$perwakilanPihak1</b> sebagai <b>$jabatanWP1</b> Selanjutnya disebut sebagai <b>PIHAK PERTAMA</b></li><br/><br/>";
         $fixIsipdf.= "<li><b>$namaPihak2</b>, yang berdomisili di $alamatPihak2 yang dalam hal melakukan perbuatan hukum ini diwakili oleh <b>$perwakilanPihak2</b> sebagai <b>$jabatanWP2</b> Selanjutnya disebut sebagai <b>PIHAK KEDUA</b></li></ol>";
         $fixIsipdf.= "<br/>";
         $fixIsipdf.= "(PIHAK PERTAMA DAN PIHAK KEDUA secara bersama – sama disebut PARA PIHAK)";
@@ -327,11 +357,11 @@ class SuratController extends Controller
         $fixIsipdf.= "<ol type='1'><li>PIHAK PERTAMA $lingkup1</li><li>PIHAK KEDUA $lingkup2</li></ol>";
         $fixIsipdf.= "<br/>";
         $fixIsipdf.= "<center><b>Pasal 2<br/>HAK dan KEWAJIBAN PARA PIHAK</b></center><br/>";
-        $fixIsipdf.= "<div>(1) Hak PIHAK PERTAMA: <br/>$hak1<br/>";
-        $fixIsipdf.= "(2) KEWAJIBAN PIHAK PERTAMA:<br/>$kewajiban1<br/>";    
-        $fixIsipdf.= "(3) Hak PIHAK KEDUA:<br/>$hak2<br/>";
-        $fixIsipdf.= "(4) KEWAJIBAN PIHAK KEDUA:<br/>$kewajiban2";
-        $fixIsipdf.= "</div>";
+        $fixIsipdf.= "<ol type=''1><li>Hak PIHAK PERTAMA: <br/>$hak1</li><br/><br/>";
+        $fixIsipdf.= "<li>KEWAJIBAN PIHAK PERTAMA:<br/>$kewajiban1</li><br/><br/>";    
+        $fixIsipdf.= "<li>Hak PIHAK KEDUA:<br/>$hak2</li><br/><br/>";
+        $fixIsipdf.= "<li>KEWAJIBAN PIHAK KEDUA:<br/>$kewajiban2</li>";
+        $fixIsipdf.= "</ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 3<br/>PELAKSANAAN KERJASAMA</b></center><br/>";
         $fixIsipdf.= "$pelaksanaan";
         $fixIsipdf.= "<br/><br/><center><b>Pasal 4<br/>BIAYA-BIAYA</b></center>";
@@ -346,11 +376,11 @@ class SuratController extends Controller
         $fixIsipdf.= "<ol><li> Perjanjian ini akan ditinjau kembali apabila terjadi hal-hal yang sifatnya diluar kekuasaan manusia yang biasa disebut force majeur yang akibatnya baik secara langsung maupun tidak langsung dapat mempengaruhi berlangsungnya perjanjian ini</li><li> Kejadian-kejadian yang termasuk Force Majeur antara lain:<br/><ol type='a'><li>Bencana alam seperti gunung meletus, banjir besar/ air bah, kebakaran, gempa bumi</li><li>Kondisi sosial seperti pemberontakan, pemogokan massal, epidemi</li><li>Kebijakan Pemerintah seperti sanering, devaluasi, kebijakan pemerintah yang terkait dengan perjanjian kerja ini</li></ol></li><li>Pihak yang terkena langsung akibat force majeur ini, agar memberitahukan hal tersebut kepada pihak lain secara tertulis dalam perjanjian ini dalam waktu 3x24 jam terhitung sejak terjadinya force majeur tersebut.</li></ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 8<br/>SANKSI</b></center> <br/>";
         $fixIsipdf.= "<ol><li>Bilamana dalam pelaksanaan perjanjian ini ternyata ada salah satu pihak yang dianggap telah melanggar ketentuan yang diatur tersebut diatas, maka pihak yang merasa dirugikan dapat mengajukan surat keberatan atau teguran kepada pihak lainnya</li><li>Bilamana setelah adanya surat teguran dari pihak yang merasa dirugikan tersebut ternyata tidak mendapatkan tanggapan yang semestinya dari pihak yang ditegur, maka surat teguran berikutnya dapat diberikan sampai maksimum 3 (tiga) kali dengan tenggang waktu masing-masing selama 7 (tujuh) hari kerja efektif sebelum akhirnya dilakukan pemutusan perjanjian kerjasama ini</li></ol>";
-        $fixIsipdf.= "<br/><center><b>Pasal 9<br/>PENYELESAIAN PERSELISIHAN</b></center><br/>";
+        $fixIsipdf.= "<br/><center><b>Pasal 9<br/>PENYELESAIAN PERSELISIHAN</b></center><br/><br/>";
         $fixIsipdf.= "<ol><li>Bilamana terjadi perbedaan pendapat selama berlangsungnya perjanjian ini, maka kedua belah pihak sepakat untuk menyelesaikan permasalahan yang ada secara musyawarah/ kekeluargaan</li><li>Bilamana dengan musyawarah/ kekeluargaan tersebut kedua belah pihak tidak mencapai kesepakatan, maka kedua belah pihak sepakat untuk menyelesaikannya melalui jalur hukum yaitu di Kantor Panitera Pengadilan Negeri Surabaya</li></ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 10<br/><i>CONTACT PERSON</i></b></center><br/>";
-        $fixIsipdf.= "<ol><li> (1)Untuk kelancaran pelaksanaan PKS ini atau dalam hal terdapat saran/usulan/komplain/ keluhan yang dialami salah satu pihak sehubungan dengan pelaksanaan PKS ini, dapat disampaikan oleh salah satu pihak kepada pihak lainnya melalui Contact Person yang ditunjuk oleh PARA PIHAK untuk menangani / menindaklanjuti permasalahan/komplain/ keluhan tersebut.
-        <br/>
+        $fixIsipdf.= "<ol><li>Untuk kelancaran pelaksanaan PKS ini atau dalam hal terdapat saran/usulan/komplain/ keluhan yang dialami salah satu pihak sehubungan dengan pelaksanaan PKS ini, dapat disampaikan oleh salah satu pihak kepada pihak lainnya melalui Contact Person yang ditunjuk oleh PARA PIHAK untuk menangani / menindaklanjuti permasalahan/komplain/ keluhan tersebut.
+        <br/><br/>
             <table>
                 <tr><td width=200px><b><u>PIHAK PERTAMA</u></b></td><td width=10px></td><td></td></tr>
                 <tr><td colspan='3'><b>$pihak1K</b></td></tr>
@@ -371,7 +401,7 @@ class SuratController extends Controller
                 <tr><td width=200px>Email</td><td width=10px>:</td><td>$email2</td></tr>
             </table>  
         </li>
-        <br/>
+        <br/><br/>
         <li>Penggantian Contact Person yang ditunjuk oleh PARA PIHAK sebagaimana dimaksud ayat (1) Pasal ini hanya dilaksanakan dengan pemberitahuan secara tertulis dari pihak yang menghendaki pergantian kepada pihak lainnya.</li>
          </ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 11<br/>PENUTUP</b></center><br/>";
@@ -392,6 +422,7 @@ class SuratController extends Controller
         </b>
         </div>";
         $fixIsipdf.= "</body>";
+        $fixIsipdf.= "</html>";
 
         Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
@@ -416,6 +447,14 @@ class SuratController extends Controller
         $data->jenis_surat = 5;
 
         $data->save();
+
+        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $opsi = file_get_contents("$path");
+
+        $listnama = explode('|',$opsi);
+        $namaDekan = $listnama[0];
+        $namaWakilDekan = $listnama[1];
+        $namaMagisterKaprodi = $listnama[2];
 
         $menimbang = $request->get('menimbang');
         $countMengingat = $request->get('countMengingat');
@@ -486,7 +525,7 @@ class SuratController extends Controller
         $fixIsipdf.= "Pertama<br/><br/>";
         $fixIsipdf.= "<div>Ditetapkan di  : Surabaya<br/>Pada Tanggal  : $d<br/>Dekan,
         <br/><img src='$ttDEKPath' width='213' height='135'><br/>
-        <b>Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si </b>
+        <b>$namaDekan</b>
         </div>
         <br/><br/>";
         Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
@@ -519,7 +558,7 @@ class SuratController extends Controller
     public function edit($id)
     {
         $s = DB::table('surats')
-            ->select(DB::raw('*'))
+            ->select(DB::raw('nomor_surat, perihal, jenis_surat+0 as jenis_surat, created_at, updated_at, tanggal_kirim'))
             ->where('nomor_surat', $id)
             ->get();
         
@@ -669,7 +708,7 @@ class SuratController extends Controller
         $checkbox = $request->input('tcheck');
         $kepada = $request->get('kepada');
         $count = $request->get('count');
-        $lampiran = $request->get('Lampiran');
+        $lampiran = $request->get('lampiran');
 
         $row = $request->get('jumrow');
         $col = $request->get('jumcol');
@@ -682,12 +721,22 @@ class SuratController extends Controller
         $folderPath = public_path("assets/pdf/$id");
         $ttDEKPath = public_path("assets/TTDekan.png");
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
+        $ttWaDekPath = public_path("assets/TTWaDekan.png");
+
+        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $opsi = file_get_contents("$path");
+
+        $listnama = explode('|',$opsi);
+        $namaDekan = $listnama[0];
+        $namaWakilDekan = $listnama[1];
+        $namaMagisterKaprodi = $listnama[2];
 
         $fixIsi = "$lampiran<br/>$idc<br/>$perihal<br/>$date<br/>$kepada<br/>$isi<br/>$penutup<br/>";
-        $fixIsipdf ="<html><head><style> @page { margin: margin: 0cm 0cm; } body { margin-top: 2cm; margin-left: 2cm; margin-right: 2cm; margin-bottom: 2cm; }";
-        $fixIsipdf.=" header { position: fixed; top: 0cm; left: 0cm; right: 0cm; height: 2cm; } footer { position: fixed;  bottom: 0cm;  left: 0cm;  right: 0cm; height: 2cm; }";
+        $fixIsipdf ="<html><head><style> @page { margin: margin: 0cm 0cm; } body { margin-top: 3cm; margin-left: 2cm; margin-right: 2cm; margin-bottom: 2cm; }";
+        $fixIsipdf.="header { position: fixed; top: 0cm; left: 0cm; right: 0cm; height: 1cm; } footer { position: fixed;  bottom: 0cm;  left: 0cm;  right: 0cm; height: 2cm; }";
         $fixIsipdf.="</style></head>";
-        $fixIsipdf.= "<header><div><img src='$ubayaPath' width='255' height='75' style='margin-left: 1cm; margin-top: 1cm;'><img src='$ftbPath' width='255' height='75' style='float: right; margin-right: 1cm; margin-top: 1cm;'></div></header><br/><br/><br/>";
+        $fixIsipdf.= "<header><img src='$ubayaPath' width='255' height='75' style='margin-left: 1cm; margin-top: 1cm;'><img src='$ftbPath' width='255' height='75' style='float: right; margin-right: 1cm; margin-top: 1cm;'></header><br/><br/><br/>";
+        $fixIsipdf.="<footer><img src='$footerPath' width='100%'></footer>";
         $fixIsipdf.= "<body><div style=' width: 100%; text-align: right; float: right;'>$date</div>Nomor : $idc <br/>Lampiran : $lampiran<br/> Perihal : <b>$perihal</b><br/></p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/>
@@ -777,13 +826,13 @@ class SuratController extends Controller
             <div style='text-align: left;'>
                 <p>
                 Hormat Kami, <br/>
-                Dekan Fakultas Teknobiologi
+                Kaprodi. Magister Teknobiologi
                 </p>
                 <img src='$ttKPDMPath' width='213' height='135'><br/>
-                Dr.Tjie Kok, S.Si., M.Si., Apt         
+                $namaWakilDekan         
             </div>
             <br/><br/></body>";
-            } else {
+            } else if ($jen == 1) {
                 $fixIsipdf .="<br/><div>$penutup
             </div>
             <br/><br/><br/>
@@ -793,12 +842,25 @@ class SuratController extends Controller
                 Dekan Fakultas Teknobiologi
                 </p>
                 <img src='$ttDEKPath' width='213' height='135'><br/>
-                Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si         
+                $namaDekan         
             </div>
             <br/><br/></body>";
-        }
+            } else if ($jen == 2) {
+                $fixIsipdf .="<br/><div>$penutup
+                </div>
+                <br/><br/><br/>
+                <div style='text-align: left; page-break-inside: avoid;'>
+                    <p>
+                    Hormat Kami, <br/>
+                    Wakil Dekan Fakultas Teknobiologi
+                    </p>
+                    <img src='$ttWaDekPath' width='213' height='135'><br/>
+                    $namaWakilDekan         
+                </div>
+                <br/><br/></body>";
+            }
             
-        $fixIsipdf.="<footer><img src='$footerPath' width='100%'></footer></html>";
+        $fixIsipdf.="</html>";
         Storage::disk('public_pdfs')->put("$id/file.txt", $fixIsi);
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$id" . "srtutm";
@@ -826,6 +888,14 @@ class SuratController extends Controller
 
         $folderPath = public_path("assets/pdf/$id");
         $ttDEKPath = public_path("assets/TTDekan.png");
+
+        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $opsi = file_get_contents("$path");
+
+        $listnama = explode('|',$opsi);
+        $namaDekan = $listnama[0];
+        $namaWakilDekan = $listnama[1];
+        $namaMagisterKaprodi = $listnama[2];
 
         $fixIsi = "$id<br/>$perihal<br/>$menimbang<br/>";
 
@@ -883,7 +953,7 @@ class SuratController extends Controller
         $fixIsipdf.= "Pertama<br/><br/>";
         $fixIsipdf.= "<div>Ditetapkan di  : Surabaya<br/>Pada Tanggal  : $date<br/>Dekan,
         <br/><img src='$ttDEKPath' width='213' height='135'><br/>
-        <b>Dr.rer.nat. Sulistyo Emantoko D.P., S.Si., M.Si </b>
+        <b>$namaDekan </b>
         </div>
         <br/><br/>";
             
@@ -893,6 +963,221 @@ class SuratController extends Controller
         $pdf->save($folderPath . '/' . $fileName . '.pdf');
 
         return redirect()->route('surats.index')->with('status','Surat berhasil di edit');
+    }
+
+    public function updateKerj(Request $request, $id) {
+        $data = new Surat;
+        setlocale(LC_ALL, 'IND');
+        $data->nomor_surat = str_replace("/","-",$request->get('noSurat'));
+        $ns = $request->get('noSurat');
+        $data->perihal = $request->get('perihal');
+        $data->tanggal_kirim = $request->get('Tanggal');
+        $date = date('d-m-Y', strtotime($data->tanggal_kirim));
+        $d = strftime('%d %B %Y');
+        
+        $data->jenis_surat = 4;
+
+        DB::table('surats')
+            ->where('nomor_surat', $id)
+            ->update(['perihal' => $data->perihal,'tanggal_kirim' => $data->tanggal_kirim]);
+
+        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $opsi = file_get_contents("$path");
+
+        $listnama = explode('|',$opsi);
+        $namaDekan = $listnama[0];
+        $namaWakilDekan = $listnama[1];
+        $namaMagisterKaprodi = $listnama[2];
+
+        $hari = strftime('%A');
+        $tanggal = strftime('%d');
+        $bulan = strftime('%B');
+        $tahun = strftime('%Y');
+
+        $pihakUbaya = $request->get('pihakKe');
+        $fixIsi = "$ns<br/>$data->perihal<br/>$pihakUbaya<br/>";
+        if ($pihakUbaya == 1) {
+            $namaPihak1 = "Fakultas Teknobiologi Surabaya";
+            $alamatPihak1 = "Jalan Raya Kalirungkut, Surabaya 60293";
+            $perwakilanPihak1 = "$namaDekan";
+            $jabatanWP1 = "Dekan";
+            $lingkup1 = $request->get('lingkupBiotek');
+            $kewajiban1 = $request->get('kewajibanBiotek');
+            $hak1 = $request->get('hakBiotek');
+            $telepon1 = "+6231-298 1399";
+            $hp1 = "+62 819 35096868";
+            $email1 = "arta@staff.ubaya.ac.id";
+            if ($request->get('pihakPembayar') == 1 ){
+                $pihakPembayar = "PIHAK PERTAMA";
+                $pihakPenerima = "PIHAK KEDUA";
+            } else {
+                $pihakPembayar = "PIHAK KEDUA";
+                $pihakPenerima = "PIHAK PERTAMA";
+            }
+
+            $namaPihak2 = $request->get('pihak2');
+            $alamatPihak2 = $request->get('alamatRkn');
+            $perwakilanPihak2 = $request->get('wakilRkn');
+            $jabatanWP2 = $request->get('jabatanRkn');
+            $lingkup2 = $request->get('lingkupRkn');
+            $kewajiban2 = $request->get('kewajibanRkn');
+            $hak2 = $request->get('hakRkn');
+            $telepon2 = $request->get('noTelpRkn');
+            $hp2 = $request->get("noHPRkn");
+            $email2 = $request->get("emailRkn");
+
+        $fixIsi.= "$namaPihak2<br/>$perwakilanPihak2<br/>$jabatanWP2<br/>$telepon2<br/>$hp2<br/>$alamatPihak2<br/>$email2<br/>$lingkup2<br/>$kewajiban2<br/>$hak2<br/>";
+        $fixIsi.= "$lingkup1<br/>$kewajiban1<br/>$hak1<br/>";
+        } else {
+            $namaPihak2 = "Fakultas Teknobiologi Surabaya";
+            $alamatPihak2 = "Jalan Raya Kalirungkut, Surabaya 60293";
+            $perwakilanPihak2 = "$namaDekan";
+            $jabatanWP2 = "Dekan";
+            $lingkup2 = $request->get('lingkupBiotek');
+            $kewajiban2 = $request->get('kewajibanBiotek');
+            $hak2 = $request->get('hakBiotek');
+            $telepon2 = "+6231-298 1399";
+            $hp2 = "+62 819 35096868";
+            $email2 = "arta@staff.ubaya.ac.id";
+            if ($request->get('pihakPembayar') == 1 ){
+                $pihakPembayar = "PIHAK KEDUA";
+                $pihakPenerima = "PIHAK PERTAMA";
+            } else {
+                $pihakPembayar = "PIHAK PERTAMA";
+                $pihakPenerima = "PIHAK KEDUA";
+            }
+
+            $namaPihak1 = $request->get('pihak2');
+            $alamatPihak1 = $request->get('alamatRkn');
+            $perwakilanPihak1 = $request->get('wakilRkn');
+            $jabatanWP1 = $request->get('jabatanRkn');
+            $lingkup1 = $request->get('lingkupRkn');
+            $kewajiban1 = $request->get('kewajibanRkn');
+            $hak1 = $request->get('hakRkn');
+            $telepon1 = $request->get('noTelpRkn');
+            $hp1 = $request->get("noHPRkn");
+            $email1 = $request->get("emailRkn");
+
+            $fixIsi.= "$namaPihak1<br/>$perwakilanPihak1<br/>$jabatanWP1<br/>$telepon1<br/>$hp1<br/>$alamatPihak1<br/>$email1<br/>$lingkup1<br/>$kewajiban1<br/>$hak1<br/>";
+            $fixIsi.= "$lingkup2<br/>$kewajiban2<br/>$hak2<br/>";
+        }
+
+        $pihak1K = strtoupper($namaPihak1);
+        $pihak2K = strtoupper($namaPihak2);
+
+        $caraPembayaran = nl2br($request->get("caraPembayaran"));
+        $pelaksanaan = nl2br($request->get("pelaksanaanKj"));
+        $jumlahBayar = $request->get("jumlahBayar");
+        $tanggalsl = strtotime($request->get("tanggalSelesai"));
+        $tanggalSelesai = strftime('%d %B %Y', $tanggalsl);
+        // $countMengingat = $request->get('countMengingat');
+        // $countMenetapkan = $request->get('countMenetapkan');
+
+        // $isi = $request->get('isiSurat');
+        $fixIsi.= "$pelaksanaan<br/>$pihakPembayar<br/>$jumlahBayar<br/>$caraPembayaran<br/>$tanggalsl";
+
+        $folderPath = public_path("assets/pdf/$data->nomor_surat");
+        $ubayaPath = public_path("assets/LogoUbayaSml.png");
+        $ftbPath = public_path("assets/LogoFTB.png");
+        $ttDEKPath = public_path("assets/TTDekan.png");
+        $ttKPDMPath = public_path("assets/TTKaprodiM.png");
+        $parafPKS = public_path("assets/parafPKS.png");
+        //<html><head><style> @page { margin: margin: 0cm 0cm; } body { margin-top: 2cm; margin-left: 2cm; margin-right: 2cm; margin-bottom: 2cm; }
+        
+        $fixIsipdf = "<html> <head> <style> @page { margin: margin: 0cm 0cm; } body { margin-top: 2cm; margin-left: 2cm; margin-right: 2cm; margin-bottom: 3cm; } footer { position: fixed;  bottom: 0cm;  left: 0cm;  right: 0cm; height: 3cm; margin-left: 3cm; }</style> </head>"; 
+        $fixIsipdf.= "<footer><img src='$parafPKS'></footer>";
+        $fixIsipdf.= "<body><center><b><div style='font-size: 30px;'>PERJANJIAN KERJASAMA<br/><i>(Letter of Agreement)</i><br/>antara<br/>";
+        $fixIsipdf.= "$pihak1K<br/>dengan<br/>$pihak2K<br/>Tentang<br/>\"$data->perihal\"</div>";
+        $fixIsipdf.= "<hr><div style='width: 250px; margin: auto; text-align: left;'>NOMOR :<hr>NOMOR : $ns</div></b></center>";
+        $fixIsipdf.= "<br/><div>Pada hari ini <b>$hari</b>, tanggal <b>$tanggal</b>, bulan <b>$bulan</b>, tahun <b>$tahun</b>, telah dibuat dan ditandatangani Perjanjian Kerjasama, oleh dan antara :<br/><br/>";
+        $fixIsipdf.= "<ol type='I'><li><b>$namaPihak1</b>, yang berdomisili di $alamatPihak1 yang dalam melakukan pembuatan hukum ini diwakili oleh <b>$perwakilanPihak1</b> sebagai <b>$jabatanWP1</b> Selanjutnya disebut sebagai <b>PIHAK PERTAMA</b></li><br/><br/>";
+        $fixIsipdf.= "<li><b>$namaPihak2</b>, yang berdomisili di $alamatPihak2 yang dalam hal melakukan perbuatan hukum ini diwakili oleh <b>$perwakilanPihak2</b> sebagai <b>$jabatanWP2</b> Selanjutnya disebut sebagai <b>PIHAK KEDUA</b></li></ol>";
+        $fixIsipdf.= "<br/>";
+        $fixIsipdf.= "(PIHAK PERTAMA DAN PIHAK KEDUA secara bersama – sama disebut PARA PIHAK)";
+        $fixIsipdf.= "<br/><br/>";
+        $fixIsipdf.= "Berdasarkan atas pertimbangan:";
+        $fixIsipdf.= "<ol type='1'><li>Kerangka acuan dari Fakultas Teknobiologi Universitas Surabaya penggunaan fasilitas laboratorium untuk penelitian/aplikasi bioteknologi, khususnya di bidang bioteknologi tanaman</li></ol>";
+        $fixIsipdf.= "PARA PIHAK sepakat untuk melakukan kerjasama dalam \"$data->perihal\"";
+        $fixIsipdf.= "<br/><br/>";
+        $fixIsipdf.= "<center><b>Pasal 1<br/>RUANG LINGKUP PERJANJIAN</b></center>";
+        $fixIsipdf.= "<ol type='1'><li>PIHAK PERTAMA $lingkup1</li><li>PIHAK KEDUA $lingkup2</li></ol>";
+        $fixIsipdf.= "<br/>";
+        $fixIsipdf.= "<center><b>Pasal 2<br/>HAK dan KEWAJIBAN PARA PIHAK</b></center><br/>";
+        $fixIsipdf.= "<ol type=''1><li>Hak PIHAK PERTAMA: <br/>$hak1</li><br/><br/>";
+        $fixIsipdf.= "<li>KEWAJIBAN PIHAK PERTAMA:<br/>$kewajiban1</li><br/><br/>";    
+        $fixIsipdf.= "<li>Hak PIHAK KEDUA:<br/>$hak2</li><br/><br/>";
+        $fixIsipdf.= "<li>KEWAJIBAN PIHAK KEDUA:<br/>$kewajiban2</li>";
+        $fixIsipdf.= "</ol>";
+        $fixIsipdf.= "<br/><center><b>Pasal 3<br/>PELAKSANAAN KERJASAMA</b></center><br/>";
+        $fixIsipdf.= "$pelaksanaan";
+        $fixIsipdf.= "<br/><br/><center><b>Pasal 4<br/>BIAYA-BIAYA</b></center>";
+        $fixIsipdf.= "<ol type='1'><li> $pihakPenerima akan menerima pembayaran dari $pihakPembayar</li><li> Biaya yang dimaksud adalah sebesar Rp 20.000.000,- yang sudah mencakup bahan, jasa serta institutional fee yang ditentukan oleh $pihakPenerima.</li></ol>";
+        $fixIsipdf.= "<center><b>Pasal 5<br/>CARA PEMBAYARAN</b></center>";
+        $fixIsipdf.= "<ol type='1'><li> Pembayaran atas biaya-biaya seperti yang tercantum pada Pasal 5 ayat ( 1 ) sebesar Rp $jumlahBayar dilaksanakan oleh PIHAK PERTAMA dengan ketentuan sebagai berikut:";
+        $fixIsipdf.= "<ol type='1'><li>Pembayaran I sebesar 50% (lima puluh persen) selambatnya 7 (tujuh) hari kerja setelah penandatanganan kontrak</li><li>Pembayaran II sebesar 50% (lima puluh persen) selambatnya 7 (tujuh) hari kerja setelah penyerahan laporan </li></ol></li>";
+        $fixIsipdf.= "<li>Pembayaran dilakukan melalui $caraPembayaran</li></ol>";
+        $fixIsipdf.= "<br/><center><b>Pasal 6<br/>JANGKA WAKTU PERJANJIAN</b></center><br/>";
+        $fixIsipdf.= "<ol><li>Perjanjian Kerja Sama ini terhitung semenjak tanggal $d dan berakhir pada tanggal $tanggalSelesai</li><li>Perjanjian Kerjasama ini dapat diakhiri lebih awal atau diperpanjang atas kesepakatan kedua belah pihak</li></ol>";
+        $fixIsipdf.= "<br/><center><b>Pasal 7<br/><i>FORCE MAJEUR</i></b></center><br/>";
+        $fixIsipdf.= "<ol><li> Perjanjian ini akan ditinjau kembali apabila terjadi hal-hal yang sifatnya diluar kekuasaan manusia yang biasa disebut force majeur yang akibatnya baik secara langsung maupun tidak langsung dapat mempengaruhi berlangsungnya perjanjian ini</li><li> Kejadian-kejadian yang termasuk Force Majeur antara lain:<br/><ol type='a'><li>Bencana alam seperti gunung meletus, banjir besar/ air bah, kebakaran, gempa bumi</li><li>Kondisi sosial seperti pemberontakan, pemogokan massal, epidemi</li><li>Kebijakan Pemerintah seperti sanering, devaluasi, kebijakan pemerintah yang terkait dengan perjanjian kerja ini</li></ol></li><li>Pihak yang terkena langsung akibat force majeur ini, agar memberitahukan hal tersebut kepada pihak lain secara tertulis dalam perjanjian ini dalam waktu 3x24 jam terhitung sejak terjadinya force majeur tersebut.</li></ol>";
+        $fixIsipdf.= "<br/><center><b>Pasal 8<br/>SANKSI</b></center> <br/>";
+        $fixIsipdf.= "<ol><li>Bilamana dalam pelaksanaan perjanjian ini ternyata ada salah satu pihak yang dianggap telah melanggar ketentuan yang diatur tersebut diatas, maka pihak yang merasa dirugikan dapat mengajukan surat keberatan atau teguran kepada pihak lainnya</li><li>Bilamana setelah adanya surat teguran dari pihak yang merasa dirugikan tersebut ternyata tidak mendapatkan tanggapan yang semestinya dari pihak yang ditegur, maka surat teguran berikutnya dapat diberikan sampai maksimum 3 (tiga) kali dengan tenggang waktu masing-masing selama 7 (tujuh) hari kerja efektif sebelum akhirnya dilakukan pemutusan perjanjian kerjasama ini</li></ol>";
+        $fixIsipdf.= "<br/><center><b>Pasal 9<br/>PENYELESAIAN PERSELISIHAN</b></center><br/><br/>";
+        $fixIsipdf.= "<ol><li>Bilamana terjadi perbedaan pendapat selama berlangsungnya perjanjian ini, maka kedua belah pihak sepakat untuk menyelesaikan permasalahan yang ada secara musyawarah/ kekeluargaan</li><li>Bilamana dengan musyawarah/ kekeluargaan tersebut kedua belah pihak tidak mencapai kesepakatan, maka kedua belah pihak sepakat untuk menyelesaikannya melalui jalur hukum yaitu di Kantor Panitera Pengadilan Negeri Surabaya</li></ol>";
+        $fixIsipdf.= "<br/><center><b>Pasal 10<br/><i>CONTACT PERSON</i></b></center><br/>";
+        $fixIsipdf.= "<ol><li>Untuk kelancaran pelaksanaan PKS ini atau dalam hal terdapat saran/usulan/komplain/ keluhan yang dialami salah satu pihak sehubungan dengan pelaksanaan PKS ini, dapat disampaikan oleh salah satu pihak kepada pihak lainnya melalui Contact Person yang ditunjuk oleh PARA PIHAK untuk menangani / menindaklanjuti permasalahan/komplain/ keluhan tersebut.
+        <br/><br/>
+            <table>
+                <tr><td width=200px><b><u>PIHAK PERTAMA</u></b></td><td width=10px></td><td></td></tr>
+                <tr><td colspan='3'><b>$pihak1K</b></td></tr>
+                <tr><td width=200px>Contact Person</td><td width=10px>:</td><td>$perwakilanPihak1</td></tr>
+                <tr><td width=200px>Alamat</td><td width=10px>:</td><td>$alamatPihak1</td></tr>
+                <tr><td width=200px>Telepon</td><td width=10px>:</td><td>$telepon1</td></tr>
+                <tr><td width=200px>HP</td><td width=10px>:</td><td>$hp1</td></tr>
+                <tr><td width=200px>Email</td><td width=10px>:</td><td>$email1</td></tr>
+            </table>
+            <br/>
+            <table>
+                <tr><td width=200px><b><u>PIHAK KEDUA</u></b></td><td width=10px></td><td></td></tr>
+                <tr><td colspan='3'><b>$pihak2K</b></td></tr>
+                <tr><td width=200px>Contact Person</td><td width=10px>:</td><td>$perwakilanPihak2</td></tr>
+                <tr><td width=200px>Alamat</td><td width=10px>:</td><td>$alamatPihak2</td></tr>
+                <tr><td width=200px>Telepon</td><td width=10px>:</td><td>$telepon2</td></tr>
+                <tr><td width=200px>HP</td><td width=10px>:</td><td>$hp2</td></tr>
+                <tr><td width=200px>Email</td><td width=10px>:</td><td>$email2</td></tr>
+            </table>  
+        </li>
+        <br/><br/>
+        <li>Penggantian Contact Person yang ditunjuk oleh PARA PIHAK sebagaimana dimaksud ayat (1) Pasal ini hanya dilaksanakan dengan pemberitahuan secara tertulis dari pihak yang menghendaki pergantian kepada pihak lainnya.</li>
+         </ol>";
+        $fixIsipdf.= "<br/><center><b>Pasal 11<br/>PENUTUP</b></center><br/>";
+        $fixIsipdf.= "<ol><li>Hal-hal yang belum cukup diatur dalam perjanjian ini, akan diatur kemudian dalam perjanjian tambahan yang merupakan satu kesatuan dengan perjanjian ini</li><li>Segala ketentuan dan syarat-syarat dalam PKS ini berlaku dan mengikat bagi pihak-pihak yang menandatangani dan pengganti-penggantinya.</li><li>Perjanjian Kerjasama  ini dibuat dalam rangkap 2 (dua) ASLI, masing-masing sama bunyinya dan ditandatangani di atas kertas bermaterai cukup sehingga mempunyai kekuatan hukum yang sama Bagi Para Pihak.</li></ol>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Demikian Perjanjian Kerjasama ini dibuat dengan itikad baik, untuk dipatuhi dan dilaksanakan dengan penuh tanggungjawab oleh PARA PIHAK  ";
+        $fixIsipdf.= "<br/><br/><br/>";
+        $fixIsipdf.= "<div width='50%' style='text-align: center; float: left;'>
+        <b>PIHAK PERTAMA<br/>$namaPihak1
+        <br/><br/><br/><br/>
+        <u>$perwakilanPihak1</u><br/>
+        $jabatanWP1
+        </b>       
+        </div>";
+        $fixIsipdf.= "<div width='50%' style='text-align: center; float: right;'>
+        <b>PIHAK KEDUA<br/>$namaPihak2
+        <br/><br/><br/><br/>
+        <u>$perwakilanPihak2</u><br/>
+        $jabatanWP2
+        </b>
+        </div>";
+        $fixIsipdf.= "</body>";
+        $fixIsipdf.= "</html>";
+
+        Storage::disk('public_pdfs')->put("$data->nomor_surat/file.txt", $fixIsi);
+        $pdf = PDF::loadHTML($fixIsipdf);
+        $fileName = "$data->nomor_surat" . "srtutm";
+        $pdf->save($folderPath . '/' . $fileName . '.pdf');
+        
+        //return $pdf->stream();
+
+        return redirect()->route('surats.index')->with('status', 'Surat berhasil dibuat!!');
     }
 
     /**

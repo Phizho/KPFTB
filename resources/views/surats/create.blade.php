@@ -34,7 +34,7 @@
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label" for="noSurat">No Surat Keluar:</label>
         <div class="col-sm-4">
-          <input type="input" id="noSurat" class="form-control" name="noSurat" value="" style="width:200px;" required readonly/>
+          <input type="input" id="noSurat" class="form-control" name="noSurat" value="" style="width:300px;" required readonly/>
         </div>
       </div>
       <br/>
@@ -166,29 +166,29 @@
                     month = "XII"
                     break;
                 } 
-                if (value == 5) {
-                  if (arrSpl[5] == y) {
-                  //Tahun sama     
-                  if (month == arrSpl[4]) {
-                    //Bulan sama
-                    arrSpl[0] = String(parseInt(arrSpl[0]) + 1).padStart(2,'0');
-                    var baru = arrSpl.join('/');
-                  } else {
-                    //Bulan beda
-                    arrSpl[4] = month;
-                    arrSpl[0] = "01";
-                    var baru = arrSpl.join('/');
-                  }
-                  $('input[name=noSurat]').attr('value', baru);
-                } else {
-                  //Tahun Beda
-                  arrSpl[4] = month;
-                  arrSpl[0] = "01";
-                  arrSpl[5] = y;
-                  var baru = arrSpl.join('/');
-                  $('input[name=noSurat]').attr('value', baru);
-                }
-                } else {
+                // if (value == 5) {
+                //   if (arrSpl[5] == y) {
+                //   //Tahun sama     
+                //   if (month == arrSpl[4]) {
+                //     //Bulan sama
+                //     arrSpl[0] = String(parseInt(arrSpl[0]) + 1).padStart(2,'0');
+                //     var baru = arrSpl.join('/');
+                //   } else {
+                //     //Bulan beda
+                //     arrSpl[4] = month;
+                //     arrSpl[0] = "01";
+                //     var baru = arrSpl.join('/');
+                //   }
+                //   $('input[name=noSurat]').attr('value', baru);
+                // } else {
+                //   //Tahun Beda
+                //   arrSpl[4] = month;
+                //   arrSpl[0] = "01";
+                //   arrSpl[5] = y;
+                //   var baru = arrSpl.join('/');
+                //   $('input[name=noSurat]').attr('value', baru);
+                // }
+                // } else {
                   if (arrSpl[4] == y) {
                   //Tahun sama     
                   if (month == arrSpl[3]) {
@@ -210,7 +210,7 @@
                   var baru = arrSpl.join('/');
                   $('input[name=noSurat]').attr('value', baru);
                 }
-                }    
+              //  }    
               },
               error: function(XMLHttpRequest, textStatus, errorThrown) {
                 var d = new Date();
@@ -257,7 +257,7 @@
                 
                 switch(value){
                   case "1":
-                    baru = "001/DEK/FTb/"+month+"/"+y
+                    baru = "001/DEK/FTb/"+month+"/"+y 
                     break;
                   case "2":
                     baru = "001/WD/FTb/"+month+"/"+y

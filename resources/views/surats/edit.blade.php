@@ -36,7 +36,7 @@ var count = 0;
     <div class="form-group row">
       <label class="required bold col-sm-2 col-form-label" for="noSurat">No Surat Keluar:</label>
       <div class="col-sm-4">
-        <input type="input" id="noSurat" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' style="width:200px;" required/>
+        <input type="input" id="noSurat" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' style="width:300px;" required/>
       </div>
     </div>
     <br/>
@@ -122,6 +122,9 @@ var trNum = 0;
 var tdNum = 0;
 
 function mulai() {
+  var sel = document.getElementById('jenis');
+  sel.selectedIndex = parseInt(<?php echo json_encode($s[0]->jenis_surat)-1?>);
+
   var counttable = <?php echo json_encode($counttable) ?>;
   var countrow = parseInt(<?php echo json_encode($countrow) ?>);
 

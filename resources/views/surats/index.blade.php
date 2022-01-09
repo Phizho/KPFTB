@@ -94,7 +94,7 @@
           $h = str_replace("/","-",$l->nomor_surat);
           $he = explode("-",$h);
         @endphp
-        @if ($he[1] === "DEK" || $he[1] === "WD" || $he[1] === "Mag-Bioteknologi" ) 
+        @if ($he[1] === "DEK" || $he[1] === "WD" || $he[1] === "Mag" ) 
           <td><a href="{{ url('surats/' . $h . '/edit') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
         @elseif ($he[1] === "SK")
           <td><a href="{{ url('surats/' . $h . '/editKep') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>

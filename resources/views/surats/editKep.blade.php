@@ -58,6 +58,7 @@
     <button type="button" class="btn btn-primary" name="tambahMenetapkan" onclick="addMenetapkan()">Tambah Menetapkan</button>
     <button type="button" class="btn btn-danger" name="hapusMenetapkan" onclick="deleteMenetapkan()">Hapus Menetapkan</button>
     </div>
+    <input type="hidden" name="tglbuat" id="tglbuat" value='{{$s[0]->created_at}}'/>
     <div id="tempat_upload"> 
     </div>
     <br/>
