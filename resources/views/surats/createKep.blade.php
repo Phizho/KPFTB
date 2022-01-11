@@ -1,7 +1,7 @@
   @extends('layout.conquer')
 
   @section('tempat_titleatas')
-  <title>Pembuatan Surat Keluar</title>
+  <title>Pembuatan Surat Keputusan</title>
   @endsection
 
   @section('tempat_judul')
@@ -29,7 +29,7 @@
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label">Tanggal Kirim:</label>
         <div class="col-sm-2">
-          <input type="date" class="form-control" name="Tanggal" required>
+          <input type="date" class="form-control" name="Tanggal" style="width: 200px;" required>
         </div>
       </div>  
       <br/>
@@ -208,7 +208,7 @@
                 <div class="required" style="width: 50px; float: left; margin-left:18px; padding-top: 5px;">
                   <label class="bold col-sm-6 col-form-label" >${countMengingat}.</label>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                  <input type="input" class="form-control" name="mengingat${countMengingat}" style="float:left;" required>
                 </div>
               </div>`
@@ -221,7 +221,7 @@
                 <div class="required" style="width: 50px; float: left; margin-left:18px; padding-top: 5px;">
                   <label class="bold col-sm-6 col-form-label" >${countMenetapkan}.</label>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                  <input type="input" class="form-control" name="menetapkan${countMenetapkan}" style="float:left;" required>
                 </div>
               </div>`

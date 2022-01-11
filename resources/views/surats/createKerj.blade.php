@@ -1,11 +1,11 @@
 @extends('layout.conquer')
 
 @section('tempat_titleatas')
-<title>Pembuatan Surat Keluar</title>
+<title>Pembuatan Surat Kerjasama</title>
 @endsection
 
 @section('tempat_judul')
-<p style="text-align: center;">TAMBAH DATA SURAT KEPUTUSAN</p>
+<p style="text-align: center;">TAMBAH DATA SURAT KERJASAMA</p>
 @endsection
 
 @section('tempat_konten')
@@ -40,7 +40,7 @@
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label">Tanggal Kirim:</label>
         <div class="col-sm-4"> 
-          <input type="date" class="form-control" name="Tanggal" required>
+          <input type="date" class="form-control" name="Tanggal" style="width: 200px;" required>
         </div>
       </div>  
       <br/>

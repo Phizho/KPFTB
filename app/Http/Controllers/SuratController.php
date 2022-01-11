@@ -120,7 +120,7 @@ class SuratController extends Controller
             $fixIsipdf.= "<body><div style=' width: 100%; text-align: right; float: right;'>$d</div>Nomor : $ns <br/>Lampiran : $lampiran<br/> Perihal : <b>$data->perihal</b><br/></p>
             <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
                 <br/><br/>
-                <div>
+                <div style='text-align: justify; text-justify: inter-word;'>
                     Dengan Hormat,
                     <br/><br/>$isi
                 <br/>
@@ -170,7 +170,7 @@ class SuratController extends Controller
                 $fixIsipdf .="</ol></br></div>";
             }
             if($jen == 3) {    
-                $fixIsipdf .="<br/><div>$penutup
+                $fixIsipdf .="<br/><div style='text-align: justify; text-justify: inter-word;'>$penutup
             </div>
             <br/><br/><br/>
             <div style='text-align: left;'>
@@ -183,7 +183,7 @@ class SuratController extends Controller
             </div>
             <br/><br/></body>";
             } else if ($jen == 1) {
-                $fixIsipdf .="<br/><div>$penutup
+                $fixIsipdf .="<br/><div style='text-align: justify; text-justify: inter-word;'>$penutup
             </div>
             <br/><br/><br/>
             <div style='text-align: left; page-break-inside: avoid;'>
@@ -196,7 +196,7 @@ class SuratController extends Controller
             </div>
             <br/><br/></body>";
             } else if ($jen == 2) {
-                $fixIsipdf .="<br/><div>$penutup
+                $fixIsipdf .="<br/><div style='text-align: justify; text-justify: inter-word;'>$penutup
                 </div>
                 <br/><br/><br/>
                 <div style='text-align: left; page-break-inside: avoid;'>
@@ -204,7 +204,7 @@ class SuratController extends Controller
                     Hormat Kami, <br/>
                     Wakil Dekan Fakultas Teknobiologi
                     </p>
-                    <img src='$ttWaDekPath' width='213' height='135'><br/>
+                    <img src='$ttWaDekPath' width='231' height='107'><br/>
                     $namaWakilDekan         
                 </div>
                 <br/><br/></body>";
@@ -473,9 +473,9 @@ class SuratController extends Controller
 
         $fixIsipdf = "<center><b><div>KEPUTUSAN<br/>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA<br/>NOMOR: $ns<br/>Tentang<br/>$data->perihal</div><hr><br/><div>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA</div></b></center><br/>";
         $fixIsipdf.= "<table style='border-collapse: collapse; width: 100%;'>";
-        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENIMBANG</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left;'>$menimbang</td></tr>";
+        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENIMBANG</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left; text-align: justify; text-justify: inter-word;'>$menimbang</td></tr>";
         $fixIsipdf.= "<tr><td style='height:10px;'></td><td></td><td></td></tr>";
-        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENGINGAT</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left;'>";
+        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENGINGAT</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left; text-align: justify; text-justify: inter-word;'>";
         for ($i = 1; $i <= $countMengingat; $i++) {
             $fill = $request->get("mengingat$i");
             $fixIsipdf.="$i. $fill<br/>";
@@ -518,7 +518,7 @@ class SuratController extends Controller
                     "";
                 }
             $fill = $request->get("menetapkan$i");
-            $fixIsipdf.="<tr><td style='width:30%;'>$angka</td><td style='width:5%;'>:</td><td style='text-align:left; width:70%;'>$fill</td></tr>";
+            $fixIsipdf.="<tr><td style='width:30%;'>$angka</td><td style='width:5%;'>:</td><td style='text-align:left; width:70%; text-align: justify; text-justify: inter-word;'>$fill</td></tr>";
             $fixIsi.="$fill</br>";
         } 
         $fixIsi.= "<br/>$countMengingat<br/>$countMenetapkan";
@@ -740,7 +740,7 @@ class SuratController extends Controller
         $fixIsipdf.= "<body><div style=' width: 100%; text-align: right; float: right;'>$date</div>Nomor : $idc <br/>Lampiran : $lampiran<br/> Perihal : <b>$perihal</b><br/></p>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada <br/>Universitas Surabaya</div>
             <br/><br/>
-            <div>
+            <div style='text-align: justify; text-justify: inter-word;'>
                 Dengan Hormat,
                 <br/><br/>$isi
             <br/>
@@ -820,7 +820,7 @@ class SuratController extends Controller
             $fixIsipdf .="</ol></br></div>";
         }
         if($jen == 3) {    
-                $fixIsipdf .="<br/><div>$penutup
+                $fixIsipdf .="<br/><div style='text-align: justify; text-justify: inter-word;'>$penutup
             </div>
             <br/><br/><br/>
             <div style='text-align: left;'>
@@ -833,7 +833,7 @@ class SuratController extends Controller
             </div>
             <br/><br/></body>";
             } else if ($jen == 1) {
-                $fixIsipdf .="<br/><div>$penutup
+                $fixIsipdf .="<br/><div style='text-align: justify; text-justify: inter-word;'>$penutup
             </div>
             <br/><br/><br/>
             <div style='text-align: left; page-break-inside: avoid;'>
@@ -846,7 +846,7 @@ class SuratController extends Controller
             </div>
             <br/><br/></body>";
             } else if ($jen == 2) {
-                $fixIsipdf .="<br/><div>$penutup
+                $fixIsipdf .="<br/><div style='text-align: justify; text-justify: inter-word;'>$penutup
                 </div>
                 <br/><br/><br/>
                 <div style='text-align: left; page-break-inside: avoid;'>
@@ -865,7 +865,6 @@ class SuratController extends Controller
         $pdf = PDF::loadHTML($fixIsipdf);
         $fileName = "$id" . "srtutm";
         $pdf->save($folderPath . '/' . $fileName . '.pdf');
-
         return redirect()->route('surats.index')->with('status','Surat berhasil di edit');
     }
 
@@ -901,9 +900,9 @@ class SuratController extends Controller
 
         $fixIsipdf = "<center><b><div>KEPUTUSAN<br/>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA<br/>NOMOR: $id<br/>Tentang<br/>$perihal</div><hr><br/><div>DEKAN FAKULTAS TEKNOBIOLOGI UNIVERSITAS SURABAYA</div></b></center><br/>";
         $fixIsipdf.= "<table style='border-collapse: collapse; width: 100%;'>";
-        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENIMBANG</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left;'>$menimbang</td></tr>";
+        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENIMBANG</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left; text-align: justify; text-justify: inter-word;'>$menimbang</td></tr>";
         $fixIsipdf.= "<tr><td style='height:10px;'></td><td></td><td></td></tr>";
-        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENGINGAT</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left;'>";
+        $fixIsipdf.= "<tr><td style='width:30%; vertical-align: text-top;'>MENGINGAT</td><td style='width:5%; vertical-align: text-top;'>: </td><td style='text-align:left; text-align: justify; text-justify: inter-word;'>";
         for ($i = 1; $i <= $countMengingat; $i++) {
             $fill = $request->get("mengingat$i");
             $fixIsipdf.="$i. $fill<br/>";
@@ -946,7 +945,7 @@ class SuratController extends Controller
                     "";
                 }
             $fill = $request->get("menetapkan$i");
-            $fixIsipdf.="<tr><td style='width:30%;'>$angka</td><td style='width:5%;'>:</td><td style='text-align:left; width:70%;'>$fill</td></tr>";
+            $fixIsipdf.="<tr><td style='width:30%;'>$angka</td><td style='width:5%;'>:</td><td style='text-align:left; width:70%; text-align: justify; text-justify: inter-word;'>$fill</td></tr>";
             $fixIsi.="$fill</br>";
         } 
         $fixIsi.= "<br/>$countMengingat<br/>$countMenetapkan";
@@ -1089,9 +1088,9 @@ class SuratController extends Controller
         $fixIsipdf.= "<body><center><b><div style='font-size: 30px;'>PERJANJIAN KERJASAMA<br/><i>(Letter of Agreement)</i><br/>antara<br/>";
         $fixIsipdf.= "$pihak1K<br/>dengan<br/>$pihak2K<br/>Tentang<br/>\"$data->perihal\"</div>";
         $fixIsipdf.= "<hr><div style='width: 250px; margin: auto; text-align: left;'>NOMOR :<hr>NOMOR : $ns</div></b></center>";
-        $fixIsipdf.= "<br/><div>Pada hari ini <b>$hari</b>, tanggal <b>$tanggal</b>, bulan <b>$bulan</b>, tahun <b>$tahun</b>, telah dibuat dan ditandatangani Perjanjian Kerjasama, oleh dan antara :<br/><br/>";
-        $fixIsipdf.= "<ol type='I'><li><b>$namaPihak1</b>, yang berdomisili di $alamatPihak1 yang dalam melakukan pembuatan hukum ini diwakili oleh <b>$perwakilanPihak1</b> sebagai <b>$jabatanWP1</b> Selanjutnya disebut sebagai <b>PIHAK PERTAMA</b></li><br/><br/>";
-        $fixIsipdf.= "<li><b>$namaPihak2</b>, yang berdomisili di $alamatPihak2 yang dalam hal melakukan perbuatan hukum ini diwakili oleh <b>$perwakilanPihak2</b> sebagai <b>$jabatanWP2</b> Selanjutnya disebut sebagai <b>PIHAK KEDUA</b></li></ol>";
+        $fixIsipdf.= "<br/><div style='text-align: justify; text-justify: inter-word;'>Pada hari ini <b>$hari</b>, tanggal <b>$tanggal</b>, bulan <b>$bulan</b>, tahun <b>$tahun</b>, telah dibuat dan ditandatangani Perjanjian Kerjasama, oleh dan antara :<br/><br/>";
+        $fixIsipdf.= "<ol type='I'><li style='text-align: justify; text-justify: inter-word;'><b>$namaPihak1</b>, yang berdomisili di $alamatPihak1 yang dalam melakukan pembuatan hukum ini diwakili oleh <b>$perwakilanPihak1</b> sebagai <b>$jabatanWP1</b> Selanjutnya disebut sebagai <b>PIHAK PERTAMA</b></li><br/><br/>";
+        $fixIsipdf.= "<li style='text-align: justify; text-justify: inter-word;'><b>$namaPihak2</b>, yang berdomisili di $alamatPihak2 yang dalam hal melakukan perbuatan hukum ini diwakili oleh <b>$perwakilanPihak2</b> sebagai <b>$jabatanWP2</b> Selanjutnya disebut sebagai <b>PIHAK KEDUA</b></li></ol>";
         $fixIsipdf.= "<br/>";
         $fixIsipdf.= "(PIHAK PERTAMA DAN PIHAK KEDUA secara bersama – sama disebut PARA PIHAK)";
         $fixIsipdf.= "<br/><br/>";
@@ -1100,32 +1099,32 @@ class SuratController extends Controller
         $fixIsipdf.= "PARA PIHAK sepakat untuk melakukan kerjasama dalam \"$data->perihal\"";
         $fixIsipdf.= "<br/><br/>";
         $fixIsipdf.= "<center><b>Pasal 1<br/>RUANG LINGKUP PERJANJIAN</b></center>";
-        $fixIsipdf.= "<ol type='1'><li>PIHAK PERTAMA $lingkup1</li><li>PIHAK KEDUA $lingkup2</li></ol>";
+        $fixIsipdf.= "<ol type='1'><li style='text-align: justify; text-justify: inter-word;'>PIHAK PERTAMA $lingkup1</li><li style='text-align: justify; text-justify: inter-word;'>PIHAK KEDUA $lingkup2</li></ol>";
         $fixIsipdf.= "<br/>";
         $fixIsipdf.= "<center><b>Pasal 2<br/>HAK dan KEWAJIBAN PARA PIHAK</b></center><br/>";
-        $fixIsipdf.= "<ol type=''1><li>Hak PIHAK PERTAMA: <br/>$hak1</li><br/><br/>";
-        $fixIsipdf.= "<li>KEWAJIBAN PIHAK PERTAMA:<br/>$kewajiban1</li><br/><br/>";    
-        $fixIsipdf.= "<li>Hak PIHAK KEDUA:<br/>$hak2</li><br/><br/>";
-        $fixIsipdf.= "<li>KEWAJIBAN PIHAK KEDUA:<br/>$kewajiban2</li>";
+        $fixIsipdf.= "<ol type='1'><li style='text-align: justify; text-justify: inter-word;'>Hak PIHAK PERTAMA: <br/>$hak1</li><br/><br/>";
+        $fixIsipdf.= "<li style='text-align: justify; text-justify: inter-word;'>KEWAJIBAN PIHAK PERTAMA:<br/>$kewajiban1</li><br/><br/>";    
+        $fixIsipdf.= "<li style='text-align: justify; text-justify: inter-word;'>Hak PIHAK KEDUA:<br/>$hak2</li><br/><br/>";
+        $fixIsipdf.= "<li style='text-align: justify; text-justify: inter-word;'>KEWAJIBAN PIHAK KEDUA:<br/>$kewajiban2</li>";
         $fixIsipdf.= "</ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 3<br/>PELAKSANAAN KERJASAMA</b></center><br/>";
-        $fixIsipdf.= "$pelaksanaan";
+        $fixIsipdf.= "<div style='text-align: justify; text-justify: inter-word;'>$pelaksanaan</div>";
         $fixIsipdf.= "<br/><br/><center><b>Pasal 4<br/>BIAYA-BIAYA</b></center>";
         $fixIsipdf.= "<ol type='1'><li> $pihakPenerima akan menerima pembayaran dari $pihakPembayar</li><li> Biaya yang dimaksud adalah sebesar Rp 20.000.000,- yang sudah mencakup bahan, jasa serta institutional fee yang ditentukan oleh $pihakPenerima.</li></ol>";
         $fixIsipdf.= "<center><b>Pasal 5<br/>CARA PEMBAYARAN</b></center>";
-        $fixIsipdf.= "<ol type='1'><li> Pembayaran atas biaya-biaya seperti yang tercantum pada Pasal 5 ayat ( 1 ) sebesar Rp $jumlahBayar dilaksanakan oleh PIHAK PERTAMA dengan ketentuan sebagai berikut:";
-        $fixIsipdf.= "<ol type='1'><li>Pembayaran I sebesar 50% (lima puluh persen) selambatnya 7 (tujuh) hari kerja setelah penandatanganan kontrak</li><li>Pembayaran II sebesar 50% (lima puluh persen) selambatnya 7 (tujuh) hari kerja setelah penyerahan laporan </li></ol></li>";
-        $fixIsipdf.= "<li>Pembayaran dilakukan melalui $caraPembayaran</li></ol>";
+        $fixIsipdf.= "<ol type='1'><li style='text-align: justify; text-justify: inter-word;'> Pembayaran atas biaya-biaya seperti yang tercantum pada Pasal 5 ayat ( 1 ) sebesar Rp $jumlahBayar dilaksanakan oleh PIHAK PERTAMA dengan ketentuan sebagai berikut:";
+        $fixIsipdf.= "<ol type='1'><li style='text-align: justify; text-justify: inter-word;'>Pembayaran I sebesar 50% (lima puluh persen) selambatnya 7 (tujuh) hari kerja setelah penandatanganan kontrak</li><li>Pembayaran II sebesar 50% (lima puluh persen) selambatnya 7 (tujuh) hari kerja setelah penyerahan laporan </li></ol></li>";
+        $fixIsipdf.= "<li style='text-align: justify; text-justify: inter-word;'>Pembayaran dilakukan melalui $caraPembayaran</li></ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 6<br/>JANGKA WAKTU PERJANJIAN</b></center><br/>";
         $fixIsipdf.= "<ol><li>Perjanjian Kerja Sama ini terhitung semenjak tanggal $d dan berakhir pada tanggal $tanggalSelesai</li><li>Perjanjian Kerjasama ini dapat diakhiri lebih awal atau diperpanjang atas kesepakatan kedua belah pihak</li></ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 7<br/><i>FORCE MAJEUR</i></b></center><br/>";
-        $fixIsipdf.= "<ol><li> Perjanjian ini akan ditinjau kembali apabila terjadi hal-hal yang sifatnya diluar kekuasaan manusia yang biasa disebut force majeur yang akibatnya baik secara langsung maupun tidak langsung dapat mempengaruhi berlangsungnya perjanjian ini</li><li> Kejadian-kejadian yang termasuk Force Majeur antara lain:<br/><ol type='a'><li>Bencana alam seperti gunung meletus, banjir besar/ air bah, kebakaran, gempa bumi</li><li>Kondisi sosial seperti pemberontakan, pemogokan massal, epidemi</li><li>Kebijakan Pemerintah seperti sanering, devaluasi, kebijakan pemerintah yang terkait dengan perjanjian kerja ini</li></ol></li><li>Pihak yang terkena langsung akibat force majeur ini, agar memberitahukan hal tersebut kepada pihak lain secara tertulis dalam perjanjian ini dalam waktu 3x24 jam terhitung sejak terjadinya force majeur tersebut.</li></ol>";
+        $fixIsipdf.= "<ol><li style='text-align: justify; text-justify: inter-word;'> Perjanjian ini akan ditinjau kembali apabila terjadi hal-hal yang sifatnya diluar kekuasaan manusia yang biasa disebut force majeur yang akibatnya baik secara langsung maupun tidak langsung dapat mempengaruhi berlangsungnya perjanjian ini</li><li> Kejadian-kejadian yang termasuk Force Majeur antara lain:<br/><ol type='a'><li>Bencana alam seperti gunung meletus, banjir besar/ air bah, kebakaran, gempa bumi</li><li>Kondisi sosial seperti pemberontakan, pemogokan massal, epidemi</li><li>Kebijakan Pemerintah seperti sanering, devaluasi, kebijakan pemerintah yang terkait dengan perjanjian kerja ini</li></ol></li><li>Pihak yang terkena langsung akibat force majeur ini, agar memberitahukan hal tersebut kepada pihak lain secara tertulis dalam perjanjian ini dalam waktu 3x24 jam terhitung sejak terjadinya force majeur tersebut.</li></ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 8<br/>SANKSI</b></center> <br/>";
-        $fixIsipdf.= "<ol><li>Bilamana dalam pelaksanaan perjanjian ini ternyata ada salah satu pihak yang dianggap telah melanggar ketentuan yang diatur tersebut diatas, maka pihak yang merasa dirugikan dapat mengajukan surat keberatan atau teguran kepada pihak lainnya</li><li>Bilamana setelah adanya surat teguran dari pihak yang merasa dirugikan tersebut ternyata tidak mendapatkan tanggapan yang semestinya dari pihak yang ditegur, maka surat teguran berikutnya dapat diberikan sampai maksimum 3 (tiga) kali dengan tenggang waktu masing-masing selama 7 (tujuh) hari kerja efektif sebelum akhirnya dilakukan pemutusan perjanjian kerjasama ini</li></ol>";
+        $fixIsipdf.= "<ol><li style='text-align: justify; text-justify: inter-word;'>Bilamana dalam pelaksanaan perjanjian ini ternyata ada salah satu pihak yang dianggap telah melanggar ketentuan yang diatur tersebut diatas, maka pihak yang merasa dirugikan dapat mengajukan surat keberatan atau teguran kepada pihak lainnya</li><li>Bilamana setelah adanya surat teguran dari pihak yang merasa dirugikan tersebut ternyata tidak mendapatkan tanggapan yang semestinya dari pihak yang ditegur, maka surat teguran berikutnya dapat diberikan sampai maksimum 3 (tiga) kali dengan tenggang waktu masing-masing selama 7 (tujuh) hari kerja efektif sebelum akhirnya dilakukan pemutusan perjanjian kerjasama ini</li></ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 9<br/>PENYELESAIAN PERSELISIHAN</b></center><br/><br/>";
-        $fixIsipdf.= "<ol><li>Bilamana terjadi perbedaan pendapat selama berlangsungnya perjanjian ini, maka kedua belah pihak sepakat untuk menyelesaikan permasalahan yang ada secara musyawarah/ kekeluargaan</li><li>Bilamana dengan musyawarah/ kekeluargaan tersebut kedua belah pihak tidak mencapai kesepakatan, maka kedua belah pihak sepakat untuk menyelesaikannya melalui jalur hukum yaitu di Kantor Panitera Pengadilan Negeri Surabaya</li></ol>";
+        $fixIsipdf.= "<ol><li style='text-align: justify; text-justify: inter-word;'>Bilamana terjadi perbedaan pendapat selama berlangsungnya perjanjian ini, maka kedua belah pihak sepakat untuk menyelesaikan permasalahan yang ada secara musyawarah/ kekeluargaan</li><li>Bilamana dengan musyawarah/ kekeluargaan tersebut kedua belah pihak tidak mencapai kesepakatan, maka kedua belah pihak sepakat untuk menyelesaikannya melalui jalur hukum yaitu di Kantor Panitera Pengadilan Negeri Surabaya</li></ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 10<br/><i>CONTACT PERSON</i></b></center><br/>";
-        $fixIsipdf.= "<ol><li>Untuk kelancaran pelaksanaan PKS ini atau dalam hal terdapat saran/usulan/komplain/ keluhan yang dialami salah satu pihak sehubungan dengan pelaksanaan PKS ini, dapat disampaikan oleh salah satu pihak kepada pihak lainnya melalui Contact Person yang ditunjuk oleh PARA PIHAK untuk menangani / menindaklanjuti permasalahan/komplain/ keluhan tersebut.
+        $fixIsipdf.= "<ol><li style='text-align: justify; text-justify: inter-word;'>Untuk kelancaran pelaksanaan PKS ini atau dalam hal terdapat saran/usulan/komplain/ keluhan yang dialami salah satu pihak sehubungan dengan pelaksanaan PKS ini, dapat disampaikan oleh salah satu pihak kepada pihak lainnya melalui Contact Person yang ditunjuk oleh PARA PIHAK untuk menangani / menindaklanjuti permasalahan/komplain/ keluhan tersebut.
         <br/><br/>
             <table>
                 <tr><td width=200px><b><u>PIHAK PERTAMA</u></b></td><td width=10px></td><td></td></tr>
@@ -1148,10 +1147,10 @@ class SuratController extends Controller
             </table>  
         </li>
         <br/><br/>
-        <li>Penggantian Contact Person yang ditunjuk oleh PARA PIHAK sebagaimana dimaksud ayat (1) Pasal ini hanya dilaksanakan dengan pemberitahuan secara tertulis dari pihak yang menghendaki pergantian kepada pihak lainnya.</li>
+        <li style='text-align: justify; text-justify: inter-word;'>Penggantian Contact Person yang ditunjuk oleh PARA PIHAK sebagaimana dimaksud ayat (1) Pasal ini hanya dilaksanakan dengan pemberitahuan secara tertulis dari pihak yang menghendaki pergantian kepada pihak lainnya.</li>
          </ol>";
         $fixIsipdf.= "<br/><center><b>Pasal 11<br/>PENUTUP</b></center><br/>";
-        $fixIsipdf.= "<ol><li>Hal-hal yang belum cukup diatur dalam perjanjian ini, akan diatur kemudian dalam perjanjian tambahan yang merupakan satu kesatuan dengan perjanjian ini</li><li>Segala ketentuan dan syarat-syarat dalam PKS ini berlaku dan mengikat bagi pihak-pihak yang menandatangani dan pengganti-penggantinya.</li><li>Perjanjian Kerjasama  ini dibuat dalam rangkap 2 (dua) ASLI, masing-masing sama bunyinya dan ditandatangani di atas kertas bermaterai cukup sehingga mempunyai kekuatan hukum yang sama Bagi Para Pihak.</li></ol>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Demikian Perjanjian Kerjasama ini dibuat dengan itikad baik, untuk dipatuhi dan dilaksanakan dengan penuh tanggungjawab oleh PARA PIHAK  ";
+        $fixIsipdf.= "<ol><li style='text-align: justify; text-justify: inter-word;'>Hal-hal yang belum cukup diatur dalam perjanjian ini, akan diatur kemudian dalam perjanjian tambahan yang merupakan satu kesatuan dengan perjanjian ini</li><li>Segala ketentuan dan syarat-syarat dalam PKS ini berlaku dan mengikat bagi pihak-pihak yang menandatangani dan pengganti-penggantinya.</li><li>Perjanjian Kerjasama  ini dibuat dalam rangkap 2 (dua) ASLI, masing-masing sama bunyinya dan ditandatangani di atas kertas bermaterai cukup sehingga mempunyai kekuatan hukum yang sama Bagi Para Pihak.</li></ol>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Demikian Perjanjian Kerjasama ini dibuat dengan itikad baik, untuk dipatuhi dan dilaksanakan dengan penuh tanggungjawab oleh PARA PIHAK  ";
         $fixIsipdf.= "<br/><br/><br/>";
         $fixIsipdf.= "<div width='50%' style='text-align: center; float: left;'>
         <b>PIHAK PERTAMA<br/>$namaPihak1

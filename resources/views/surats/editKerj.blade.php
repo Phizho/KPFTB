@@ -1,11 +1,11 @@
 @extends('layout.conquer')
 
 @section('tempat_titleatas')
-<title>Pembuatan Surat Keluar</title>
+<title>Edit Surat Kerjasama</title>
 @endsection
 
 @section('tempat_judul')
-<p style="text-align: center;">TAMBAH DATA SURAT KEPUTUSAN</p>
+<p style="text-align: center;">UBAH DATA SURAT KERJASAMA</p>
 @endsection
 
 @section('tempat_konten')
@@ -39,7 +39,7 @@
     <div class="form-group row">
       <label class="required bold col-sm-2 col-form-label">Tanggal Kirim:</label>
       <div class="col-sm-4"> 
-        <input type="date" class="form-control" name="Tanggal" value="{{ date('Y-m-d', strtotime($s[0]->tanggal_kirim)) }}" required>
+        <input type="date" class="form-control" name="Tanggal" style="width: 200px;" value="{{ date('Y-m-d', strtotime($s[0]->tanggal_kirim)) }}" required>
       </div>
     </div>  
     <br/>

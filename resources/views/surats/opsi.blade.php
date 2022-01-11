@@ -29,19 +29,38 @@
       </div>
     </div>
     <div class="form-group row">
+      <label class="bold col-sm-2 col-form-label">Tanda Tangan Dekan:</label>
+      <div class="col-sm-2">
+        <input type="file" name="uploadfile${count}" class="form-control" style="width: 300px;" accept=".pdf,.jpg">
+      </div>
+    </div> 
+    <div class="form-group row">
       <label class="required bold col-sm-2 col-form-label">Nama Lengkap Wakil Dekan:</label>
       <div class="col-sm-2">
         <input type="input" class="form-control" name="WakilDekan" value='{{$namaWakilDekan}}' style="width: 300px;" required>
       </div>
     </div>
     <div class="form-group row">
+      <label class="bold col-sm-2 col-form-label">Tanda Tangan Wakil Dekan:</label>
+      <div class="col-sm-2">
+        <input type="file" name="uploadfile${count}" class="form-control" style="width: 300px;" accept=".pdf,.jpg">
+      </div>
+    </div> 
+    <div class="form-group row">
       <label class="required bold col-sm-2 col-form-label">Nama Lengkap Magister Kaprodi:</label>
       <div class="col-sm-2">
         <input type="input" class="form-control" name="MagisterKaprodi" value='{{$namaMagisterKaprodi}}' style="width: 300px;" required>
       </div>
     </div>
+    <div class="form-group row">
+      <label class="bold col-sm-2 col-form-label">Tanda Tangan Magister Kaprodi:</label>
+      <div class="col-sm-2">
+       <input type="file" name="uploadfile${count}" class="form-control" style="width: 300px;" accept=".pdf,.jpg">
+      </div>
+    </div> 
     <input type="submit" class="btn btn-primary" value="Simpan" name="submit" onclick="">
   </form>
+  
   
 </body>
 @endsection

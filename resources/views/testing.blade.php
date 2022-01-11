@@ -15,7 +15,7 @@
 }
 #container #editor1 {
     border: 1px solid grey;
-    height: 100px;
+    height: 200px;
     width: 602px;
     margin: 0px auto 0;
     padding:10px;
@@ -23,7 +23,7 @@
 #container fieldset {
     margin: 2px auto 0px;
     width: 600px;
-    height:26px;
+    height:40px;
     background-color: #f2f2f2;
     border:none;
 }
