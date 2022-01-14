@@ -1290,6 +1290,20 @@ class SuratController extends Controller
         $namaDekan = $request->get('Dekan');
         $namaWakilDekan = $request->get('WakilDekan');
         $namaMagisterKaprodi = $request->get('MagisterKaprodi');
+        $folderPath = public_path("assets");
+
+        if (null !== ($request->file('uploadfileDekan'))) {
+            $fileDekan = $request->file('uploadfileDekan'); 
+            $fileDekan->move($folderPath, "TTDekan.png");
+        }
+        if (null !== ($request->file('uploadfileWakil'))) {
+            $fileWakil = $request->file('uploadfileWakil');
+            $fileWakil->move($folderPath, "TTWaDekan.png");
+        }
+        if (null !== ($request->file('uploadfileKaprodi'))) {
+            $fileKaprodi = $request->file('uploadfileKaprodi');
+            $fileKaprodi->move($folderPath, "TTDekan.png");
+        }
 
         $opsi = "$namaDekan|$namaWakilDekan|$namaMagisterKaprodi";
 

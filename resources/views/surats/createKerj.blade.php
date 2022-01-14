@@ -25,7 +25,7 @@
         <div class="col-sm-1">
           <select name="pihakKe" class="form-control" onchange="">
             <option value="1">1</option>
-            <option value="2">2</option>
+            <option value="2">2</option>0
           </select>
         </div>
       </div>
@@ -125,28 +125,28 @@
           <div class="form-group row">
             <label class="required bold col-sm-2 col-form-label">Kewajiban Bioteknologi:</label>
             <div class="col-sm-4">
-              <input type="input" class="form-control" name="kewajibanBiotek" required>
+              <textarea name="kewajibanBiotek" id="kewajibanBiotek" rows="8" class="form-control" style="width: 100%;" required></textarea>
             </div>
           </div> 
           <br/>
           <div class="form-group row">
             <label class="required bold col-sm-2 col-form-label">Kewajiban Rekan:</label>
             <div class="col-sm-4">
-              <input type="input" class="form-control" name="kewajibanRkn" required>
+              <textarea name="kewajibanRkn" id="kewajibanRkn" rows="8" class="form-control" style="width: 100%;" required></textarea>
             </div>
           </div> 
           <br/>
           <div class="form-group row">
             <label class="required bold col-sm-2 col-form-label">Hak Bioteknologi:</label>
             <div class="col-sm-4">
-              <input type="input" class="form-control" name="hakBiotek" required>
+              <textarea name="hakBiotek" id="hakBiotek" rows="8" class="form-control" style="width: 100%;" required></textarea>
             </div>
           </div>
           <br/>
           <div class="form-group row">
             <label class="required bold col-sm-2 col-form-label">Hak Rekan:</label>
             <div class="col-sm-4">
-              <input type="input" class="form-control" name="hakRkn" required>
+              <textarea name="hakRkn" id="hakRkn" rows="8" class="form-control" style="width: 100%;" required></textarea>
             </div>
           </div>
         </div>
@@ -177,6 +177,9 @@
           </div>
         </div>
         <br />
+        <label class="bold">Ketentuan Pembayaran (Jika dikosongi akan mengikuti template)</label>
+        <textarea name="ktnPembayaran" id="ktnPembayaran" rows="8" class="form-control"></textarea>
+        <br/>
         <label class="required bold">Pembayaran dilakukan melalui</label>
         <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control" style="width: 100%;" required></textarea>
         <br />
@@ -187,6 +190,17 @@
           </div>
         </div>
         <br />
+        <div>
+          <b style="font-size: 20px;"> Pasal Tambahan (jika tidak diisi akan mengikuti template) </b> <br/><br/>
+          <label class="bold">Force Majeur</label>
+          <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control"></textarea>
+          <br/>
+          <label class="bold">Sanksi</label>
+          <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control"></textarea>
+          <br/>
+          <label class="bold">Penyelesaian Perselisihan</label>
+          <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control"></textarea>
+        </div>
         <div id="tempat_upload">
         </div>
         <br />

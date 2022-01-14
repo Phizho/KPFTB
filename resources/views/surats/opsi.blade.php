@@ -31,7 +31,7 @@
     <div class="form-group row">
       <label class="bold col-sm-2 col-form-label">Tanda Tangan Dekan:</label>
       <div class="col-sm-2">
-        <input type="file" name="uploadfile${count}" class="form-control" style="width: 300px;" accept=".pdf,.jpg">
+        <input type="file" name="uploadfileDekan" class="form-control" style="width: 300px;" accept=".png">
       </div>
     </div> 
     <div class="form-group row">
@@ -43,7 +43,7 @@
     <div class="form-group row">
       <label class="bold col-sm-2 col-form-label">Tanda Tangan Wakil Dekan:</label>
       <div class="col-sm-2">
-        <input type="file" name="uploadfile${count}" class="form-control" style="width: 300px;" accept=".pdf,.jpg">
+        <input type="file" name="uploadfileWakil" class="form-control" style="width: 300px;" accept=".png">
       </div>
     </div> 
     <div class="form-group row">
@@ -55,7 +55,7 @@
     <div class="form-group row">
       <label class="bold col-sm-2 col-form-label">Tanda Tangan Magister Kaprodi:</label>
       <div class="col-sm-2">
-       <input type="file" name="uploadfile${count}" class="form-control" style="width: 300px;" accept=".pdf,.jpg">
+       <input type="file" name="uploadfileKaprodi" class="form-control" style="width: 300px;" accept=".png">
       </div>
     </div> 
     <input type="submit" class="btn btn-primary" value="Simpan" name="submit" onclick="">
