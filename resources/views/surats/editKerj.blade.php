@@ -103,6 +103,9 @@
     <br/>
     <div>
       <b style="font-size: 20px;"> Ruang Lingkup Perjanjian </b> <br/><br/>
+      <label class="bold">Pertimbangan Perjanjian (jika tidak diisi akan mengikuti template)</label>
+      <textarea name="pertPerjanjian" id="pertPerjanjian" rows="8" class="form-control">{{$pertPerjanjian}}</textarea>
+      <br/>
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label">Pihak Rekan:</label>
           <div class="col-sm-4">
@@ -176,7 +179,7 @@
     </div>
     <br/>
     <label class="bold">Ketentuan Pembayaran (Jika dikosongi akan mengikuti template)</label>
-    <textarea name="ktnPembayaran" id="ktnPembayaran" rows="8" class="form-control"></textarea>
+    <textarea name="ktnPembayaran" id="ktnPembayaran" rows="8" class="form-control">{{$ktnPembayaran}}</textarea>
     <br/>
     <label class="required bold">Pembayaran dilakukan melalui</label>
     <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control" required>{{$caraPembayaran}}</textarea>
@@ -191,13 +194,13 @@
     <div>
       <b style="font-size: 20px;"> Pasal Tambahan (jika tidak diisi akan mengikuti template) </b> <br/><br/>
       <label class="bold">Force Majeur</label>
-      <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control"></textarea>
+      <textarea name="forcMajeur" id="forcMajeur" rows="8" class="form-control">{{$forcMajeur}}</textarea>
       <br/>
       <label class="bold">Sanksi</label>
-      <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control"></textarea>
+      <textarea name="sanksi" id="sanksi" rows="8" class="form-control">{{$sanksi}}</textarea>
       <br/>
       <label class="bold">Penyelesaian Perselisihan</label>
-      <textarea name="caraPembayaran" id="caraPembayaran" rows="8" class="form-control"></textarea>
+      <textarea name="penyPerselisihan" id="penyPerselisihan" rows="8" class="form-control">{{$penyPerselisihan}}</textarea>
     </div>
     <div id="tempat_upload"> 
     </div>
