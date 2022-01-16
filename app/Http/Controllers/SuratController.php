@@ -80,6 +80,9 @@ class SuratController extends Controller
         $d = strftime('%d %B %Y');
         $data->jenis_surat = $request->get('jenis');
         $jen = $request->get('jenis');
+        if ($jen == 3) {
+            $ns[7] = "-";
+        }
 
         $data->save();
 
@@ -731,6 +734,9 @@ class SuratController extends Controller
         $tglbuat = $request->get('tglbuat');
         $jen = $request->get('jenis');
         $date = strftime('%d %B %Y', strtotime($tglbuat));
+        if ($jen == 3) {
+            $idc[7] = "-";
+        }
 
         DB::table('surats')
             ->where('nomor_surat', $id)

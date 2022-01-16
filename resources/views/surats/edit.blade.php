@@ -122,7 +122,7 @@ var count = 0;
     <div class="form-group row">
       <label for="jenis" class="bold col-sm-2 col-form-label">Jenis surat keluar:</label>
       <div class="col-sm-4">
-        <select name="jenis" id="jenis" class="form-control">
+        <select name="jenis" id="jenis" class="form-control" readonly>
           <option value="1">Surat Keluar Dekan</option>
           <option value="2">Surat Keluar Wakil Dekan</option>
           <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
@@ -133,7 +133,7 @@ var count = 0;
     <div class="form-group row">
       <label class="required bold col-sm-2 col-form-label" for="noSurat">No Surat Keluar:</label>
       <div class="col-sm-4">
-        <input type="input" id="noSurat" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' style="width:300px;" required/>
+        <input type="input" id="noSurat" class="form-control" name="noSurat" value='{{str_replace("-","/",$s[0]->nomor_surat)}}' style="width:300px;" required readonly/>
       </div>
     </div>
     <br/>

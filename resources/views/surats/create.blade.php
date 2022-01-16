@@ -166,29 +166,29 @@
                     month = "XII"
                     break;
                 } 
-                // if (value == 5) {
-                //   if (arrSpl[5] == y) {
-                //   //Tahun sama     
-                //   if (month == arrSpl[4]) {
-                //     //Bulan sama
-                //     arrSpl[0] = String(parseInt(arrSpl[0]) + 1).padStart(2,'0');
-                //     var baru = arrSpl.join('/');
-                //   } else {
-                //     //Bulan beda
-                //     arrSpl[4] = month;
-                //     arrSpl[0] = "01";
-                //     var baru = arrSpl.join('/');
-                //   }
-                //   $('input[name=noSurat]').attr('value', baru);
-                // } else {
-                //   //Tahun Beda
-                //   arrSpl[4] = month;
-                //   arrSpl[0] = "01";
-                //   arrSpl[5] = y;
-                //   var baru = arrSpl.join('/');
-                //   $('input[name=noSurat]').attr('value', baru);
-                // }
-                // } else {
+                if (value == 3) {
+                  if (arrSpl[5] == y) {
+                  //Tahun sama     
+                  if (month == arrSpl[4]) {
+                    //Bulan sama
+                    arrSpl[0] = String(parseInt(arrSpl[0]) + 1).padStart(3,'0');
+                    var baru = arrSpl.join('/');
+                  } else {
+                    //Bulan beda
+                    arrSpl[4] = month;
+                    arrSpl[0] = "001";
+                    var baru = arrSpl.join('-');
+                  }
+                  $('input[name=noSurat]').attr('value', baru);
+                } else {
+                  //Tahun Beda
+                  arrSpl[4] = month;
+                  arrSpl[0] = "001";
+                  arrSpl[5] = y;
+                  var baru = arrSpl.join('-');
+                  $('input[name=noSurat]').attr('value', baru);
+                }
+                } else {
                   if (arrSpl[4] == y) {
                   //Tahun sama     
                   if (month == arrSpl[3]) {
@@ -210,7 +210,7 @@
                   var baru = arrSpl.join('/');
                   $('input[name=noSurat]').attr('value', baru);
                 }
-              //  }    
+               }    
               },
               error: function(XMLHttpRequest, textStatus, errorThrown) {
                 var d = new Date();

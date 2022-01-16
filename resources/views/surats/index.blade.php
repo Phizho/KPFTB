@@ -72,7 +72,14 @@
           {{$l->created_at}}
         </td>
         <td>
-          {{str_replace("-","/",$l->nomor_surat)}}
+          @php
+            $n = str_replace("-","/",$l->nomor_surat);
+            $ne = explode("/",$n);
+            if ($ne[1] === "Mag") {
+              $n[7] = "-";
+            }
+          @endphp
+          {{$n}}
         </td>
         <td>
           {{$l->perihal}}
