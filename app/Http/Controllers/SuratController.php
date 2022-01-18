@@ -78,7 +78,26 @@ class SuratController extends Controller
         $data->tanggal_kirim = $request->get('Tanggal');
         $date = date('d-m-Y', strtotime($data->tanggal_kirim));
         $d = strftime('%d %B %Y');
-        $data->jenis_surat = $request->get('jenis');
+
+        switch ($request->get('jenis')) {
+            case 1:
+                $jn = "Keluar Dekan";
+                break;
+            case 2:
+                $jn = "Keluar Wakil Dekan";
+                break;
+            case 3:
+                $jn = "Kaprodi Magister Bioteknologi";
+                break;
+            case 4:
+                $jn = "Kerja Sama";
+                break;    
+            case 5:
+                $jn = "Keputusan Dekan";
+                break;
+        }
+
+        $data->jenis_surat = $jn;
         $jen = $request->get('jenis');
         if ($jen == 3) {
             $ns[7] = "-";
