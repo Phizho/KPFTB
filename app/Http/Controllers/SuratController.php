@@ -253,11 +253,11 @@ class SuratController extends Controller
         $date = date('d-m-Y', strtotime($data->tanggal_kirim));
         $d = strftime('%d %B %Y');
         
-        $data->jenis_surat = 4;
+        $data->jenis_surat = "Kerja Sama";
 
         $data->save();
 
-        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $path = public_path("assets/opsi.txt");
         $opsi = file_get_contents("$path");
 
         $listnama = explode('|',$opsi);
@@ -493,11 +493,11 @@ class SuratController extends Controller
         $data->tanggal_kirim = $request->get('Tanggal');
         $date = date('d-m-Y', strtotime($data->tanggal_kirim));
         $d = strftime('%d %B %Y');
-        $data->jenis_surat = 5;
+        $data->jenis_surat = "Keputusan Dekan";
 
         $data->save();
 
-        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $path = public_path("assets/opsi.txt");
         $opsi = file_get_contents("$path");
 
         $listnama = explode('|',$opsi);
@@ -618,7 +618,7 @@ class SuratController extends Controller
 
             $p = Storage::disk('public_pdfs')->getAdapter()->getPathPrefix();
             
-            $path = "C:/xampp/htdocs/KPFTB/public/assets/pdf/".$id."/file.txt";
+            $path = public_path("assets/pdf/".$id."/file.txt");
             $txtFile = file_get_contents("$path");
 
             $fullText = explode('<br/>',$txtFile);
@@ -678,7 +678,7 @@ class SuratController extends Controller
 
         $p = Storage::disk('public_pdfs')->getAdapter()->getPathPrefix();
             
-        $path = "C:/xampp/htdocs/KPFTB/public/assets/pdf/".$id."/file.txt";
+        $path = public_path("assets/pdf/".$id."/file.txt");
         $txtFile = file_get_contents("$path");
 
         $fullText = explode('<br/>', $txtFile);
@@ -700,7 +700,7 @@ class SuratController extends Controller
 
         $p = Storage::disk('public_pdfs')->getAdapter()->getPathPrefix();
             
-        $path = "C:/xampp/htdocs/KPFTB/public/assets/pdf/".$id."/file.txt";
+        $path = public_path("assets/pdf/".$id."/file.txt");
         $txtFile = file_get_contents("$path");
 
 
@@ -753,7 +753,7 @@ class SuratController extends Controller
         $tglbuat = $request->get('tglbuat');
         $jen = $request->get('jenis');
         $date = strftime('%d %B %Y', strtotime($tglbuat));
-        if ($jen == 3) {
+        if ($jen == "Kaprodi Magister Bioteknologi") {
             $idc[7] = "-";
         }
 
@@ -780,7 +780,7 @@ class SuratController extends Controller
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
         $ttWaDekPath = public_path("assets/TTWaDekan.png");
 
-        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $path = public_path("assets/opsi.txt");
         $opsi = file_get_contents("$path");
 
         $listnama = explode('|',$opsi);
@@ -945,7 +945,7 @@ class SuratController extends Controller
         $folderPath = public_path("assets/pdf/$id");
         $ttDEKPath = public_path("assets/TTDekan.png");
 
-        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $path = public_path("assets/opsi.txt");
         $opsi = file_get_contents("$path");
 
         $listnama = explode('|',$opsi);
@@ -1031,13 +1031,13 @@ class SuratController extends Controller
         $date = date('d-m-Y', strtotime($data->tanggal_kirim));
         $d = strftime('%d %B %Y');
         
-        $data->jenis_surat = 4;
+        $data->jenis_surat = "Kerja Sama";
 
         DB::table('surats')
             ->where('nomor_surat', $id)
             ->update(['perihal' => $data->perihal,'tanggal_kirim' => $data->tanggal_kirim]);
 
-        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $path = public_path("assets/opsi.txt");
         $opsi = file_get_contents("$path");
 
         $listnama = explode('|',$opsi);
