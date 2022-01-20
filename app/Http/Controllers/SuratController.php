@@ -607,7 +607,7 @@ class SuratController extends Controller
     public function edit($id)
     {
         $s = DB::table('surats')
-            ->select(DB::raw('nomor_surat, perihal, jenis_surat+0 as jenis_surat, created_at, updated_at, tanggal_kirim'))
+            ->select(DB::raw('nomor_surat, perihal, jenis_surat, created_at, updated_at, tanggal_kirim'))
             ->where('nomor_surat', $id)
             ->get();
         
