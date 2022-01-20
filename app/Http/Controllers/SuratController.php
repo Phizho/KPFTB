@@ -611,7 +611,7 @@ class SuratController extends Controller
             ->where('nomor_surat', $id)
             ->get();
 
-        switch ($s->jenis_surat) {
+        switch ($s[0]->jenis_surat) {
             case "Keluar Dekan":
                 $js = 1;
                 break;
@@ -622,7 +622,6 @@ class SuratController extends Controller
                 $js = 3;
                 break;
         }
-            
         
         $l = DB::table('lampirans')
             ->select(DB::raw('*'))
