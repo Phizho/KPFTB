@@ -98,21 +98,20 @@
           {{$l->tanggal_kirim}}
         </td>
         @php
-          $h = str_replace("/","-",$l->nomor_surat);
-          $he = explode("-",$h);
+          $he = explode("-",$l->nomor_surat);
         @endphp
         @if ($he[1] === "DEK" || $he[1] === "WD" || $he[1] === "Mag" ) 
-          <td><a href="{{ url('surats/' . $h . '/edit') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
+          <td><a href="{{ url('surats/'.$l->nomor_surat.'/edit') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
         @elseif ($he[1] === "SK")
-          <td><a href="{{ url('surats/' . $h . '/editKep') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
+          <td><a href="{{ url('surats/'.$l->nomor_surat.'/editKep') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
         @elseif ($he[1] === "PKS")
-        <td><a href="{{ url('surats/' . $h . '/editKerj') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
+        <td><a href="{{ url('surats/'.$l->nomor_surat.'/editKerj') }}"><img src="{{URL::asset('assets/img/edit.png')}}"></a> </td>
         @endif
         {{ csrf_field() }}
         {{ method_field('DELETE') }}
         
         <td><a onclick='hapus("{{ $l->nomor_surat }}")'><img src="{{URL::asset('assets/img/delete.png')}}"></a> </td>
-        <td><a href='{{URL::asset("assets/pdf/$h/{$h}srtutm.pdf")}}' target="_new"><img src="{{URL::asset('assets/img/pdf.png')}}"></a> </td>
+        <td><a href='{{URL::asset("assets/pdf/$l->nomor_surat/{$l->nomor_surat}srtutm.pdf")}}' target="_new"><img src="{{URL::asset('assets/img/pdf.png')}}"></a> </td>
         @endforeach
     </tbody>
   </table>
