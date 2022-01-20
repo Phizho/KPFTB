@@ -51,7 +51,7 @@ class SuratController extends Controller
     }
 
     public function opsi() {     
-        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
+        $path = public_path("assets/opsi.txt");
         $txtFile = file_get_contents("$path");
 
         $fullText = explode('|',$txtFile);
