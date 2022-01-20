@@ -610,6 +610,19 @@ class SuratController extends Controller
             ->select(DB::raw('nomor_surat, perihal, jenis_surat, created_at, updated_at, tanggal_kirim'))
             ->where('nomor_surat', $id)
             ->get();
+
+        switch ($s->jenis_surat) {
+            case "Keluar Dekan":
+                $js = 1;
+                break;
+            case "Keluar Wakil Dekan":
+                $js = 2;
+                break;
+            case "Kaprodi Magister Bioteknologi":
+                $js = 3;
+                break;
+        }
+            
         
         $l = DB::table('lampirans')
             ->select(DB::raw('*'))
@@ -656,16 +669,16 @@ class SuratController extends Controller
 
         if ($counttable >= 1 ) {
             if (count($l) >= 1) {
-                return view('surats.edit', compact('s','isiSurat','kepada','arraytable','counttable','countrow','arrayNama','arrayExtension','penutup','la'));
+                return view('surats.edit', compact('s','isiSurat','kepada','arraytable','counttable','countrow','arrayNama','arrayExtension','penutup','la','js'));
             } else {
-                return view('surats.edit', compact('s','isiSurat','kepada','arraytable','counttable','countrow','penutup','la'));
+                return view('surats.edit', compact('s','isiSurat','kepada','arraytable','counttable','countrow','penutup','la','js'));
             }   
         }
         else {
             if (count($l) >= 1) {
-                return view('surats.edit', compact('s','isiSurat','kepada','arrayNama','arrayExtension','penutup','la'));
+                return view('surats.edit', compact('s','isiSurat','kepada','arrayNama','arrayExtension','penutup','la','js'));
             } else {
-                return view('surats.edit', compact('s','isiSurat','kepada','penutup','la'));
+                return view('surats.edit', compact('s','isiSurat','kepada','penutup','la','js'));
             }       
         }   
     }

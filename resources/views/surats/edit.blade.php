@@ -222,7 +222,7 @@ var tdNum = 0;
 
 function mulai() {
   var sel = document.getElementById('jenis');
-  sel.selectedIndex = parseInt(<?php echo json_encode($s[0]->jenis_surat)-1?>);
+  sel.selectedIndex = parseInt(<?php echo json_encode($js)-1?>);
 
   var counttable = <?php echo json_encode($counttable) ?>;
   var countrow = parseInt(<?php echo json_encode($countrow) ?>);
