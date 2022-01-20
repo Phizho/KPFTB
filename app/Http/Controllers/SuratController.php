@@ -125,8 +125,7 @@ class SuratController extends Controller
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
         $response = mkdir($folderPath);
 
-        $path = "C:/xampp/htdocs/KPFTB/public/assets/opsi.txt";
-        $opsi = file_get_contents("$path");
+        $opsi = public_path("assets/opsi.txt");
 
         $listnama = explode('|',$opsi);
         $namaDekan = $listnama[0];
