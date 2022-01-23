@@ -1356,7 +1356,7 @@ class SuratController extends Controller
         } else if ($request->vl == 3) {
             $s = DB::table('surats')
             ->select(DB::raw('max(surats.nomor_surat) mns, created_at'))
-            ->where('surats.jenis_surat', '=', 'Keluar Kaprodi Magister Bioteknologi')
+            ->where('surats.jenis_surat', '=', 'Kaprodi Magister Bioteknologi')
             ->groupBy('surats.created_at')
             ->orderBy('created_at','desc')
             ->limit(1)
