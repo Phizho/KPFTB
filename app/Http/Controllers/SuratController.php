@@ -771,7 +771,7 @@ class SuratController extends Controller
 
         DB::table('surats')
             ->where('nomor_surat', $id)
-            ->update(['perihal' => $perihal,'jenis_surat' => $jenis,'tanggal_kirim' => $tanggal]);
+            ->update(['perihal' => $perihal,'tanggal_kirim' => $tanggal]);
 
         $penutup = $request->get('penutup');
         $checkbox = $request->input('tcheck');
