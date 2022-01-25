@@ -86,7 +86,7 @@ class SuratController extends Controller
             case 2:
                 $jn = "Keluar Wakil Dekan";
                 break;
-            case 3:
+            case 3: 
                 $jn = "Kaprodi Magister Bioteknologi";
                 break;
             case 4:
@@ -123,7 +123,7 @@ class SuratController extends Controller
         $ttDEKPath = public_path("assets/TTDekan.png");
         $ttWaDekPath = public_path("assets/TTWaDekan.png");
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
-        $response = mkdir($folderPath);
+        $response = mkdir($folderPath, 0777, true);
 
         $path = public_path("assets/opsi.txt");
         $opsi = file_get_contents("$path");
