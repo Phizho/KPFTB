@@ -24,7 +24,7 @@ class SuratController extends Controller
             ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns, lampirans.format_lampiran as fl'))
             ->distinct()
             ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
-            ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at', 'lampirans.nomor_surat', 'surats.tanggal_kirim', 'lampirans.format_lampiran')
+            ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at', 'lampirans.nomor_surat', 'surats.tanggal_kirim')
             ->paginate(5);
 
         return view('surats.index', compact('lamp'));
@@ -848,7 +848,7 @@ class SuratController extends Controller
                 $f = explode('.',$cek);
                 if(isset($cek)) {
                     if (isset($file)) {
-                        $hapus = Lampiran::where('nomor_surat','=', $id)->where('nama_lampiran','=', $f[0])->delete();
+                        $hapus = Lampiran::where(['nomor_surat','=', $id], ['nama_lampiran','=', $f[0]])->delete();
                         $filePath = public_path("assets/pdf/$id/$i.$f[1]");
                         File::delete($filePath);
                         $ext = $file->clientExtension();
