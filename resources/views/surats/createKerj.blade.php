@@ -33,7 +33,7 @@
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label">No Surat Keluar:</label>
         <div class="col-sm-4">  
-          <input type="input" class="form-control" name="noSurat" value="" required readonly>
+          <input type="input" class="form-control" name="noSurat" value="" required>
         </div>
       </div>  
       <br/>

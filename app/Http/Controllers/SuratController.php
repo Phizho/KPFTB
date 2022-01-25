@@ -357,7 +357,7 @@ class SuratController extends Controller
         $ttDEKPath = public_path("assets/TTDekan.png");
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
         $parafPKS = public_path("assets/parafPKS.png");
-        $response = mkdir($folderPath);
+        $response = mkdir($folderPath, 0777, true);
 
         $pertPerjanjian = nl2br($request->get("pertPerjanjian"));
         $ktnPembayaran = nl2br($request->get("ktnPembayaran"));
@@ -516,7 +516,7 @@ class SuratController extends Controller
         $ftbPath = public_path("assets/LogoFTB.png");
         $ttDEKPath = public_path("assets/TTDekan.png");
         $ttKPDMPath = public_path("assets/TTKaprodiM.png");
-        $response = mkdir($folderPath);
+        $response = mkdir($folderPath, 0777, true);
 
         $fixIsi = "$ns<br/>$data->perihal<br/>$menimbang<br/>";
 

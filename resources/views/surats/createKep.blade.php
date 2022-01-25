@@ -22,7 +22,7 @@
       <div class="form-group row">
         <label class="required bold col-sm-2 col-form-label">No Surat Keluar:</label>
         <div class="col-sm-2">
-          <input type="input" class="form-control" name="noSurat" value="" style="width: 200px;" required readonly>
+          <input type="input" class="form-control" name="noSurat" value="" style="width: 200px;" required>
         </div>
       </div>
       <br/>
