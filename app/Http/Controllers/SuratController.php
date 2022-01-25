@@ -861,7 +861,7 @@ class SuratController extends Controller
                         $file->move($folderPath, "{$i}.{$ext}");
                         $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
                         $lam->format_lampiran = $ext;
-                        $lam->nomor_surat = $idc;
+                        $lam->nomor_surat = $id;
                         $lam->save();
                     } else {
                         $namaLam = $f[0];
@@ -880,7 +880,7 @@ class SuratController extends Controller
                         $file->move($folderPath, "{$i}.{$ext}");
                         $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
                         $lam->format_lampiran = $ext;
-                        $lam->nomor_surat = $idc;
+                        $lam->nomor_surat = $id;
                         $lam->save();
                     } 
                 }           
