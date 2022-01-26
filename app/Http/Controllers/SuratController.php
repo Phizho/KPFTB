@@ -19,15 +19,21 @@ class SuratController extends Controller
      */
     public function index()
     {
-        //$surat = DB::table('surats')->get();
         $lamp = DB::table('lampirans')
-            ->select(DB::raw('count(*) as jumlah_lampiran, surats.*, lampirans.nomor_surat as ns, lampirans.format_lampiran as fl'))
+            ->select(DB::raw('surats.*, lampirans.nomor_surat as ns'))
             ->distinct()
             ->rightJoin('surats', 'lampirans.nomor_surat', '=', 'surats.nomor_surat')
             ->groupBy('surats.nomor_surat', 'surats.perihal', 'surats.jenis_surat', 'surats.created_at', 'surats.updated_at', 'lampirans.nomor_surat', 'surats.tanggal_kirim')
             ->paginate(5);
 
-        return view('surats.index', compact('lamp'));
+        $fl = DB::table('lampirans')
+            ->select(DB::raw('lampirans.nomor_surat, lampirans.format_lampiran, lampirans.nomor_lampiran'))
+            ->groupBy('lampirans.nomor_surat', 'lampirans.format_lampiran', 'lampirans.nomor_lampiran')
+            ->orderBy('lampirans.nomor_lampiran','ASC')
+            ->get();
+
+
+        return view('surats.index', compact('lamp', 'fl'));
     }
 
     /**
@@ -185,6 +191,7 @@ class SuratController extends Controller
                     $file->move($folderPath, "{$i}.{$ext}");
                     $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
                     $lam->format_lampiran = $ext;
+                    $lam->nomor_lampiran  = $i;
                     $lam->nomor_surat = str_replace("/","-",$request->get('noSurat'));
                     $lam->save();
                 }
@@ -848,7 +855,9 @@ class SuratController extends Controller
                 $f = explode('.',$cek);
                 if(isset($cek)) {
                     if (isset($file)) {
-                        $hapus = Lampiran::where(['nomor_surat','=', $id], ['nama_lampiran','=', $f[0]])->delete();
+                        $hapus = Lampiran::where('nomor_surat','=', $id)
+                                ->where('nama_lampiran','=', $f[0])
+                                ->delete();
                         $filePath = public_path("assets/pdf/$id/$i.$f[1]");
                         File::delete($filePath);
                         $ext = $file->clientExtension();
@@ -861,6 +870,7 @@ class SuratController extends Controller
                         $file->move($folderPath, "{$i}.{$ext}");
                         $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
                         $lam->format_lampiran = $ext;
+                        $lam->nomor_lampiran  = $i;
                         $lam->nomor_surat = $id;
                         $lam->save();
                     } else {
@@ -880,6 +890,7 @@ class SuratController extends Controller
                         $file->move($folderPath, "{$i}.{$ext}");
                         $lam->nama_lampiran = basename($file->getClientOriginalName(), ".{$ext}");
                         $lam->format_lampiran = $ext;
+                        $lam->nomor_lampiran  = $i;
                         $lam->nomor_surat = $id;
                         $lam->save();
                     } 

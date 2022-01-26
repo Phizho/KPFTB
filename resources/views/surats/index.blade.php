@@ -89,10 +89,12 @@
         </td>
         <td>
           @isset($l->ns)
-          @for($i=1;$i<=$l->jumlah_lampiran; $i++)
-            <a href='{{URL::asset("assets/pdf/$l->nomor_surat/$i.{$l->fl}")}}' download>{{$i}}</a>
-            @endfor
-            @endisset
+              @foreach($fl as $f)
+                @if ($f->nomor_surat === $l->nomor_surat)
+                  <a href='{{URL::asset("assets/pdf/$f->nomor_surat/$f->nomor_lampiran.{$f->format_lampiran}")}}' download>{{$f->nomor_lampiran}}</a>
+                @endif
+              @endforeach
+          @endisset
         </td>
         <td>
           {{$l->tanggal_kirim}}
