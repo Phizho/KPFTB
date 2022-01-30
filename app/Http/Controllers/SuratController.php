@@ -77,7 +77,7 @@ class SuratController extends Controller
     public function store(Request $request)
     {
         $data = new Surat;
-        setlocale(LC_ALL, 'IND');
+        setlocale(LC_ALL, 'id_ID');
         $data->nomor_surat = str_replace("/","-",$request->get('noSurat'));
         $ns = $request->get('noSurat');
         $data->perihal = $request->get('perihal');
