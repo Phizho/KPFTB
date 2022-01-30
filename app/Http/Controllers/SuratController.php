@@ -145,7 +145,10 @@ class SuratController extends Controller
             $fixIsipdf.="</style></head>";
             $fixIsipdf.= "<header><img src='$ubayaPath' width='255' height='75' style='margin-left: 1cm; margin-top: 1cm;'><img src='$ftbPath' width='255' height='75' style='float: right; margin-right: 1cm; margin-top: 1cm;'></header><br/><br/><br/>";
             $fixIsipdf.="<footer><img src='$footerPath' width='100%'></footer>";
-            $fixIsipdf.= "<body><div style=' width: 100%; text-align: right; float: right;'>$d</div>Nomor : $ns <br/>Lampiran : $lampiran<br/> Perihal : <b>$data->perihal</b><br/></p>
+            $fixIsipdf.= "<body><div style=' width: 100%; text-align: right; float: right;'>$d</div>
+            <table><tr><td>Nomor  </td><td>  :  </td><td>$ns</td></tr>
+            <tr><td>Lampiran  </td><td>  :  </td><td>$lampiran</td></tr>
+            <tr><td>Perihal  </td><td>  :  </td><td><b>$data->perihal</b></td></table>
             <br/><br/><br/><div>Kepada Yth,<br/>$kepada</div>
                 <br/><br/>
                 <div style='text-align: justify; text-justify: inter-word;'>
@@ -813,7 +816,10 @@ class SuratController extends Controller
         $fixIsipdf.="</style></head>";
         $fixIsipdf.= "<header><img src='$ubayaPath' width='255' height='75' style='margin-left: 1cm; margin-top: 1cm;'><img src='$ftbPath' width='255' height='75' style='float: right; margin-right: 1cm; margin-top: 1cm;'></header><br/><br/><br/>";
         $fixIsipdf.="<footer><img src='$footerPath' width='100%'></footer>";
-        $fixIsipdf.= "<body><div style=' width: 100%; text-align: right; float: right;'>$date</div>Nomor : $idc <br/>Lampiran : $lampiran<br/> Perihal : <b>$perihal</b><br/></p>
+        $fixIsipdf.= "<body><div style=' width: 100%; text-align: right; float: right;'>$date</div>
+        <table><tr><td>Nomor  </td><td>  :  </td><td>$idc</td></tr>
+        <tr><td>Lampiran  </td><td>  :  </td><td>$lampiran</td></tr>
+        <tr><td>Perihal  </td><td>  :  </td><td><b>$perihal</b></td></table>
         <br/><br/><br/><div>Kepada Yth,<br/>$kepada</div>
             <br/><br/>
             <div style='text-align: justify; text-justify: inter-word;'>

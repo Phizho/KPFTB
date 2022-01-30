@@ -122,7 +122,7 @@ var count = 0;
     <div class="form-group row">
       <label for="jenis" class="bold col-sm-2 col-form-label">Jenis surat keluar:</label>
       <div class="col-sm-4">
-        <select name="jenis" id="jenis" class="form-control">
+        <select name="jenis" id="jenis" class="form-control" disabled>
           <option value="1">Surat Keluar Dekan</option>
           <option value="2">Surat Keluar Wakil Dekan</option>
           <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
@@ -224,7 +224,7 @@ var tdNum = 0;
 function mulai() {
   var sel = document.getElementById('jenis');
   sel.selectedIndex = parseInt(<?php echo json_encode($js)-1?>);
-  $('#hiddenJenis').val(sel.selectedIndex);
+  $('#hiddenJenis').val(sel.selectedIndex + 1);
 
   var counttable = <?php echo json_encode($counttable) ?>;
   var countrow = parseInt(<?php echo json_encode($countrow) ?>);
