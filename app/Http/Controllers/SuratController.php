@@ -767,7 +767,7 @@ class SuratController extends Controller
         $idc = str_replace("-","/",$id);
         setlocale(LC_ALL, 'IND');
         $perihal = $request->get("perihal");
-        $jenis = $request->get("jenis");
+        $jenis = $request->get("hiddenJenis");
         $tanggal = $request->get('Tanggal');
         $tglbuat = $request->get('tglbuat');
         $jen = $request->get('jenis');

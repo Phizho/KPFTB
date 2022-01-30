@@ -122,7 +122,7 @@ var count = 0;
     <div class="form-group row">
       <label for="jenis" class="bold col-sm-2 col-form-label">Jenis surat keluar:</label>
       <div class="col-sm-4">
-        <select name="jenis" id="jenis" class="form-control" disabled>
+        <select name="jenis" id="jenis" class="form-control">
           <option value="1">Surat Keluar Dekan</option>
           <option value="2">Surat Keluar Wakil Dekan</option>
           <option value="3">Surat Keluar Kaprodi Magister Bioteknologi</option>
@@ -192,6 +192,7 @@ var count = 0;
       <textarea name="penutup" id="penutup" rows="8" class="form-control" required>{{$penutup}}</textarea>  
     <br/><br/>
     <div id="tempat_upload">
+      <input id="hiddenJenis" type="hidden" name="jenis">
     <input type="hidden" name="tglbuat" id="tglbuat" value='{{$s[0]->created_at}}'/>
       <label>Upload Lampiran</label>  
       @isset($arrayNama) 
@@ -223,6 +224,7 @@ var tdNum = 0;
 function mulai() {
   var sel = document.getElementById('jenis');
   sel.selectedIndex = parseInt(<?php echo json_encode($js)-1?>);
+  $('#hiddenJenis').val(sel.selectedIndex);
 
   var counttable = <?php echo json_encode($counttable) ?>;
   var countrow = parseInt(<?php echo json_encode($countrow) ?>);
