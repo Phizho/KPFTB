@@ -139,7 +139,7 @@ var count = 0;
     <br/>
     <div class="form-group row">
       <label class="required bold col-sm-2 col-form-label" for="Tanggal">Tanggal Kirim:</label>
-      <div class="col-sm-2">
+      <div class="col-sm-2">  
         <input type="date" class="form-control" name="Tanggal" id="Tanggal" style="width: 200px;" value="{{ date('Y-m-d', strtotime($s[0]->tanggal_kirim)) }}" required/>
       </div>
     </div>
