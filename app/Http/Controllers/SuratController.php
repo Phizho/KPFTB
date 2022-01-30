@@ -252,7 +252,7 @@ class SuratController extends Controller
     public function storeKerj(Request $request)
     {
         $data = new Surat;
-        setlocale(LC_ALL, 'IND');
+        setlocale(LC_ALL, 'id_ID');
         $data->nomor_surat = str_replace("/","-",$request->get('noSurat'));
         $ns = $request->get('noSurat');
         $data->perihal = $request->get('perihal');
@@ -493,7 +493,7 @@ class SuratController extends Controller
     public function storeKep(Request $request)
     {
         $data = new Surat;
-        setlocale(LC_ALL, 'IND');
+        setlocale(LC_ALL, 'id_ID');
         $data->nomor_surat = str_replace("/","-",$request->get('noSurat'));
         $ns = $request->get('noSurat');
         $data->perihal = $request->get('perihal');
@@ -765,7 +765,7 @@ class SuratController extends Controller
     public function update(Request $request, $id)
     {
         $idc = str_replace("-","/",$id);
-        setlocale(LC_ALL, 'IND');
+        setlocale(LC_ALL, 'id_ID');
         $perihal = $request->get("perihal");
         $jenis = $request->get("hiddenJenis");
         $tanggal = $request->get('Tanggal');
@@ -951,7 +951,7 @@ class SuratController extends Controller
     public function updateKep(Request $request, $id)
     {
         //$idc = str_replace("-","/",$id);
-        setlocale(LC_ALL, 'IND');
+        setlocale(LC_ALL, 'id_ID');
         $perihal = $request->get("perihal");
         $tanggal = $request->get('Tanggal');
         $tglbuat = $request->get('tglbuat');
@@ -1046,7 +1046,7 @@ class SuratController extends Controller
 
     public function updateKerj(Request $request, $id) {
         $data = new Surat;
-        setlocale(LC_ALL, 'IND');
+        setlocale(LC_ALL, 'id_ID');
         $data->nomor_surat = str_replace("/","-",$request->get('noSurat'));
         $ns = $request->get('noSurat');
         $data->perihal = $request->get('perihal');
